@@ -20,8 +20,9 @@
 
   <ul>
     <li>Documentation : Contient la documentation du projet</li>
-    <li>Code source : Comprend le code source du robot Hexa</li>
-    <li>Problèmes : Section pour signaler des bugs ou suggérer des améliorations</li>
+    <li>Hardware : Contient l'assemblage, les composants, le cablage etc</li>
+    <li>Software : Comprend le code source du robot Hexa</li>
+    <li>Issues : Section pour signaler des bugs ou suggérer des améliorations</li>
   </ul>
 
   <h2>Licence</h2>
