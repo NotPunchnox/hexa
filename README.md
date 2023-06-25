@@ -7,7 +7,8 @@
 
   <p>Hexa est un robot hexapode open source en phase de développement. Son objectif est d'être économique et polyvalent. Il sera équipé d'un système d'intelligence artificielle pour la communication et l'adaptabilité à son environnement. De plus, Hexa intégrera des outils de pentest pour diverses applications.</p>
 
-  <p>J'ai publié la composition du robot qui est le premier fichier de ce repo: https://github.com/NotPunchnox/hexa/blob/main/hardware/Composants.md</p>
+  <p>Composition du robot: https://github.com/NotPunchnox/hexa/blob/main/hardware/Composants.md</p>
+  <p>Images du robot en 3D (autodesk Fusion360): https://github.com/NotPunchnox/hexa/blob/main/hardware/Hexa%203d.md</p>
 
   <h2>Fonctionnalités</h2>
 
