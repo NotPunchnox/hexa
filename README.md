@@ -1,6 +1,7 @@
 
 <body>
   <h1>Hexa</h1>
+  <img src="https://media.discordapp.net/attachments/1119738147266367668/1122592652689424394/image.png?width=1049&height=653"/>
 
   <h2>Description</h2>
 
