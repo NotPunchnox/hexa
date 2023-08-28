@@ -2,7 +2,7 @@
 <body>
   <h1>Hexa</h1>
   <img src="https://media.discordapp.net/attachments/1119738147266367668/1122592652689424394/image.png?width=1049&height=653"/>
-
+  <img src="https://media.discordapp.net/attachments/1119738147266367668/1142593933411635260/IMG_20230819_192716_853.jpg?width=383&height=682"/>
   <h2>Description</h2>
 
   <p>Hexa est un robot hexapode open source en phase de développement. Son objectif est d'être économique et polyvalent. Il sera équipé d'un système d'intelligence artificielle pour la communication et l'adaptabilité à son environnement. De plus, Hexa intégrera des outils de pentest pour diverses applications.</p>
