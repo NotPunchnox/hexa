@@ -30,7 +30,7 @@
       <p>Fils électriques (Mâles/femelles, Femelles/Femelles, Mâles/Mâles)</p> <img src="https://w7.pngwing.com/pngs/270/578/png-transparent-assorted-color-cable-lot-jump-wire-jumper-arduino-breadboard-wire-miscellaneous-electronics-electrical-wires-cable.png" alt="Fils électriques" width="100">
     </li>
     <li>
-      <p>Régulateur de tension LM2596</p> <img src="https://img.joomcdn.net/675adfae3c9549f05457714d3501ff59bc631647_original.jpeg" alt="Régulateur de tension LM2596" width="100">
+      <p>Régulateur de tension LM2596 (x2)</p> <img src="https://img.joomcdn.net/675adfae3c9549f05457714d3501ff59bc631647_original.jpeg" alt="Régulateur de tension LM2596" width="100">
     </li>
     <li>
       <p>Micro-interrupteur (On/Off)</p>
