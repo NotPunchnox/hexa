@@ -1,14 +1,15 @@
 package animation
 
 import (
-	"github.com/notpunchnox/Hexa/src/Servo"
-	"gobot.io/x/gobot/drivers/i2c"
+	"github.com/notpunchnox/Hexa/src/Conversion"
 	"time"
 )
 
-func Run(pca *i2c.PCA9685Driver, steps []AnimationStep) {
+func Run(steps []AnimationStep) {
 	for _, step := range steps {
-		Servo.Set(pca, step.Channel, step.Degrees)
+		degrees := Conversion.Degrees(step.Degrees)
+
+		step.Pca.SetPWM(step.Channel, 0, degrees)
 		time.Sleep(step.Duration)
 	}
 }
