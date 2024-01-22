@@ -1,33 +1,28 @@
+# Hexa
+*Hexa est un robot open source en phase de développement. Son objectif est d'aider dans l'initiation à la robotique. Il sera équipé d'un système d'intelligence artificielle pour la communication, la gestion des animations ( cinématique inversée ), l'adaptabilité à son environnement.*
 
-<body>
-  <h1>Hexa</h1>
-  <img src="https://media.discordapp.net/attachments/1119738147266367668/1122592652689424394/image.png?width=1049&height=653"/>
-  <img src="https://media.discordapp.net/attachments/1119738147266367668/1142593933411635260/IMG_20230819_192716_853.jpg?width=383&height=682"/>
-  <h2>Description</h2>
+*De plus, je compte intégrer des outils liés au pentest pour diverses applications*
 
-  <p>Hexa est un robot hexapode open source en phase de développement. Son objectif est d'être économique et polyvalent. Il sera équipé d'un système d'intelligence artificielle pour la communication et l'adaptabilité à son environnement. De plus, Hexa intégrera des outils de pentest pour diverses applications.</p>
+<img src="https://media.discordapp.net/attachments/1119738147266367668/1122592652689424394/image.png?width=1049&height=683" width="50%" height="50%"><img src="https://media.discordapp.net/attachments/1065006918294310987/1199022254177128588/IMG20240122170413.jpg?ex=65c1077e&is=65ae927e&hm=a9710d9e4bcce1b0b613929bc3e84a8d6d70aa28ee00621bb56b7e71c4522de0&=&format=webp&width=1049&height=683" width="50%" height="50%">
 
-  <p>Composition du robot: https://github.com/NotPunchnox/hexa/blob/main/hardware/Composants.md</p>
-  <p>Images du robot en 3D (autodesk Fusion360): https://github.com/NotPunchnox/hexa/blob/main/hardware/Hexa%203d.md</p>
+- Composition du robot: [Composants du robot](https://github.com/NotPunchnox/hexa/blob/main/hardware/Composants.md)
+- Images du robot en 3D (autodesk Fusion360): [Images en 3D](https://github.com/NotPunchnox/hexa/blob/main/hardware/Hexa%203d.md)
 
-  <h2>Fonctionnalités</h2>
+## Fonctionnalités
 
-  <ul>
-    <li>Conception économique et polyvalente</li>
-    <li>Système d'intelligence artificielle pour la communication et l'adaptabilité</li>
-    <li>Outils de pentest pour différentes applications</li>
-  </ul>
+- Conception économique et polyvalente
+- Système d'intelligence artificielle pour la communication et l'adaptabilité
+- Outils de pentest pour différentes applications
 
-  <h2>Contenu du dépôt</h2>
+## Contenu du dépôt
 
-  <ul>
-    <li>Documentation : Contient la documentation du projet</li>
-    <li>Hardware : Contient l'assemblage, les composants, le cablage etc</li>
-    <li>Software : Comprend le code source du robot Hexa</li>
-    <li>Issues : Section pour signaler des bugs ou suggérer des améliorations</li>
-  </ul>
+- Documentation : Contient la documentation du projet
+- Cours: Explications sur les mathématiques utilisés dans le robot, tel que la cinématique inversée, programmation... [Cinématique inverse](./learn/README.md)
+- Hardware : Contient l'assemblage, les composants, le câblage, etc. [Documentation matérielle](./hardware/Composants.md)
+- Simulateur: Contient un simulateur pour le robot Hexa. [Simulateur](./simulator/README.MD)
+- Software : Comprend le code source du robot Hexa.
+- Issues : Section pour signaler des bugs ou suggérer des améliorations.
 
-  <h2>Licence</h2>
+## Licence
 
-  <p>Ce projet est sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)</a>. Vous êtes autorisé à utiliser, partager, modifier et distribuer le projet à des fins non commerciales, en mentionnant l'auteur d'origine et en partageant toute modification sous la même licence.</p>
-</body>
+Ce projet est sous licence [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr). Vous êtes autorisé à utiliser, partager, modifier et distribuer le projet à des fins non commerciales, en mentionnant l'auteur d'origine et en partageant toute modification sous la même licence.

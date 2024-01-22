@@ -67,15 +67,13 @@ func reverseKinematics(hauteur, coxa, femur, rouli, body, tibia, extension float
 	a := rtd(AngleTBa)
 	b := rtd(AngleTA)
 	c := rtd(AngleRouli)
-	fmt.Println(a, b, c)
 	AngleFemur := 180 - (a + b + c)
 
 	return AngleFemur, 180 - rtd(AngleTibia), hypotenuse, nil
 }
 
 func main() {
-
-	fmt.Println(x, y)
+	flag.Parse()
 
 	hauteur := y
 	extensionLeg := x //distance entre le bout de la patte et le coxa
@@ -88,14 +86,12 @@ func main() {
 
 	gauche := true
 
-	res, femurangle, hypotenuse, err := reverseKinematics(hauteur, coxa, femur, rouli, body, tibia, extensionLeg, gauche)
+	femurAngle, tibiaAngle, _, err := reverseKinematics(hauteur, coxa, femur, rouli, body, tibia, extensionLeg, gauche)
 	if err != nil {
 		fmt.Println("Erreur:", err)
 		return
 	}
 
 	// Affichage des résultats
-	fmt.Printf("Angle du Femur: %.2f °\n", res)
-	fmt.Printf("Angle du Tibia (theta2): %.2f °\n", femurangle)
-	fmt.Printf("Longueur de l'hypotenuse: %.2f cm\n", hypotenuse)
+	fmt.Printf("{ \"femur\": %.2f, \"tibia\": %.2f }", femurAngle, tibiaAngle)
 }
