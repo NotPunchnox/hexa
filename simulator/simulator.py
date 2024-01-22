@@ -22,6 +22,9 @@ class HexapodSimulator:
         self.label_y = ttk.Label(self.root, text="Coordonnée Y:")
         self.entry_y = ttk.Entry(self.root)
         self.entry_y.insert(0, 8)
+        self.label_z = ttk.Label(self.root, text="Coordonnée inclinaison:")
+        self.entry_z = ttk.Entry(self.root)
+        self.entry_z.insert(0, 0)
 
         self.update_button = ttk.Button(self.root, text="Mettre à jour", command=self.update_position)
 
@@ -29,6 +32,8 @@ class HexapodSimulator:
         self.entry_x.pack()
         self.label_y.pack()
         self.entry_y.pack()
+        self.label_z.pack()
+        self.entry_z.pack()
         self.update_button.pack()
 
         self.reset_button = ttk.Button(self.root, text="Réinitialiser", command=self.reset_drawings)
@@ -57,8 +62,8 @@ class HexapodSimulator:
         self.canvas_widget.pack(side=tk.TOP, fill=tk.BOTH, expand=1)
 
     def update_position(self):
-        x, y = str(self.entry_x.get()), str(self.entry_y.get())
-        result = self.run_algorithm(x, y)
+        x, y, z = str(self.entry_x.get()), str(self.entry_y.get()), str(self.entry_z.get())
+        result = self.run_algorithm(x, y, z)
         self.show_result(result)
 
     def show_result(self, result):
@@ -67,7 +72,7 @@ class HexapodSimulator:
 
         start_x, start_y = 0, 0
 
-        start_x, start_y = self.draw_vector(start_x, start_y, 5 * scale_factor, 0, "Coxa")
+        start_x, start_y = self.draw_vector(start_x, start_y, 5 * scale_factor, result["rouli"], "Coxa")
         start_x, start_y = self.draw_vector(start_x, start_y, 6 * scale_factor, 90 - result["femur"], "Femur")
         print("femur: ", 90 - result["femur"], "\ntibia: ", result["tibia"])
         self.draw_vector(start_x, start_y, 13.5 * scale_factor, (90 - result["femur"]) - result["tibia"], "Tibia")
@@ -87,8 +92,8 @@ class HexapodSimulator:
 
         return min(canvas_width, canvas_height) / 20.0
 
-    def run_algorithm(self, x, y):
-        args = ["go", "run", "algorithme.go", "-x", x, "-y", y]
+    def run_algorithm(self, x, y, z):
+        args = ["go", "run", "algorithme.go", "-x", x, "-y", y, "-z", z]
         string = subprocess.run(args, capture_output=True, text=True)
         result = json.loads(string.stdout)
         print(result)

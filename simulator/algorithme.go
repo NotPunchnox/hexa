@@ -9,11 +9,13 @@ import (
 var (
 	x float64
 	y float64
+	z float64
 )
 
 func init() {
 	flag.Float64Var(&x, "x", 0.0, "Coordonnée x")
 	flag.Float64Var(&y, "y", 0.0, "Coordonnée y (hauteur)")
+	flag.Float64Var(&z, "z", 0.0, "Coordonnée z (rouli)")
 }
 
 func rtd(a float64) float64 {
@@ -69,7 +71,7 @@ func reverseKinematics(hauteur, coxa, femur, rouli, body, tibia, extension float
 	c := rtd(AngleRouli)
 	AngleFemur := 180 - (a + b + c)
 
-	return AngleFemur, 180 - rtd(AngleTibia), hypotenuse, nil
+	return AngleFemur, 180 - rtd(AngleTibia), c, nil
 }
 
 func main() {
@@ -77,21 +79,21 @@ func main() {
 
 	hauteur := y
 	extensionLeg := x //distance entre le bout de la patte et le coxa
-	rouli := 0.0
+	rouli := z
 
 	body := 10.0
 	coxa := 5.0
 	femur := 6.0
 	tibia := 13.5
 
-	gauche := true
+	gauche := false
 
-	femurAngle, tibiaAngle, _, err := reverseKinematics(hauteur, coxa, femur, rouli, body, tibia, extensionLeg, gauche)
+	femurAngle, tibiaAngle, AngleRouli, err := reverseKinematics(hauteur, coxa, femur, rouli, body, tibia, extensionLeg, gauche)
 	if err != nil {
 		fmt.Println("Erreur:", err)
 		return
 	}
 
 	// Affichage des résultats
-	fmt.Printf("{ \"femur\": %.2f, \"tibia\": %.2f }", femurAngle, tibiaAngle)
+	fmt.Printf("{ \"femur\": %.2f, \"tibia\": %.2f, \"rouli\": %2.f }", femurAngle, tibiaAngle, AngleRouli)
 }

@@ -15,3 +15,34 @@
 
 ### Installation
 
+**Pour utiliser ce programme il vous faudra installer Python et Golang.**
+
+- Programme d'installation standard:
+  * [Cliquez ici pour installer Python](https://www.python.org/downloads/)
+  * [Cliquez ici pour installer Go](https://go.dev/doc/install)
+
+- Scoop:
+
+  * `scoop install python && scoop install go`
+
+---
+
+### Télécharger le code source
+
+*Utiliser git vous permettra de mettre à jours l'entierté de hexa quand vous voulez avec la commande `git pull` dans votre dossier `hexa`*
+
+[*Lien pour télécharger `Git`*](https://git-scm.com/downloads)
+
+commande d'installation avec Git: `git clone https://notpunchnox/hexa`
+
+---
+### Installation des dépendances
+
+Une fois installé allez dans le dossier du simulateur
+cmd: `cd hexa/simulator`
+
+Puis effectuez l'installation des dépendances avec la commande suivante: `pip install -r requirements.txt`
+
+---
+### Lancement du programme
+Pour lancer le programme la commande est la suivante: `py simulator.py`
