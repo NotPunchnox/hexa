@@ -72,10 +72,11 @@ class HexapodSimulator:
 
         start_x, start_y = 0, 0
 
-        start_x, start_y = self.draw_vector(start_x, start_y, 5 * scale_factor, result["rouli"], "Coxa")
-        start_x, start_y = self.draw_vector(start_x, start_y, 6 * scale_factor, 90 - result["femur"], "Femur")
-        print("femur: ", 90 - result["femur"], "\ntibia: ", result["tibia"])
-        self.draw_vector(start_x, start_y, 13.5 * scale_factor, (90 - result["femur"]) - result["tibia"], "Tibia")
+        start_x, start_y = self.draw_vector(start_x, start_y, 5 * scale_factor, result["rouli"], "Body", "g")
+        start_x, start_y = self.draw_vector(start_x, start_y, 5 * scale_factor, result["rouli"], "Coxa", "r")
+        start_x, start_y = self.draw_vector(start_x, start_y, 6 * scale_factor, 90 - result["femur"], "Femur", "r")
+        #print("femur: ", 90 - result["femur"], "\ntibia: ", result["tibia"])
+        self.draw_vector(start_x, start_y, 13.5 * scale_factor, (90 - result["femur"]) - result["tibia"], "Tibia", "r")
 
         leg_length = 13.5 * scale_factor
         self.ax.set_xlim(-leg_length, leg_length)
@@ -103,13 +104,13 @@ class HexapodSimulator:
 
         return result
 
-    def draw_vector(self, x, y, length, angle, label):
+    def draw_vector(self, x, y, length, angle, label, color):
         angle_rad = math.radians(angle)
 
         end_x = x + length * math.cos(angle_rad)
         end_y = y + length * math.sin(angle_rad)
 
-        arrow = Arrow(x, y, end_x - x, end_y - y, color='r', label=label, width=0.1)
+        arrow = Arrow(x, y, end_x - x, end_y - y, color=color, label=label, width=0.1)
         self.ax.add_patch(arrow)
 
         self.ax.text(end_x, end_y, label, fontsize=8, ha='right', va='bottom')
