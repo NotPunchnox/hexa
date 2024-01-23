@@ -31,7 +31,7 @@ func sens(valeurAngle, commande float64) float64 {
 	absCommande := math.Abs(commande)
 
 	// Calcul de la valeur modifiée de l'angle
-	valeurModifiee := valeurAngle * (commande / absCommande)
+	valeurModifiee := valeurAngle * absCommande
 
 	return valeurModifiee
 }
@@ -48,15 +48,13 @@ func reverseKinematics(hauteur, coxa, femur, rouli, body, tibia, extension float
 	if rouli == 0 { // Rouli signifie l'inclinaison du corp du robot, 0 = aucune inclinaison
 		hauteurLeg = hauteur
 	} else if gauche == true { // Choisir un calcul en fonction de l'emplacement de la patte
-		hauteurLeg = hauteur // + rouli
+		hauteurLeg = hauteur - rouli
 	} else if gauche == false {
-		hauteurLeg = hauteur // - rouli
+		hauteurLeg = hauteur + rouli
 	}
 
 	// Calcul de l'angle du triangle réctangle permettant de calculer l'hypotenus de TB
 	hypotenuse := math.Sqrt(hauteurLeg*hauteurLeg + extension*extension)
-
-	//fmt.Println(hauteurLeg, hypotenuse)
 
 	//Calcul de l'angle A' du triangle rectangle permettant de calculer l'hypotenus de TB
 	numerator := hypotenuse*hypotenuse + hauteurLeg*hauteurLeg - extension*extension
@@ -76,8 +74,6 @@ func reverseKinematics(hauteur, coxa, femur, rouli, body, tibia, extension float
 	hyp := (body / 2) + coxa
 	r := math.Sqrt((hyp * hyp) - (rouli * rouli))
 
-	fmt.Println(hyp, r)
-
 	//Calcul de l'angle formé au centre du robot selon son inclinaison
 	numerator2 := r*r + hyp*hyp - rouli*rouli
 	denominator2 := 2 * r * hyp
@@ -88,9 +84,11 @@ func reverseKinematics(hauteur, coxa, femur, rouli, body, tibia, extension float
 	b := rtd(AngleTA)
 	c := rtd(AngleRouli)
 	//angleModifie := sens(c, rouli)
-	AngleFemur := 180 - (a + b + c)
+	AngleFemur := (180 - (a + b))
+	//fmt.Println("sens:", sens(c, rouli))
+	AngleTibia = 180 - rtd(AngleTibia)
 
-	return AngleFemur, 180 - rtd(AngleTibia), c, nil
+	return AngleFemur, AngleTibia, c, nil
 }
 
 func main() {
@@ -105,7 +103,7 @@ func main() {
 	femur := 6.0
 	tibia := 13.5
 
-	gauche := true
+	gauche := false
 
 	femurAngle, tibiaAngle, AngleRouli, err := reverseKinematics(hauteur, coxa, femur, rouli, body, tibia, extensionLeg, gauche)
 	if err != nil {
@@ -114,5 +112,5 @@ func main() {
 	}
 
 	// Affichage des résultats
-	fmt.Printf("{ \"femur\": %.2f, \"tibia\": %.2f, \"rouli\": %2.f }", femurAngle, tibiaAngle, AngleRouli)
+	fmt.Println("femur:", femurAngle, "\ntibia:", tibiaAngle, "\nrouli", AngleRouli)
 }

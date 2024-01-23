@@ -6,7 +6,6 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolb
 
 import subprocess
 import math
-import json
 
 class HexapodSimulator:
     def __init__(self, root):
@@ -64,6 +63,7 @@ class HexapodSimulator:
     def update_position(self):
         x, y, z = str(self.entry_x.get()), str(self.entry_y.get()), str(self.entry_z.get())
         result = self.run_algorithm(x, y, z)
+        print(result)
         self.show_result(result)
 
     def show_result(self, result):
@@ -85,23 +85,28 @@ class HexapodSimulator:
         self.canvas.draw()
 
 
-
-
     def get_scale_factor(self):
         canvas_width = self.canvas_widget.winfo_width()
         canvas_height = self.canvas_widget.winfo_height()
 
         return min(canvas_width, canvas_height) / 20.0
 
+
     def run_algorithm(self, x, y, z):
-        args = ["go", "run", "algorithme.go", "-x", x, "-y", y, "-z", z]
+        result = {}
+        args = ["go", "run", "algorithme.go", "-x", str(x), "-y", str(y), "-z", str(z)]
         string = subprocess.run(args, capture_output=True, text=True)
-        result = json.loads(string.stdout)
-        print(result)
 
-        if math.isnan(result.get("femur")) or math.isnan(result.get("tibia")):
-            tk.messagebox.showwarning("Alert", "Measurement values are impossible.")
-
+        print("Go process output:", string.stdout)  # Print the output for debugging
+        lines = string.stdout.strip().split('\n')
+        for line in lines:
+            if "femur" in line:
+                result["femur"] = float(line.replace("femur: ", "").replace(" ", ""))
+            elif "tibia" in line:
+                result["tibia"] = float(line.replace("tibia: ", "").replace(" ", ""))
+            elif "rouli" in line:
+                result["rouli"] = float(line.replace("rouli ", "").replace(" ", ""))
+        
         return result
 
     def draw_vector(self, x, y, length, angle, label, color):
