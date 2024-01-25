@@ -15,29 +15,45 @@ class HexapodSimulator:
         self.create_widgets()
 
     def create_widgets(self):
-        self.label_x = ttk.Label(self.root, text="Coordonnée X:")
-        self.entry_x = ttk.Entry(self.root)
+        # Créer un frame pour les entrées X, Y, Z
+        input_frame = ttk.Frame(self.root)
+        input_frame.pack(side=tk.LEFT, padx=10)
+
+        self.label_x = ttk.Label(input_frame, text="Coordonnée X:")
+        self.entry_x = ttk.Entry(input_frame)
         self.entry_x.insert(0, 12)
-        self.label_y = ttk.Label(self.root, text="Coordonnée Y:")
-        self.entry_y = ttk.Entry(self.root)
+        self.label_y = ttk.Label(input_frame, text="Coordonnée Y:")
+        self.entry_y = ttk.Entry(input_frame)
         self.entry_y.insert(0, 8)
-        self.label_z = ttk.Label(self.root, text="Coordonnée inclinaison:")
-        self.entry_z = ttk.Entry(self.root)
+        self.label_z = ttk.Label(input_frame, text="Coordonnée inclinaison:")
+        self.entry_z = ttk.Entry(input_frame)
         self.entry_z.insert(0, 0)
+        self.label_Leg = ttk.Label(input_frame, text="Si la patte est à gauche:")
+        self.entry_Leg = ttk.Entry(input_frame)
+        self.entry_Leg.insert(0, "false")
 
-        self.update_button = ttk.Button(self.root, text="Mettre à jour", command=self.update_position)
+        self.label_x.grid(row=0, column=0, sticky=tk.W)
+        self.entry_x.grid(row=0, column=1, padx=5)
+        self.label_y.grid(row=1, column=0, sticky=tk.W)
+        self.entry_y.grid(row=1, column=1, padx=5)
+        self.label_z.grid(row=2, column=0, sticky=tk.W)
+        self.entry_z.grid(row=2, column=1, padx=5)
+        self.label_Leg.grid(row=3, column=0, sticky=tk.W)
+        self.entry_Leg.grid(row=3, column=1, padx=5)
 
-        self.label_x.pack()
-        self.entry_x.pack()
-        self.label_y.pack()
-        self.entry_y.pack()
-        self.label_z.pack()
-        self.entry_z.pack()
-        self.update_button.pack()
+        # Créer un frame pour les boutons
+        button_frame = ttk.Frame(self.root)
+        button_frame.pack(side=tk.RIGHT, padx=10)
 
-        self.reset_button = ttk.Button(self.root, text="Réinitialiser", command=self.reset_drawings)
-        self.reset_button.pack()
+        self.update_button = ttk.Button(button_frame, text="Mettre à jour", command=self.update_position)
+        self.matrice_button = ttk.Button(button_frame, text="Matrice", command=self.launch_matrice)
+        self.reset_button = ttk.Button(button_frame, text="Réinitialiser", command=self.reset_drawings)
 
+        self.update_button.pack(pady=5)
+        self.matrice_button.pack(pady=5)
+        self.reset_button.pack(pady=5)
+
+        # Initialiser la zone pour afficher les vecteurs
         self.init_plot()
 
     def reset_drawings(self):
@@ -60,10 +76,24 @@ class HexapodSimulator:
         toolbar.update()
         self.canvas_widget.pack(side=tk.TOP, fill=tk.BOTH, expand=1)
 
+    def launch_matrice(self):
+        Matrice = [
+            [7, 8, 0],
+            [7, 8, 0.5],
+            [7, 8, 1],
+            [7, 8, 1.5],
+            [7, 8, 2],
+            [7, 8, 2.5]
+        ]
+
+        for line in Matrice:
+            x, y, z = line
+            result = self.run_algorithm(x, y, z)
+            self.show_result(result)
+
     def update_position(self):
         x, y, z = str(self.entry_x.get()), str(self.entry_y.get()), str(self.entry_z.get())
         result = self.run_algorithm(x, y, z)
-        print(result)
         self.show_result(result)
 
     def show_result(self, result):
@@ -72,11 +102,17 @@ class HexapodSimulator:
 
         start_x, start_y = 0, 0
 
-        start_x, start_y = self.draw_vector(start_x, start_y, 5 * scale_factor, result["rouli"], "Body", "g")
+        start_x, start_y = self.draw_vector(start_x, start_y, 5 * scale_factor, result["rouli"], "", "g")
+        start_x2, start_y2 = self.draw_vector(0, 0, 5 * scale_factor, result["rouli2"] + 180, "Body", "g")
+        
         start_x, start_y = self.draw_vector(start_x, start_y, 5 * scale_factor, result["rouli"], "Coxa", "r")
+        start_x2, start_y2 = self.draw_vector(start_x2, start_y2, 5 * scale_factor, result["rouli2"] + 180, "Coxa", "r")
+        
         start_x, start_y = self.draw_vector(start_x, start_y, 6 * scale_factor, 90 - result["femur"], "Femur", "r")
-        #print("femur: ", 90 - result["femur"], "\ntibia: ", result["tibia"])
+        start_x2, start_y2 = self.draw_vector(start_x2, start_y2, 6 * scale_factor, 90+result["femur2"], "Femur", "r")
+        
         self.draw_vector(start_x, start_y, 13.5 * scale_factor, (90 - result["femur"]) - result["tibia"], "Tibia", "r")
+        self.draw_vector(start_x2, start_y2, 13.5 * scale_factor, (90+result["femur2"] + result["tibia2"]), "Tibia", "r")
 
         leg_length = 13.5 * scale_factor
         self.ax.set_xlim(-leg_length, leg_length)
@@ -97,15 +133,22 @@ class HexapodSimulator:
         args = ["go", "run", "algorithme.go", "-x", str(x), "-y", str(y), "-z", str(z)]
         string = subprocess.run(args, capture_output=True, text=True)
 
-        print("Go process output:", string.stdout)  # Print the output for debugging
+        print(string.stdout)
+
         lines = string.stdout.strip().split('\n')
         for line in lines:
-            if "femur" in line:
+            if "femur:" in line:
                 result["femur"] = float(line.replace("femur: ", "").replace(" ", ""))
-            elif "tibia" in line:
+            elif "tibia:" in line:
                 result["tibia"] = float(line.replace("tibia: ", "").replace(" ", ""))
-            elif "rouli" in line:
+            elif "rouli " in line:
                 result["rouli"] = float(line.replace("rouli ", "").replace(" ", ""))
+            elif "femur2" in line:
+                result["femur2"] = float(line.replace("femur2: ", "").replace(" ", ""))
+            elif "tibia2" in line:
+                result["tibia2"] = float(line.replace("tibia2: ", "").replace(" ", ""))
+            elif "rouli2" in line:
+                result["rouli2"] = float(line.replace("rouli2 ", "").replace(" ", ""))
         
         return result
 

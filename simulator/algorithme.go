@@ -83,9 +83,11 @@ func reverseKinematics(hauteur, coxa, femur, rouli, body, tibia, extension float
 	a := rtd(AngleTBa)
 	b := rtd(AngleTA)
 	c := rtd(AngleRouli)
+
 	//angleModifie := sens(c, rouli)
-	AngleFemur := (180 - (a + b))
 	//fmt.Println("sens:", sens(c, rouli))
+
+	AngleFemur := (180 - (a + b))
 	AngleTibia = 180 - rtd(AngleTibia)
 
 	return AngleFemur, AngleTibia, c, nil
@@ -103,9 +105,12 @@ func main() {
 	femur := 6.0
 	tibia := 13.5
 
-	gauche := false
-
-	femurAngle, tibiaAngle, AngleRouli, err := reverseKinematics(hauteur, coxa, femur, rouli, body, tibia, extensionLeg, gauche)
+	femurAngle, tibiaAngle, AngleRouli, err := reverseKinematics(hauteur, coxa, femur, rouli, body, tibia, extensionLeg, false)
+	if err != nil {
+		fmt.Println("Erreur:", err)
+		return
+	}
+	femurAngle2, tibiaAngle2, AngleRouli2, err := reverseKinematics(hauteur, coxa, femur, rouli, body, tibia, extensionLeg, true)
 	if err != nil {
 		fmt.Println("Erreur:", err)
 		return
@@ -113,4 +118,6 @@ func main() {
 
 	// Affichage des résultats
 	fmt.Println("femur:", femurAngle, "\ntibia:", tibiaAngle, "\nrouli", AngleRouli)
+	fmt.Println("femur2:", femurAngle2, "\ntibia2:", tibiaAngle2, "\nrouli2", AngleRouli2)
+
 }
