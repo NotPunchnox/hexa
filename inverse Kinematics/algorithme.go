@@ -5,7 +5,7 @@ import (
 	"math"
 )
 
-func rtd(a float64) float64 {
+func rtd(a float64) float64 { //Radians to degrées
 	return a * (180 / math.Pi)
 }
 
