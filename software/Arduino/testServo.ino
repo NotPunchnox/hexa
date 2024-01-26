@@ -45,7 +45,7 @@ void setup() {
   tibiaServo.attach(8);
   femurServo.attach(9);
 
-  tibiaServo.writeMicroseconds(map(170, 0, 180, 0, 2000));
+  tibiaServo.write(170);
   femurServo.writeMicroseconds(map(3.78, 0, 180, 0, 2000));
 
   //Algo(1, 8, 5, 6, 14);
