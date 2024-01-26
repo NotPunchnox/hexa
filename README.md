@@ -16,9 +16,9 @@
 
 ## Contenu du dépôt
 
-- **Documentation** : Contient la documentation du projet [Documentation](./Documentation/README.md)
-- **Cours**: Explications sur les mathématiques utilisés dans le robot, tel que la cinématique inversée, programmation... [Cinématique inverse](./learn/README.md)
-- **Hardware** : Contient l'assemblage, les composants, le câblage, etc. [Documentation matérielle](./hardware/Composants.md)
+- **Documentation** : Contient la documentation du projet. => [Documentation](./Documentation/README.md)
+- **Cours**: Explications sur les mathématiques utilisés dans le robot, tel que la cinématique inversée, programmation etc => [Cinématique inverse](./learn/README.md)
+- **Hardware** : Contient l'assemblage, les composants, le câblage, etc. => [Documentation matérielle](./hardware/Composants.md)
 - **Software** : 
     - **Hexa**: Comprend le code source du robot Hexa.
     - **Arduino**: Contient des scripts `Arduino` pour la phase de teste de Hexa [Arduino](./software/Arduino/)
@@ -28,3 +28,10 @@
 ## Licence
 
 Ce projet est sous licence [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr). Vous êtes autorisé à utiliser, partager, modifier et distribuer le projet à des fins non commerciales, en mentionnant l'auteur d'origine et en partageant toute modification sous la même licence.
+
+
+## Collaborateurs
+
+<img src="https://avatars.githubusercontent.com/u/126868056?v=4" alt="Trotiflex Avatar" width="10%" height="10%" style="border-radius: 50%;">
+
+[Trotiflex](https://github.com/trotiflex) est une collaboratrice clé qui a apportée une contribution significative au projet. Principalement axé sur la cinématique inversée, Trotiflex a joué un rôle essentiel dans l'écriture de cours détaillés sur ce sujet. [Cours](./learn/maths/cinématique_inversée.md).
