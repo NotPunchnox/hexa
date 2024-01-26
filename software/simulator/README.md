@@ -9,9 +9,9 @@
 
 ### Visuel
 
-![Application](./images/App.png)
-![1 Leg](./images/1Leg.png)
-![Mouvements](./images/Legs.png)
+![Application](./src/images/App.png)
+![1 Leg](./src/images/1Leg.png)
+![Mouvements](./src/images/Legs.png)
 
 ### Installation
 
@@ -45,4 +45,4 @@ Puis effectuez l'installation des dépendances avec la commande suivante: `pip i
 
 ---
 ### Lancement du programme
-Pour lancer le programme la commande est la suivante: `py simulator.py`
+Pour lancer le programme il suffit d'executer le fichier `launch.bat` ou la commande suivante: `py ./src/simulator.py`

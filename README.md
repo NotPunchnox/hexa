@@ -16,11 +16,13 @@
 
 ## Contenu du dépôt
 
-- Documentation : Contient la documentation du projet
-- Cours: Explications sur les mathématiques utilisés dans le robot, tel que la cinématique inversée, programmation... [Cinématique inverse](./learn/README.md)
-- Hardware : Contient l'assemblage, les composants, le câblage, etc. [Documentation matérielle](./hardware/Composants.md)
-- Simulateur: Contient un simulateur pour le robot Hexa. [Simulateur](./simulator/README.MD)
-- Software : Comprend le code source du robot Hexa.
+- **Documentation** : Contient la documentation du projet [Documentation](./Documentation/README.md)
+- **Cours**: Explications sur les mathématiques utilisés dans le robot, tel que la cinématique inversée, programmation... [Cinématique inverse](./learn/README.md)
+- **Hardware** : Contient l'assemblage, les composants, le câblage, etc. [Documentation matérielle](./hardware/Composants.md)
+- **Software** : 
+    - **Hexa**: Comprend le code source du robot Hexa.
+    - **Arduino**: Contient des scripts `Arduino` pour la phase de teste de Hexa [Arduino](./software/Arduino/)
+    - **Simulateur**: Contient un simulateur pour le robot Hexa. [Simulateur](./software/simulator/README.md)
 - Issues : Section pour signaler des bugs ou suggérer des améliorations.
 
 ## Licence
