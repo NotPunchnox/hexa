@@ -1,1 +1,1 @@
-py simulator.py
+py ./src/simulator.py

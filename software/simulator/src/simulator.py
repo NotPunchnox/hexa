@@ -94,6 +94,7 @@ class HexapodSimulator:
     def update_position(self):
         x, y, z = str(self.entry_x.get()), str(self.entry_y.get()), str(self.entry_z.get())
         result = self.run_algorithm(x, y, z)
+        print(result)
         self.show_result(result)
 
     def show_result(self, result):
@@ -130,10 +131,8 @@ class HexapodSimulator:
 
     def run_algorithm(self, x, y, z):
         result = {}
-        args = ["go", "run", "algorithme.go", "-x", str(x), "-y", str(y), "-z", str(z)]
+        args = ["go", "run", "./src/algorithme.go", "-x", str(x), "-y", str(y), "-z", str(z)]
         string = subprocess.run(args, capture_output=True, text=True)
-
-        print(string.stdout)
 
         lines = string.stdout.strip().split('\n')
         for line in lines:
@@ -149,6 +148,8 @@ class HexapodSimulator:
                 result["tibia2"] = float(line.replace("tibia2: ", "").replace(" ", ""))
             elif "rouli2" in line:
                 result["rouli2"] = float(line.replace("rouli2 ", "").replace(" ", ""))
+
+        print(result)
         
         return result
 
