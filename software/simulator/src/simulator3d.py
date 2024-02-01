@@ -95,33 +95,30 @@ class HexapodSimulator:
     def show_result_3d(self, result, y):
         scale_factor = self.get_scale_factor()
     
-        start_x, start_z = 0, 0
-        start_x, start_z = self.draw_3d_vector(start_x, start_z, 0, 5 * scale_factor, result["rouli"], "Coxa", "r")
-        start_x2, start_y2 = self.draw_3d_vector(start_x, start_z, 0, 5 * scale_factor, result["rouli2"] + 180, "Body", "g")
+        start_x, start_z, start_y = 0, 0, 0
+        start_x, start_z, start_y = self.draw_3d_vector(start_x, start_y, start_z,  5 * scale_factor, result["rouli"], "Coxa", "r")
+      
+        start_x, start_z, start_y = self.draw_3d_vector(start_x, start_y, start_z,  6 * scale_factor, 90 - result["femur"], "Femur", "r")
+     
+        self.draw_3d_vector(start_x, start_z, start_y, 13.5 * scale_factor, (90 - result["femur"]) - result["tibia"], "Tibia", "r")
 
-        start_x, start_z = self.draw_3d_vector(start_x, start_z, 0, 6 * scale_factor, 90 - result["femur"], "Femur", "r")
-        start_x2, start_y2 = self.draw_3d_vector(start_x2, start_y2,0, 6 * scale_factor, 90+result["femur2"], "Femur", "r")
-    
-        self.draw_3d_vector(start_x, start_z, 0, 13.5 * scale_factor, (90 - result["femur"]) - result["tibia"], "Tibia", "r")
-        self.draw_3d_vector(start_x2, start_y2, 0, 13.5 * scale_factor, (90+result["femur2"] + result["tibia2"]), "Tibia", "r")
-    
         leg_length = 13.5 * scale_factor
         self.ax_3d.set_xlim(-leg_length, leg_length)
-        self.ax_3d.set_ylim(-leg_length, leg_length)  # Inversez les limites
-        self.ax_3d.set_zlim(-leg_length, leg_length)  # Ajoutez cette ligne pour inverser l'axe Z
+        self.ax_3d.set_ylim(-leg_length, leg_length)
+        self.ax_3d.set_zlim(-leg_length, leg_length)  # Assurez-vous que l'axe Z est également inversé
+
     
         self.canvas_3d.draw()
 
     def draw_3d_vector(self, x, z, y, length, angle, label, color):
-        print(x, z, y, length, angle, label, color)
         angle_rad = math.radians(angle)
-
         end_x = x + length * math.sin(angle_rad)
         end_z = z + length * math.cos(angle_rad)
+        end_y = y  # Mettez à jour end_y avec la valeur correcte
+        self.ax_3d.quiver(x, z, y, end_x - x, end_z - z, end_y - y, color=color, label=label, linewidth=2.0, arrow_length_ratio=0.1)
+        return end_x, end_z, end_y
 
-        self.ax_3d.quiver(x, z, y, end_x - x, end_z - z, 0, color=color, label=label, linewidth=2.0, arrow_length_ratio=0.1)
 
-        return end_x, end_z
 
 
     def get_scale_factor(self):
