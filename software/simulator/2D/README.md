@@ -39,7 +39,7 @@ commande d'installation avec Git: `git clone https://notpunchnox/hexa`
 ### Installation des dépendances
 
 Une fois installé allez dans le dossier du simulateur
-cmd: `cd hexa/simulator`
+cmd: `cd hexa/simulator/2D`
 
 Puis effectuez l'installation des dépendances avec la commande suivante: `pip install -r requirements.txt`
 

@@ -1,1 +1,0 @@
-py ./src/simulator3d.py
