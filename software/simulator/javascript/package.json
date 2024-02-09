@@ -1,0 +1,27 @@
+{
+  "name": "hexa_simulator",
+  "version": "1.0.0",
+  "description": "Simulateur pour mon robot hexapod, avec la création d'animations",
+  "main": "main.js",
+  "scripts": {
+    "test": "nodemon ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/notpunchnox/Hexa.git"
+  },
+  "keywords": [
+    "hexapod",
+    "hexapode",
+    "punchnox",
+    "3d",
+    "simulator",
+    "robot"
+  ],
+  "author": "punchnox",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/notpunchnox/Hexa/issues"
+  },
+  "homepage": "https://github.com/notpunchnox/Hexa#readme"
+}
