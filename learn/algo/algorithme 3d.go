@@ -61,7 +61,7 @@ func main() {
 
 	z := 8.0
 	x := 12.0 //distance entre le bout de la patte et le coxa
-	y := 18.0
+	y := -18.0
 	rouli := 0.0
 
 	body := 10.0

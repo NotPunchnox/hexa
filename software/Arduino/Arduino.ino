@@ -7,8 +7,8 @@ void setup() {
   Serial.begin(9600);
   Init();
 
-  //Sleep();
-  Walk();
+  Sleep();
+  //Walk();
 }
 
 void loop() {
