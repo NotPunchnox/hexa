@@ -1,3 +1,6 @@
 software/Arduino/node_modules
 software/Arduino/package.json
 software/Arduino/package-lock.json
+software/Arduino/.vscode/
+.vscode/c_cpp_properties.json
+.vscode/arduino.json

@@ -7,6 +7,7 @@ Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x41);
 #define SERVOMAX  600
 #define SERVO_FREQ 50
 
+/*
 void setServo(uint8_t n, int degrees) {
   // Convertissez les degrés en microsecondes
   int pulse = map(degrees, 0, 180, SERVOMIN, SERVOMAX);
@@ -98,3 +99,4 @@ void setup() {
 void loop() {
   // Boucle vide, le programme ne s'exécute que dans la fonction setup()
 }
+*/

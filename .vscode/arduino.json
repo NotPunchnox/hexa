@@ -1,5 +1,5 @@
 {
-    "sketch": "software\\Arduino\\testServo.ino",
+    "sketch": "software\\Arduino\\Arduino.ino",
     "board": "arduino:avr:uno",
     "port": "COM8"
 }
