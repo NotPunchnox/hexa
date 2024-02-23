@@ -14,7 +14,7 @@ LegAngles Algo(float x, float z, float y, int duree) {
     float A2 = AlKashi(hyp, femur, tibia);
     float TPatte = Racine(z, x + coxa);
 
-    angles.AngleFemur = (A1 + A2);
+    angles.AngleFemur = A1 + A2;
     float A3 = AlKashi(tibia, femur, hyp);
 
     angles.AngleCoxa = 90 + radiansToDegrees(asin(y / TPatte));

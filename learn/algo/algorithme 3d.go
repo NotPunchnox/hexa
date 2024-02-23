@@ -34,6 +34,7 @@ func reverseKinematics(z, coxa, femur, rouli, body, tibia, x, y float64, gauche 
 
 	// Calcul de l'angle du triangle réctangle permettant de calculer l'hypotenus de TB
 	hypotenuse := Racine(zLeg, x)
+	fmt.Println(hypotenuse)
 
 	//Calcul de l'angle A' du triangle rectangle permettant de calculer l'hypotenus de TB
 	AngleTA := AlKashi(hypotenuse, z, x)
@@ -51,7 +52,7 @@ func reverseKinematics(z, coxa, femur, rouli, body, tibia, x, y float64, gauche 
 
 	//Calcul de l'angle formé au centre du robot selon son inclinaison
 	AngleRouli := AlKashi(r, hyp, rouli)
-	AngleFemur := 180 - (AngleTBa + AngleTA + AngleRouli)
+	AngleFemur := (AngleTBa + AngleTA + AngleRouli) - 180
 	fmt.Println(AngleTBa+AngleTA, 180-AngleTBa+AngleTA)
 
 	return AngleFemur, 180 - AngleTibia, AngleCoxa, nil
@@ -59,9 +60,9 @@ func reverseKinematics(z, coxa, femur, rouli, body, tibia, x, y float64, gauche 
 
 func main() {
 
-	z := 8.0
-	x := 12.0 //distance entre le bout de la patte et le coxa
-	y := -18.0
+	z := -2.0
+	x := 8.0 //distance entre le bout de la patte et le coxa
+	y := 0.0
 	rouli := 0.0
 
 	body := 10.0

@@ -1,5 +1,6 @@
 {
     "sketch": "software\\Arduino\\Arduino.ino",
-    "board": "arduino:avr:uno",
-    "port": "COM8"
+    "configuration": "FlashFreq=80,UploadSpeed=921600,DebugLevel=none,EraseFlash=none",
+    "board": "esp32:esp32:espea32",
+    "port": "COM11"
 }

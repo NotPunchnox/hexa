@@ -4,41 +4,48 @@
 #include <Arduino.h>
 
 // Matrice de sleep_animation (x, z, y, ms) => hauteur, extension, rotation coxa en cm, temps du mouvement.
-float sleep_animation[][5] = {
-  {9, 10, 0, 500, 1000},
-  {9, 5, 0, 500, 1},
-  {9, 1, 0, 50, 1},
-  {9, -3, 0, 500, 1},
-  {9, -3, 0, 1000, 1000},
-  {9, -5, 0, 1000, 1000},
+float matrice_sleep[][5] = {
+  {9, 10, 0, 0, 1000},
+  {9, 8, 0, 0, 250},
+  {9, 6, 0, 0, 250},
+  {9, 4, 0, 0, 250},
+  {9, 2, 0, 0, 250},
+  {9, -2, 0, 0, 250},
+  {8, -2, 0, 0, 250}
+  //{9, 5, 0, 500, 1},
+  //{9, 1, 0, 50, 1},
 };
 
+void SetLeg(float x, float z, float y, int duree, int* LEG) {
+  LegAngles res = Algo(x, z, y, duree);
+
+  float angles[3];
+
+  if (LEG == LFL || LEG == LML) {//Si c'est une patte de gauche alors il faut inverser les angles tibia et femur
+
+    angles[0] = 180 - res.AngleTibia;
+    angles[1] = res.AngleFemur;
+    angles[2] = res.AngleCoxa;
+  } else {
+    angles[0] = res.AngleTibia;
+    angles[1] = 180 - res.AngleFemur;
+    angles[2] = res.AngleCoxa;
+  };
+  setServo(LEG, 3, angles);
+}
+
 void Sleep() {
-  for (int i = 0; i < sizeof(sleep_animation) / sizeof(sleep_animation[0]); ++i) {
-    LegAngles anglesFrontRight = Algo(sleep_animation[i][0], sleep_animation[i][1], sleep_animation[i][2], sleep_animation[i][3]);
-    
-    float AngleTibiaFR = anglesFrontRight.AngleTibia;
-    float AngleFemurFR = anglesFrontRight.AngleFemur;
-    float AngleCoxaFR = anglesFrontRight.AngleCoxa;
-
-    //Pattes droite
-    int servoChannelsFrontRight[] = {T_front_right, F_front_right, C_front_right};//front leg
-    int servoChannelsMiddleRight[] = {T_mid_right, F_mid_right, C_mid_right};//middle leg
-    float anglesR[] = {AngleTibiaFR, 180 - AngleFemurFR, AngleCoxaFR};
-    setServo(servoChannelsFrontRight, 3, anglesR);
-    setServo(servoChannelsMiddleRight, 3, anglesR);
-
+  for (int i = 0; i < sizeof(matrice_sleep) / sizeof(matrice_sleep[0]); ++i) {
+    //Patte avant droit
+    SetLeg(matrice_sleep[i][0], matrice_sleep[i][1], matrice_sleep[i][2], matrice_sleep[i][3], LFR);
+    //Pattes millieu droite
+    SetLeg(matrice_sleep[i][0], matrice_sleep[i][1], matrice_sleep[i][2], matrice_sleep[i][3], LMR);
     //Patte avant gauche
-    
-    LegAngles AFL = Algo(sleep_animation[i][0], sleep_animation[i][1], -sleep_animation[i][2], sleep_animation[i][3]);
-    
-    int servoChannelsFrontLeft[] = {T_front_left, F_front_left, C_front_left};
-    int servoChannelsMiddleLeft[] = {T_mid_left, F_mid_left, C_mid_left};
-    float anglesL[] = {90, AFL.AngleFemur, AFL.AngleCoxa};
-    setServo(servoChannelsFrontLeft, 3, anglesL);
-    setServo(servoChannelsMiddleLeft, 3, anglesL);
-    
+    SetLeg(matrice_sleep[i][0], matrice_sleep[i][1], -matrice_sleep[i][2], matrice_sleep[i][3], LMR);
+    //Patte millieu gauche
+    SetLeg(matrice_sleep[i][0], matrice_sleep[i][1], -matrice_sleep[i][2], matrice_sleep[i][3], LMR);
 
-    delay(sleep_animation[i][4]);
+
+    delay(matrice_sleep[i][4]);
   }
 }

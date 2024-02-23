@@ -25,4 +25,11 @@ extern float coxa;
 extern float femur;
 extern float tibia;
 
+
+//LEGS
+extern int* LFR;
+extern int* LMR;
+extern int* LFL;
+extern int* LML;
+
 #endif
