@@ -21,6 +21,7 @@ float positions[][5] = {
 
 void Walk() {
     for (int i = 0; i < sizeof(positions) / sizeof(positions[0]); ++i) {
+      /*
     LegAngles anglesFrontRight = Algo(positions[i][0], positions[i][1], positions[i][2], positions[i][3]);
     
     float AngleTibiaFR = anglesFrontRight.AngleTibia;
@@ -38,7 +39,7 @@ void Walk() {
     int servoChannelsFrontLeft[] = {T_front_left, F_front_left, C_front_left};
     float anglesFL[] = {180-AFL.AngleTibia, AFL.AngleFemur, AFL.AngleCoxa};
     setServo(servoChannelsFrontLeft, 3, anglesFL);
-    
+    */
 
     delay(positions[i][4]);
   }

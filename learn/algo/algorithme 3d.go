@@ -32,36 +32,32 @@ func reverseKinematics(z, coxa, femur, rouli, body, tibia, x, y float64, gauche 
 		zLeg = z - rouli
 	}
 
-	// Calcul de l'angle du triangle réctangle permettant de calculer l'hypotenus de TB
-	hypotenuse := Racine(zLeg, x)
-	fmt.Println(hypotenuse)
+	Tpatte := Racine(y, x) //Taille de la patte
+	hypotenuse := Racine(zLeg, Tpatte-coxa)
 
-	//Calcul de l'angle A' du triangle rectangle permettant de calculer l'hypotenus de TB
-	AngleTA := AlKashi(hypotenuse, z, x)
-	fmt.Println(AngleTA)
-	//Calcul de l'angle A de TB permettant de calculer l'angle du femur
-	AngleTBa := AlKashi(hypotenuse, femur, tibia)
-	//Calcul de l'angle B de TB permettant de calculer l'angle du tibia
+	fmt.Println("TPatte & hypotenuse:", Tpatte-coxa, hypotenuse, "hauteur:", math.Sqrt(math.Pow(hypotenuse, 2)-math.Pow(Tpatte-coxa, 2)))
+
+	A1 := rtd(math.Atan((Tpatte - coxa) / z))
+	A2 := AlKashi(femur, hypotenuse, tibia)
 	AngleTibia := AlKashi(tibia, femur, hypotenuse)
 
-	TPatte := Racine(z, x+coxa)
-	AngleCoxa := rtd(math.Asin(y / TPatte))
+	AngleCoxa := rtd(math.Atan(y / x))
 
 	hyp := (body / 2) + coxa
 	r := Racine(hyp, rouli)
 
 	//Calcul de l'angle formé au centre du robot selon son inclinaison
 	AngleRouli := AlKashi(r, hyp, rouli)
-	AngleFemur := (AngleTBa + AngleTA + AngleRouli) - 180
-	fmt.Println(AngleTBa+AngleTA, 180-AngleTBa+AngleTA)
+	AngleFemur := 180 - (A2 + A1 + AngleRouli)
+	fmt.Println(A2+A1, AngleRouli)
 
 	return AngleFemur, 180 - AngleTibia, AngleCoxa, nil
 }
 
 func main() {
 
-	z := -2.0
-	x := 8.0 //distance entre le bout de la patte et le coxa
+	z := 9.0
+	x := 10.0 //distance entre le bout de la patte et le coxa
 	y := 0.0
 	rouli := 0.0
 

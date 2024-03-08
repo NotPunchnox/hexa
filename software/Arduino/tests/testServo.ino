@@ -1,57 +1,35 @@
-#include <Servo.h>
-#include <math.h>
+#include "Wire.h"
+#include "Adafruit_PWMServoDriver.h"
+Adafruit_PWMServoDriver pwm2 = Adafruit_PWMServoDriver(0x40);
 
-Servo tibiaServo;
-Servo femurServo;
-
-double radiansToDegrees(double radians) {
-  return radians * (180.0 / M_PI);
-}
-
-void Algo(float x, float y, float coxa, float femur, float tibia) {
-  float hypotenuse = sqrt(y * y + x * x);
-  float a1 = acos((y*y + hypotenuse*hypotenuse - x*x)/(2*y*hypotenuse));
-  float a2 = acos((femur*femur+hypotenuse*hypotenuse-tibia*tibia)/(2*femur*hypotenuse));
-  float a3 = acos((femur*femur+tibia*tibia-hypotenuse*hypotenuse)/(2*femur*tibia));
-
-  float angleFemur = 180 - (radiansToDegrees(a1) + radiansToDegrees(a2));
-  float angleTibia = radiansToDegrees(a3);
-
-  Serial.print("Position (x, y): (");
-  Serial.print(x);
-  Serial.print(", ");
-  Serial.print(y);
-  Serial.println(")");
-
-  Serial.print("Longueur de l'hypotenuse: ");
-  Serial.print(hypotenuse);
-  Serial.println(" cm");
-
-  Serial.print("Angle du Femur: ");
-  Serial.print(angleFemur);
-  Serial.println(" degrés");
-
-  Serial.print("Angle du Tibia: ");
-  Serial.print(angleTibia);
-  Serial.println(" degrés");
-
-  tibiaServo.writeMicroseconds(map(angleTibia, 0, 180, 1000, 2000));
-  femurServo.writeMicroseconds(map(angleFemur, 0, 180, 1000, 2000));
-}
-
+#define MIN_PULSE_WIDTH 600
+#define MAX_PULSE_WIDTH 2600
+#define FREQUENCY 50
 
 void setup() {
-  Serial.begin(9600);
-  tibiaServo.attach(8);
-  femurServo.attach(9);
+  Serial.begin(9600); // Démarre la communication série
+  Serial.println("Initialisation...");
 
-  tibiaServo.write(170);
-  femurServo.writeMicroseconds(map(3.78, 0, 180, 0, 2000));
+  pwm2.begin();
+  pwm2.setPWMFreq(FREQUENCY);
+  Serial.println("Fréquence de l'oscillateur : " + String(pwm2.getOscillatorFrequency()));
 
-  //Algo(1, 8, 5, 6, 14);
+  // Trouver MIN_PULSE_WIDTH : définir l'angle à 0
+  // Trouver MAX_PULSE_WIDTH : définir l'angle à 180
+  pwm2.setPWM(0, 0, pulseWidth(90)); // 0 ou 180
+  Serial.println('Servo: 0');
+  pwm2.setPWM(1, 0, pulseWidth(90)); // 0 ou 180
+  Serial.println('Servo: 1');
+  pwm2.setPWM(2, 0, pulseWidth(90)); // 0 ou 180
+  Serial.println('Servo: 2');
+}
 
+int pulseWidth(int angle) {
+  int pulse_wide, analog_value;
+  pulse_wide = map(angle, 0, 180, MIN_PULSE_WIDTH, MAX_PULSE_WIDTH);
+  analog_value = int(float(pulse_wide) / 1000000 * FREQUENCY * 4096);
+  return analog_value;
 }
 
 void loop() {
-  // Boucle vide, le programme ne s'exécute que dans la fonction setup()
 }

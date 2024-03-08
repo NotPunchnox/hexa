@@ -2,12 +2,12 @@
 #include "../config/config.h"
 #include <Adafruit_PWMServoDriver.h>
 
-Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x41);
-Adafruit_PWMServoDriver pwm2 = Adafruit_PWMServoDriver(0x40);
+Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x40);
+Adafruit_PWMServoDriver pwm2 = Adafruit_PWMServoDriver(0x41);
 
 #define MIN_PULSE_WIDTH 600
 #define MAX_PULSE_WIDTH 2600
-#define SERVO_FREQ 60
+#define SERVO_FREQ 50
 
 void Init() {
   pwm.begin();
@@ -24,14 +24,10 @@ int pulseWidth(int angle) {
     return analog_value;
 }
 
-void setServo(int servoChannels[], int numChannels, float angles[]) {
+void setServo(int servoChannels[], int numChannels, float angles[], int address) {
     for (int i = 0; i < numChannels; ++i) {
-        if (servoChannels[i] == 16) {
-            //16 = femur => 1
-            //17 = coxa => 0
-            pwm2.setPWM(1, 0, pulseWidth(angles[i]));
-        } else if(servoChannels[i] == 17) {
-            pwm2.setPWM(0, 0, pulseWidth(angles[i]));
+        if (address == 1) {
+            pwm2.setPWM(servoChannels[i], 0, pulseWidth(angles[i]));
         } else {
             pwm.setPWM(servoChannels[i], 0, pulseWidth(angles[i]));
         }
