@@ -1,7 +1,7 @@
-#include "../config/config.h"
-#include "../functions/Algo.h"
+#include "../../config/config.h"
+#include "../../functions/Algo.h"
 #include <Arduino.h>
-#include "../functions/Servo.h"
+#include "../../functions/Servo.h"
 
 // Matrice de positions (x, z, y, ms, attente) => hauteur, extension, rotation coxa en cm, temps du mouvement, temps d'attente une fois le mouvement fait.
 float positions[][5] = {

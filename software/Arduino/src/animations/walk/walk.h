@@ -2,7 +2,7 @@
 #define WALK_H
 
 #include <Arduino.h>
-#include "../functions/Algo.h"
+#include "../../functions/Algo.h"
 
 void Walk();
 

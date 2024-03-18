@@ -16,12 +16,12 @@ void setup() {
 
   // Trouver MIN_PULSE_WIDTH : définir l'angle à 0
   // Trouver MAX_PULSE_WIDTH : définir l'angle à 180
-  pwm2.setPWM(0, 0, pulseWidth(90)); // 0 ou 180
-  Serial.println('Servo: 0');
-  pwm2.setPWM(1, 0, pulseWidth(90)); // 0 ou 180
+  // pwm2.setPWM(5, 0, pulseWidth(90)); // 0 ou 180
+  // Serial.println('Servo: 0');
+  pwm2.setPWM(6, 0, pulseWidth(90)); // 0 ou 180
   Serial.println('Servo: 1');
-  pwm2.setPWM(2, 0, pulseWidth(90)); // 0 ou 180
-  Serial.println('Servo: 2');
+  // pwm2.setPWM(7, 0, pulseWidth(90)); // 0 ou 180
+  // Serial.println('Servo: 2');
 }
 
 int pulseWidth(int angle) {

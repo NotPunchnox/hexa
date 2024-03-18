@@ -1,18 +1,26 @@
-int T_front_right = 0;
-int F_front_right = 0;
-int C_front_right = 0;
+int T_front_right = 12;
+int F_front_right = 10;
+int C_front_right = 9;
 
-int T_mid_right = 0;
-int F_mid_right = 0;
-int C_mid_right = 0;
+int T_mid_right = 15;
+int F_mid_right = 13;
+int C_mid_right = 14;
+
+int T_back_right = 0;//2
+int F_back_right = 1;//2
+int C_back_right = 2;//2
 
 int T_front_left = 5;
 int F_front_left = 6;
 int C_front_left = 7;
 
-int T_mid_left = 0;
-int F_mid_left = 0;
-int C_mid_left = 0;
+int T_mid_left = 9;//2
+int F_mid_left = 10;//2
+int C_mid_left = 11;//2
+
+int T_back_left = 14;//2
+int F_back_left = 13;//2
+int C_back_left = 12;//2
 
 
 float coxa = 5.0;
@@ -29,6 +37,15 @@ float tibia = 13.0;
 
 int LFR[] = {T_front_right, F_front_right, C_front_right};
 int LMR[] = {T_mid_right, F_mid_right, C_mid_right};
+int LBR[] = {T_back_right, F_back_right, C_back_right};//address: 2
 
 int LFL[] = {T_front_left, F_front_left, C_front_left};
-int LML[] = {T_mid_left, F_mid_left, C_mid_left};
+int LML[] = {T_mid_left, F_mid_left, C_mid_left};//address: 2
+int LBL[] = {T_back_left, F_back_left, C_back_left};//address: 2
+
+
+float default_pose[3] = {13, 10, 0};
+
+float PX = default_pose[0];
+float PZ = default_pose[1];
+float PY = default_pose[2];
