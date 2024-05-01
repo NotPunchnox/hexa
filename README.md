@@ -5,8 +5,8 @@
 
 
 <div style="display: flex; justify-content: space-between;">
-  <img src="https://media.discordapp.net/attachments/1119738147266367668/1208208517618733066/IMG20240217000624.jpg?ex=6610975e&is=65fe225e&hm=d836bd85b583e483a423341d538962e2aa2b877826069e434cdccd32f72c921c&=&format=webp&width=358&height=477" alt="Image 1" style="width: 30%; border-radius: 10px;">
-  <img src="https://media.discordapp.net/attachments/1119738147266367668/1208208518100946974/IMG20240217000540.jpg?ex=6610975e&is=65fe225e&hm=260c224c8e85c1293ac1d25b12ad549fdf4facbacc7195f67470c02be33043fa&=&format=webp&width=637&height=478" alt="Image 2" style="width: 53%; border-radius: 10px;">
+  <img src="https://media.discordapp.net/attachments/1119738147266367668/1208208517618733066/IMG20240217000624.jpg?ex=6633871e&is=6632359e&hm=750ac0be0d462dd7b280f54e8ab142ae008ed89b7473a113ae15b06eee8d655e&=&format=webp&width=358&height=477" alt="Image 1" style="width: 30%; border-radius: 10px;">
+  <img src="https://media.discordapp.net/attachments/1119738147266367668/1208208518511992842/IMG20240217000514.jpg?ex=6633871e&is=6632359e&hm=a1b44dee9cf28a0076b239e85e16dee68e388f6fc867828306419d4857d4a884&=&format=webp&width=358&height=477" alt="Image 2" style="width: 30%; border-radius: 10px;">
 </div>
 
 
