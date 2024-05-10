@@ -9,9 +9,10 @@ void setup() {
   Serial.begin(115200);
   Init();
 
-  Up();
+  //Up();
   delay(1000);
   Sleep();
+
 }
 
 void loop() {

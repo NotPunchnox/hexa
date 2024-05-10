@@ -6,7 +6,7 @@ Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x40);
 Adafruit_PWMServoDriver pwm2 = Adafruit_PWMServoDriver(0x41);
 
 #define MIN_PULSE_WIDTH 600
-#define MAX_PULSE_WIDTH 2600
+#define MAX_PULSE_WIDTH 2400
 #define SERVO_FREQ 50
 
 void Init() {
@@ -20,18 +20,17 @@ void Init() {
 }
 
 int pulseWidth(int angle) {
-    int pulse_wide, analog_value;
-    pulse_wide = map(angle, 0, 180, MIN_PULSE_WIDTH, MAX_PULSE_WIDTH);
-    analog_value = int(float(pulse_wide) / 1000000 * SERVO_FREQ * 4096);
-    return analog_value;
+  int pulseWidthMicros = map(angle, 0, 180, MIN_PULSE_WIDTH, MAX_PULSE_WIDTH);
+  Serial.println(int(pulseWidthMicros));
+  return int(pulseWidthMicros);
 }
 
 void setServo(int servoChannels[], int numChannels, float angles[], int address) {
-    for (int i = 0; i < numChannels; ++i) {
-        if (address == 1) {
-            pwm2.setPWM(servoChannels[i], 0, pulseWidth(angles[i]));
-        } else {
-            pwm.setPWM(servoChannels[i], 0, pulseWidth(angles[i]));
-        }
+  for (int i = 0; i < numChannels; ++i) {
+    if (address == 1) {
+      pwm2.writeMicroseconds(servoChannels[i], pulseWidth(angles[i]));
+    } else {
+      pwm.writeMicroseconds(servoChannels[i], pulseWidth(angles[i]));
     }
+  }
 }

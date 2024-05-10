@@ -57,11 +57,11 @@ void Sleep() {
     //Pattes millieu droite
     SetLeg(matrice_sleep[i][0], matrice_sleep[i][1], matrice_sleep[i][2], matrice_sleep[i][3], LMR, 0);
     //Patte avant gauche
-    SetLeg(matrice_sleep[i][0], matrice_sleep[i][1], matrice_sleep[i][2], matrice_sleep[i][3], LFL, 0);
+    SetLeg(matrice_sleep[i][0], matrice_sleep[i][1], matrice_sleep[i][2], matrice_sleep[i][3], LBR, 0);
     //Patte millieu gauche
     SetLeg(matrice_sleep[i][0], matrice_sleep[i][1], -matrice_sleep[i][2], matrice_sleep[i][3], LML, 1);
     //Patte arrière droite
-    SetLeg(matrice_sleep[i][0], matrice_sleep[i][1], -matrice_sleep[i][2], matrice_sleep[i][3], LBR, 1);
+    SetLeg(matrice_sleep[i][0], matrice_sleep[i][1], -matrice_sleep[i][2], matrice_sleep[i][3], LFL, 1);
     //Patte arrière gauche
     SetLeg(matrice_sleep[i][0], matrice_sleep[i][1], -matrice_sleep[i][2], matrice_sleep[i][3], LBL, 1);
 

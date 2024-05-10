@@ -6,13 +6,13 @@ int T_mid_right = 15;
 int F_mid_right = 13;
 int C_mid_right = 14;
 
-int T_back_right = 0;//2
-int F_back_right = 1;//2
-int C_back_right = 2;//2
+int T_back_right = 0;
+int F_back_right = 1;
+int C_back_right = 2;
 
-int T_front_left = 5;
-int F_front_left = 6;
-int C_front_left = 7;
+int T_front_left = 5;//2
+int F_front_left = 6;//2
+int C_front_left = 7;//2
 
 int T_mid_left = 9;//2
 int F_mid_left = 10;//2
