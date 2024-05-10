@@ -11,9 +11,11 @@ Adafruit_PWMServoDriver pwm2 = Adafruit_PWMServoDriver(0x41);
 
 void Init() {
   pwm.begin();
+  pwm.setOscillatorFrequency(27000000);
   pwm.setPWMFreq(SERVO_FREQ);
 
   pwm2.begin();
+  pwm2.setOscillatorFrequency(27000000);
   pwm2.setPWMFreq(SERVO_FREQ);
 }
 

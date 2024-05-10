@@ -3,7 +3,15 @@
 
 *De plus, je compte intégrer des outils liés au pentest pour diverses applications*
 
-<img src="https://media.discordapp.net/attachments/1119738147266367668/1122592652689424394/image.png?width=1049&height=683" width="50%" height="50%"><img src="https://media.discordapp.net/attachments/1065006918294310987/1199022254177128588/IMG20240122170413.jpg?ex=65c1077e&is=65ae927e&hm=a9710d9e4bcce1b0b613929bc3e84a8d6d70aa28ee00621bb56b7e71c4522de0&=&format=webp&width=1049&height=683" width="50%" height="50%">
+<div>
+    <img src="medias/robot.jpg" width="50%" height="50%"/><img src="medias/robot_vu_de_face.jpg" width="50%" height="50%"/>
+    <div class="row post-image-bg" markdown="1">
+        <video width="99%" height="540" autoplay loop muted>
+            <source src="/medias/up-sleep-test.mp4" type="video/mp4" >
+        </video>
+    </div>
+</div>
+
 
 - Composition du robot: [Composants du robot](https://github.com/NotPunchnox/hexa/blob/main/hardware/Composants.md)
 - Images du robot en 3D (autodesk Fusion360): [Images en 3D](https://github.com/NotPunchnox/hexa/blob/main/hardware/Hexa%203d.md)
