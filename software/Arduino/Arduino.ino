@@ -11,7 +11,14 @@ void setup() {
 
   //Up();
   delay(1000);
-  Sleep();
+  //Sleep();
+  Walk();
+  Walk();
+  Walk();
+  Walk();
+  Walk();
+  Walk();
+
 
 }
 

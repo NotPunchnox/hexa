@@ -23,24 +23,16 @@ void SetLeg(float x, float z, float y, int duree, int LEG[3], int address) {
 
   if (LEG == LML || LEG == LFL || LEG == LBL) {//Si c'est une patte de gauche alors il faut inverser les angles tibia et femur
     
-    angles[0] = 180-res.AngleTibia;
-    angles[1] = res.AngleFemur;
-    angles[2] = res.AngleCoxa;
-    /*
-    if(z < 0) {
-      angles[1] = 180 + ;
-    } else {
-      angles[1] = res.AngleFemur;
-    };
-    */
-  } else {
     angles[0] = res.AngleTibia;
     angles[1] = 180-res.AngleFemur;
+    angles[2] = res.AngleCoxa;
+  } else {
+    angles[0] = 180-res.AngleTibia;
+    angles[1] = res.AngleFemur;
     angles[2] = res.AngleCoxa;
   };
 
   setServo(LEG, 3, angles, address);
-  //setServo(LEG, 3, angles, address);
 }
 
 void Sleep() {
