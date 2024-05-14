@@ -1,6 +1,6 @@
 #include "../../config/config.h"
 #include "../../functions/Algo.h"
-#include "../../functions/Servo.h"
+#include "../../functions/servo.h"
 #include <Arduino.h>
 
 // Matrice de sleep_animation (x, z, y, ms) => hauteur, extension, rotation coxa en cm, temps du mouvement.
@@ -32,7 +32,7 @@ void SetLeg(float x, float z, float y, int duree, int LEG[3], int address) {
     angles[2] = res.AngleCoxa;
   };
 
-  setServo(LEG, 3, angles, address);
+  setServo(LEG, 3, angles, address, duree);
 }
 
 void Sleep() {

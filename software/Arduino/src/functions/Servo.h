@@ -3,7 +3,7 @@
 
 #include <Adafruit_PWMServoDriver.h>
 
-void setServo(int servoChannels[], int numChannels, float angles[], int address);
+void setServo(int servoChannels[], int numChannels, float angles[], int address, int duree);
 void Init();
 
 #endif

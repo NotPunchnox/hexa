@@ -1,6 +1,6 @@
 #include "../../config/config.h"
 #include "../../functions/Algo.h"
-#include "../../functions/Servo.h"
+#include "../../functions/servo.h"
 #include "../sleep/sleep.h"
 #include <Arduino.h>
 

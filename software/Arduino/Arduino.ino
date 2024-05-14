@@ -3,7 +3,7 @@
 #include "src/animations/walk/walk.h"
 
 #include <Adafruit_PWMServoDriver.h>
-#include "src/functions/Servo.h"
+#include "src/functions/servo.h"
 
 void setup() {
   Serial.begin(115200);

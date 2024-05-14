@@ -1,6 +1,6 @@
 int T_front_right = 12;
 int F_front_right = 10;
-int C_front_right = 8;
+int C_front_right = 7;
 
 int T_mid_right = 15;
 int F_mid_right = 13;
@@ -44,7 +44,7 @@ int LML[] = {T_mid_left, F_mid_left, C_mid_left};//address: 2
 int LBL[] = {T_back_left, F_back_left, C_back_left};//address: 2
 
 
-float default_pose[3] = {13, 8, 0};
+float default_pose[3] = {13, 10, 0};
 
 float PX = default_pose[0];
 float PZ = default_pose[1];
