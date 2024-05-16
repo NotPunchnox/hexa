@@ -10,15 +10,9 @@ void setup() {
   Init();
 
   //Up();
-  delay(1000);
+  //delay(1000);
   //Sleep();
   Walk();
-  Walk();
-  Walk();
-  Walk();
-  Walk();
-  Walk();
-
 
 }
 

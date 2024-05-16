@@ -7,10 +7,12 @@
 // function pour faire aller une patte du robot dans les coordonnées désirés
 void setLeg(float x, float z, float y, int duree, int LEG[3], int address) {
   if(LEG == LFL || LEG == LBL) {
-    y = y+10;
+    x = x-2;
+    y = y+11;
   }
   if(LEG == LFR || LEG == LBR) {
-    y = y-10;
+    x=x-2;
+    y = y-11;
   }
   LegAngles res = Algo(x, z, y, duree);
 
@@ -20,19 +22,11 @@ void setLeg(float x, float z, float y, int duree, int LEG[3], int address) {
     
     angles[0] = res.AngleTibia;
     angles[1] = 180-res.AngleFemur;
-    if(LEG == LML) {
-      angles[2] = res.AngleCoxa;
-    } else {
-      angles[2] = res.AngleCoxa + 45;
-    }
+    angles[2] = res.AngleCoxa;
   } else {
     angles[0] = 180-res.AngleTibia;
     angles[1] = res.AngleFemur;
-    if(LEG == LMR) {
-      angles[2] = res.AngleCoxa;
-    } else {
-      angles[2] = res.AngleCoxa - 45;
-    }
+    angles[2] = res.AngleCoxa;
   };
 
   setServo(LEG, 3, angles, address, duree);
@@ -44,14 +38,15 @@ void setLeg(float x, float z, float y, int duree, int LEG[3], int address) {
 float R = 2.5;
 
 float WalkUpMatrice[][5] = {
-  {PX, PZ, PY, 1000, 1000},//Patte par défaut
-  {PX, 1, PY, 200, 200},//Patte levé sur l'axe Z
-  {PX, 1, 2*R, 1000, 1000},//Avancer la patte sur l'axe Y
-  {PX, PZ, 2*R, 1000, 1000},//Reposer la patte sur l'axe Z
-  {PX, PZ, R, 1000, 1000},
-  {PX, PZ, -R, 1000, 1000},
+  {PX, PZ, PY, 20, 1000},//Patte par défaut
+  {PX, 1, PY, 600, 0},//Patte levé sur l'axe Z
+  {PX, 1, 2*R, 200, 0},//Avancer la patte sur l'axe Y
+  {PX, PZ, 2*R, 600, 0},//Reposer la patte sur l'axe Z
+  {PX, PZ, R, 500, 0},
+  {PX, PZ, -R, 500, 2000},
 
-
+  {PX, PZ-5, -R, 500, 0},
+  {PX, PZ, PY, 500, 0},
 };
 float WalkBottomMatrice[][5] = {
   {PX, PZ, PY, 500, 1000},//Patte par défaut
@@ -67,10 +62,10 @@ void Walk() {
     //setLeg(WalkUpMatrice[i][0], WalkUpMatrice[i][1], WalkUpMatrice[i][2], WalkUpMatrice[i][3], LBL, 1);
     
     //LEG
-    if(i == 0 || i ==1 || i==2) {
+    if(i ==1 || i==2) {
 
-      setLeg(WalkBottomMatrice[i-1][0], WalkBottomMatrice[i][1], WalkBottomMatrice[i-1][2], WalkBottomMatrice[i-1][3], LFR, 0);
-      setLeg(WalkBottomMatrice[i-1][0], WalkBottomMatrice[i][1], WalkBottomMatrice[i-1][2], WalkBottomMatrice[i-1][3], LML, 1);
+      //setLeg(WalkBottomMatrice[i-1][0], WalkBottomMatrice[i][1], WalkBottomMatrice[i-1][2], WalkBottomMatrice[i-1][3], LFR, 0);
+      //setLeg(WalkBottomMatrice[i-1][0], WalkBottomMatrice[i][1], WalkBottomMatrice[i-1][2], WalkBottomMatrice[i-1][3], LML, 1);
       //setLeg(WalkBottomMatrice[i-1][0], WalkBottomMatrice[i-1][1], -WalkBottomMatrice[i-1][2], WalkBottomMatrice[i-1][3], LBR, 0);
 
     }
