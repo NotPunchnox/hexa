@@ -2,7 +2,6 @@
 #include "../config/config.h"
 #include "../config/Angles.h"
 #include <Adafruit_PWMServoDriver.h>
-#include <EEPROM.h>
 
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x40);
 Adafruit_PWMServoDriver pwm2 = Adafruit_PWMServoDriver(0x41);
@@ -15,8 +14,6 @@ Adafruit_PWMServoDriver pwm2 = Adafruit_PWMServoDriver(0x41);
 #define MIN_ANGLE 0
 #define MAX_ANGLE 180
 #define MAX_LEG_PARTS 3
-
-bool initialize = false;
 
 void Init() {
   pwm.begin();
@@ -34,6 +31,7 @@ int pulseWidth(float angle) {
 }
 
 void moveServosSmoothly(int servoChannels[], int numChannels, int duration, float targetAngles[], int address) {
+  unsigned long startTime = millis(); // Heure de début
   int leg = servoChannels[0];
   float legStartAngles[numChannels] = {startAngles[leg].coxa, startAngles[leg].femur, startAngles[leg].tibia};
   float deltaAngles[numChannels];
@@ -43,9 +41,12 @@ void moveServosSmoothly(int servoChannels[], int numChannels, int duration, floa
       deltaAngles[i] = targetAngles[i] - legStartAngles[i];
   }
 
-  for (int j = 0; j < (duration / 10); ++j) {
+  while (millis() - startTime < duration) { // Tant que le temps écoulé est inférieur à la durée
+      unsigned long currentTime = millis();
+      float progress = (float)(currentTime - startTime) / duration;
+
       for (int i = 0; i < numChannels; ++i) {
-          newAngles[i] = legStartAngles[i] + deltaAngles[i] * (j + 1) / (duration / 10);
+          newAngles[i] = legStartAngles[i] + deltaAngles[i] * progress;
       }
 
       for (int i = 0; i < numChannels; ++i) {
@@ -55,7 +56,6 @@ void moveServosSmoothly(int servoChannels[], int numChannels, int duration, floa
               pwm.writeMicroseconds(servoChannels[i], pulseWidth(newAngles[i]));
           }
       }
-      delay(10);
   }
 
   for (int i = 0; i < numChannels; ++i) {
@@ -68,11 +68,41 @@ void moveServosSmoothly(int servoChannels[], int numChannels, int duration, floa
   Serial.println(startAngles[leg].tibia);
 }
 
-void setServo(int servoChannels[], int numChannels, float angles[], int address, int duree) {
-  if(initialize == true) {
-    moveServosSmoothly(servoChannels, numChannels, duree, angles, address);
+void setLegs(int servoChannels[], int numChannels, float angles[], int address, int duree) {
+  if(startAngles[servoChannels[0]].femur > 0) {
+      unsigned long startTime = millis(); // Heure de début
+      int leg = servoChannels[0];
+      float legStartAngles[numChannels] = {startAngles[leg].coxa, startAngles[leg].femur, startAngles[leg].tibia};
+      float deltaAngles[numChannels];
+      float newAngles[numChannels];
+
+      for (int i = 0; i < numChannels; ++i) {
+          deltaAngles[i] = targetAngles[i] - legStartAngles[i];
+      }
+
+      while (millis() - startTime < duration) { // Tant que le temps écoulé est inférieur à la durée
+          unsigned long currentTime = millis();
+          float progress = (float)(currentTime - startTime) / duration;
+
+          for (int i = 0; i < numChannels; ++i) {
+              newAngles[i] = legStartAngles[i] + deltaAngles[i] * progress;
+          }
+
+          for (int i = 0; i < numChannels; ++i) {
+              if (address == 1) {
+                  pwm2.writeMicroseconds(servoChannels[i], pulseWidth(newAngles[i]));
+              } else {
+                  pwm.writeMicroseconds(servoChannels[i], pulseWidth(newAngles[i]));
+              }
+          }
+      }
+
+      for (int i = 0; i < numChannels; ++i) {
+          startAngles[leg].coxa = newAngles[0];
+          startAngles[leg].femur = newAngles[1];
+          startAngles[leg].tibia = newAngles[2];
+      }
   } else {
-    initialize = true;
     for (int i = 0; i < numChannels; ++i) {
         if (address == 1) {
           pwm2.writeMicroseconds(servoChannels[i], pulseWidth(angles[i]));
@@ -86,5 +116,24 @@ void setServo(int servoChannels[], int numChannels, float angles[], int address,
       startAngles[servoChannels[0]].tibia = angles[2];
     }
   }
+}
+
+void setServo(int servoChannels[], int numChannels, float angles[], int address, int duree) {
+  if(startAngles[servoChannels[0]].femur > 0) {
+    moveServosSmoothly(servoChannels, numChannels, duree, angles, address);
+  } else {
+    for (int i = 0; i < numChannels; ++i) {
+        if (address == 1) {
+          pwm2.writeMicroseconds(servoChannels[i], pulseWidth(angles[i]));
+        } else {
+          pwm.writeMicroseconds(servoChannels[i], pulseWidth(angles[i]));
+        }
+    }
+    for (int i = 0; i < numChannels; ++i) {
+      startAngles[servoChannels[0]].coxa = angles[0];
+      startAngles[servoChannels[0]].femur = angles[1];
+      startAngles[servoChannels[0]].tibia = angles[2];
+    }
+}
   
 }

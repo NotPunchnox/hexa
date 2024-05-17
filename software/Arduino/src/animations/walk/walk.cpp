@@ -6,13 +6,11 @@
 
 // function pour faire aller une patte du robot dans les coordonnées désirés
 void setLeg(float x, float z, float y, int duree, int LEG[3], int address) {
-  if(LEG == LFL || LEG == LBL) {
-    x = x-2;
+  if(LEG == LFL || LEG == LBR) {
     y = y+11;
   }
-  if(LEG == LFR || LEG == LBR) {
-    x=x-2;
-    y = y-11;
+  if(LEG == LFR || LEG == LBL) {
+    //y = y-11;
   }
   LegAngles res = Algo(x, z, y, duree);
 
@@ -38,12 +36,12 @@ void setLeg(float x, float z, float y, int duree, int LEG[3], int address) {
 float R = 2.5;
 
 float WalkUpMatrice[][5] = {
-  {PX, PZ, PY, 20, 1000},//Patte par défaut
+  {PX, PZ, PY, 20, 0},//Patte par défaut
   {PX, 1, PY, 600, 0},//Patte levé sur l'axe Z
   {PX, 1, 2*R, 200, 0},//Avancer la patte sur l'axe Y
   {PX, PZ, 2*R, 600, 0},//Reposer la patte sur l'axe Z
   {PX, PZ, R, 500, 0},
-  {PX, PZ, -R, 500, 2000},
+  {PX, PZ, -R, 500, 0},
 
   {PX, PZ-5, -R, 500, 0},
   {PX, PZ, PY, 500, 0},
@@ -55,10 +53,10 @@ float WalkBottomMatrice[][5] = {
 
 void Walk() {
   for (int i = 0; i < sizeof(WalkUpMatrice) / sizeof(WalkUpMatrice[0]); ++i) {
-
+    int ReverseMatrice = sizeof(WalkUpMatrice) - i;
     //LEG FRONT RIGHT
     setLeg(WalkUpMatrice[i][0], WalkUpMatrice[i][1], WalkUpMatrice[i][2], WalkUpMatrice[i][3], LFL, 1);
-    //setLeg(WalkUpMatrice[i][0], WalkUpMatrice[i][1], WalkUpMatrice[i][2], WalkUpMatrice[i][3], LMR, 0);
+    setLeg(WalkUpMatrice[i][0], WalkUpMatrice[i][1], WalkUpMatrice[i][2], WalkUpMatrice[i][3], LBR, 0);
     //setLeg(WalkUpMatrice[i][0], WalkUpMatrice[i][1], WalkUpMatrice[i][2], WalkUpMatrice[i][3], LBL, 1);
     
     //LEG

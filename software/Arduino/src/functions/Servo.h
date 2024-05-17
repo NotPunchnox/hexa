@@ -5,5 +5,6 @@
 
 void setServo(int servoChannels[], int numChannels, float angles[], int address, int duree);
 void Init();
+void moveServosUpdate();
 
 #endif
