@@ -69,9 +69,9 @@ void moveServosSmoothly(int servoChannels[], int numChannels, int duration, floa
 }
 
 void setServo(int servoChannels[], int numChannels, float angles[], int address, int duree) {
-  if(startAngles[servoChannels[0]].femur > 0) {
+  /*if(startAngles[servoChannels[0]].femur > 0) {
    moveServosSmoothly(servoChannels, numChannels, duree, angles, address);
-  } else {
+  } else {*/
     for (int i = 0; i < numChannels; ++i) {
         if (address == 1) {
           pwm2.writeMicroseconds(servoChannels[i], pulseWidth(angles[i]));
@@ -84,6 +84,6 @@ void setServo(int servoChannels[], int numChannels, float angles[], int address,
       startAngles[servoChannels[0]].femur = angles[1];
       startAngles[servoChannels[0]].tibia = angles[2];
     }
-}
+//}
   
 }

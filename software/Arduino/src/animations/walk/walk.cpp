@@ -38,14 +38,12 @@ float R = 2.5;
 
 float WalkUpMatrice[][5] = {
   {PX, PZ, PY, 20, 1000},//Patte par défaut
-  {PX, 1, PY, 600, 100},//Patte levé sur l'axe Z
-  {PX, 1, 2*R, 200, 100},//Avancer la patte sur l'axe Y
-  {PX, PZ, 2*R, 600, 100},//Reposer la patte sur l'axe Z
-  {PX, PZ, R, 500, 100},
-  {PX, PZ, -R, 500, 2000},
-
-  {PX, PZ-5, -R, 500, 0},
-  {PX, PZ, PY, 500, 0},
+  {PX, 1, PY, 0, 300},//Patte levé sur l'axe Z
+  {PX, 1, R, 0, 300},//Patte levé sur l'axe Z
+  {PX, 1, 2*R, 200, 200},//Avancer la patte sur l'axe Y
+  {PX, PZ, 2*R, 600, 600},//Reposer la patte sur l'axe Z
+  {PX, PZ, R, 500, 300},
+  {PX, PZ, PY, 500, 300},
 };
 float WalkBottomMatrice[][5] = {
   {PX, PZ, PY, 500, 1000},//Patte par défaut
@@ -54,10 +52,10 @@ float WalkBottomMatrice[][5] = {
 
 void Walk() {
   for (int i = 0; i < sizeof(WalkUpMatrice) / sizeof(WalkUpMatrice[0]); ++i) {
-
+    
     //LEG FRONT RIGHT
     setLeg(WalkUpMatrice[i][0], WalkUpMatrice[i][1], WalkUpMatrice[i][2], WalkUpMatrice[i][3], LFL, 1);
-    setLeg(WalkUpMatrice[i][0], WalkUpMatrice[i][1], WalkUpMatrice[i][2], WalkUpMatrice[i][3], LBR, 0);
+    setLeg(WalkUpMatrice[i][0], WalkUpMatrice[i][1], -WalkUpMatrice[i][2], WalkUpMatrice[i][3], LBR, 0);
     //setLeg(WalkUpMatrice[i][0], WalkUpMatrice[i][1], WalkUpMatrice[i][2], WalkUpMatrice[i][3], LMR, 0);
     //setLeg(WalkUpMatrice[i][0], WalkUpMatrice[i][1], WalkUpMatrice[i][2], WalkUpMatrice[i][3], LBL, 1);
 
