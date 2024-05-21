@@ -47,4 +47,6 @@ extern float PX;
 extern float PZ;
 extern float PY;
 
+extern int* legs[];
+
 #endif

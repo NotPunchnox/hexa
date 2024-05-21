@@ -29,11 +29,11 @@ int pulseWidth(float angle) {
   int pulseWidthMicros = map(angle, 0, 180, MIN_PULSE_WIDTH, MAX_PULSE_WIDTH);
   return pulseWidthMicros;
 }
-
+/*
 void moveServosSmoothly(int servoChannels[], int numChannels, int duration, float targetAngles[], int address) {
   unsigned long startTime = millis(); // Heure de début
   int leg = servoChannels[0];
-  float legStartAngles[numChannels] = {startAngles[leg].coxa, startAngles[leg].femur, startAngles[leg].tibia};
+  float legStartAngles[numChannels] = {startAngles[leg].AngleTibia, startAngles[leg].AngleFemur, startAngles[leg].AngleCoxa};
   float deltaAngles[numChannels];
   float newAngles[numChannels];
 
@@ -58,15 +58,14 @@ void moveServosSmoothly(int servoChannels[], int numChannels, int duration, floa
       }
   }
 
-  for (int i = 0; i < numChannels; ++i) {
-      startAngles[leg].coxa = newAngles[0];
-      startAngles[leg].femur = newAngles[1];
-      startAngles[leg].tibia = newAngles[2];
-  }
-  Serial.println(startAngles[leg].coxa);
-  Serial.println(startAngles[leg].femur);
-  Serial.println(startAngles[leg].tibia);
-}
+  startAngles[leg].AngleTibia = newAngles[0];
+  startAngles[leg].AngleFemur = newAngles[1];
+  startAngles[leg].AngleCoxa = newAngles[2];
+
+  Serial.println(startAngles[leg].AngleTibia);
+  Serial.println(startAngles[leg].AngleFemur);
+  Serial.println(startAngles[leg].AngleCoxa);
+}*/
 
 void setServo(int servoChannels[], int numChannels, float angles[], int address, int duree) {
   /*if(startAngles[servoChannels[0]].femur > 0) {
@@ -79,11 +78,10 @@ void setServo(int servoChannels[], int numChannels, float angles[], int address,
           pwm.writeMicroseconds(servoChannels[i], pulseWidth(angles[i]));
         }
     }
-    for (int i = 0; i < numChannels; ++i) {
-      startAngles[servoChannels[0]].coxa = angles[0];
-      startAngles[servoChannels[0]].femur = angles[1];
-      startAngles[servoChannels[0]].tibia = angles[2];
-    }
+    /*
+    startAngles[servoChannels[0]].AngleTibia = angles[0];
+    startAngles[servoChannels[0]].AngleFemur = angles[1];
+    startAngles[servoChannels[0]].AngleCoxa = angles[2];
+    */
 //}
-  
 }

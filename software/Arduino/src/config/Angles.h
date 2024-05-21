@@ -3,12 +3,12 @@
 
 #define MAX_LEG 6
 
-struct LegAngles {
-  float coxa;
-  float femur;
-  float tibia;
+struct LegPosition {
+  float x;
+  float z;
+  float y;
 };
 
-extern LegAngles startAngles[MAX_LEG];
+extern LegPosition CurrentPosition[MAX_LEG];
 
 #endif

@@ -1,10 +1,12 @@
+// /!\ ATTENTION: les pattes ont comme adresse le premier moteur ( ex: LegFrontLeft = 5 ), si vous changez la configuration veuillez ne pas dubliquer une adresse.
+
 int T_front_right = 12;
 int F_front_right = 10;
 int C_front_right = 7;
 
-int T_mid_right = 15;
-int F_mid_right = 13;
-int C_mid_right = 14;
+int T_mid_right = 4;
+int F_mid_right = 5;
+int C_mid_right = 6;
 
 int T_back_right = 0;
 int F_back_right = 1;
@@ -44,8 +46,10 @@ int LML[] = {T_mid_left, F_mid_left, C_mid_left};//address: 2
 int LBL[] = {T_back_left, F_back_left, C_back_left};//address: 2
 
 
-float default_pose[3] = {10, 10, 0};
+float default_pose[3] = {12, 9, 0};
 
 float PX = default_pose[0];
 float PZ = default_pose[1];
 float PY = default_pose[2];
+
+int* legs[] = {LFL, LBL, LML, LFR, LMR, LBR};

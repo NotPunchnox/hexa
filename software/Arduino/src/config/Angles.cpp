@@ -1,3 +1,7 @@
 #include "Angles.h"
+#include "config.h"
 
-LegAngles startAngles[MAX_LEG] = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
+LegPosition CurrentPosition[MAX_LEG] = {
+  {PX, PZ, PY}, {PX, PZ, PY}, {PX, PZ, PY},
+  {PX, PZ, PY}, {PX, PZ, PY}, {PX, PZ, PY}
+};

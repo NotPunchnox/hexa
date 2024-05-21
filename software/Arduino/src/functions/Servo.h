@@ -14,6 +14,6 @@ struct LegConfig {
 
 void setServo(int servoChannels[], int numChannels, float angles[], int address, int duree);
 void Init();
-void setLegs(LegConfig legs[]);
+//void setLegs(LegConfig legs[]);
 
 #endif
