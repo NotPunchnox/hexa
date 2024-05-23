@@ -2,6 +2,8 @@
 #include "../config/config.h"
 #include "../config/Angles.h"
 #include <Adafruit_PWMServoDriver.h>
+#include "../functions/Algo.h"
+
 
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x40);
 Adafruit_PWMServoDriver pwm2 = Adafruit_PWMServoDriver(0x41);
@@ -29,43 +31,105 @@ int pulseWidth(float angle) {
   int pulseWidthMicros = map(angle, 0, 180, MIN_PULSE_WIDTH, MAX_PULSE_WIDTH);
   return pulseWidthMicros;
 }
-/*
-void moveServosSmoothly(int servoChannels[], int numChannels, int duration, float targetAngles[], int address) {
-  unsigned long startTime = millis(); // Heure de début
-  int leg = servoChannels[0];
-  float legStartAngles[numChannels] = {startAngles[leg].AngleTibia, startAngles[leg].AngleFemur, startAngles[leg].AngleCoxa};
-  float deltaAngles[numChannels];
-  float newAngles[numChannels];
+// Fonction pour déplacer une patte du robot aux coordonnées désirées
+void setLeg(float x, float z, float y, int duree, int LEG[3], int address) {
+    if (LEG == LFL || LEG == LBR) {
+        y += 9;
+        x -= 1;
+    } else if (LEG == LFR || LEG == LBL) {
+        y -= 9;
+        x -= 1;
+    }
 
-  for (int i = 0; i < numChannels; ++i) {
-      deltaAngles[i] = targetAngles[i] - legStartAngles[i];
-  }
+    if (LEG == LML || LEG == LMR) {
+      y = -y;
+    }
+    Serial.print("\nx: ");
+    Serial.print(x);
+    Serial.print(" | y: ");
+    Serial.print(y);
+    Serial.print(" | z: ");
+    Serial.print(z);
 
-  while (millis() - startTime < duration) { // Tant que le temps écoulé est inférieur à la durée
-      unsigned long currentTime = millis();
-      float progress = (float)(currentTime - startTime) / duration;
+    LegAngles res = Algo(x, z, y, duree);
 
-      for (int i = 0; i < numChannels; ++i) {
-          newAngles[i] = legStartAngles[i] + deltaAngles[i] * progress;
-      }
+    float angles[3];
 
-      for (int i = 0; i < numChannels; ++i) {
-          if (address == 1) {
-              pwm2.writeMicroseconds(servoChannels[i], pulseWidth(newAngles[i]));
-          } else {
-              pwm.writeMicroseconds(servoChannels[i], pulseWidth(newAngles[i]));
-          }
-      }
-  }
+    if (LEG == LML || LEG == LFL || LEG == LBL) { // Si c'est une patte gauche, il faut inverser les angles tibia et fémur
+        angles[0] = res.AngleTibia;
+        angles[1] = 180 - res.AngleFemur;
+        angles[2] = res.AngleCoxa;
+    } else {
+        angles[0] = 180 - res.AngleTibia;
+        angles[1] = res.AngleFemur;
+        angles[2] = res.AngleCoxa;
+    }
 
-  startAngles[leg].AngleTibia = newAngles[0];
-  startAngles[leg].AngleFemur = newAngles[1];
-  startAngles[leg].AngleCoxa = newAngles[2];
+    if(angles[0] > 180) {
+      angles[0] = 180;
+    } else if (angles[0] < 0) {
+      angles[0] = 1;
+    }
+    if(angles[1] > 180) {
+      angles[1] = 180;
+    } else if (angles[1] < 0) {
+      angles[1] = 1;
+    }
+    if(angles[2] > 180) {
+      angles[2] = 180;
+    } else if (angles[1] < 0) {
+      angles[2] = 1;
+    }
+    Serial.println(" ");
+    Serial.println("\nAngle coxa: ");
+    Serial.print(angles[2]);
+    Serial.println("\nAngle femur: ");
+    Serial.print(angles[1]);
+    Serial.println("\nAngle tibia: ");
+    Serial.print(angles[0]);
 
-  Serial.println(startAngles[leg].AngleTibia);
-  Serial.println(startAngles[leg].AngleFemur);
-  Serial.println(startAngles[leg].AngleCoxa);
-}*/
+    setServo(LEG, 3, angles, address, duree);
+}
+void moveLegsSmoothly(int legIndices[], int numLegs, float targetX, float targetZ, float targetY, int duration) {
+    float startX[numLegs], startZ[numLegs], startY[numLegs];
+
+    for (int i = 0; i < numLegs; ++i) {
+        startX[i] = CurrentPosition[legIndices[i]].x;
+        startZ[i] = CurrentPosition[legIndices[i]].z;
+        startY[i] = CurrentPosition[legIndices[i]].y;
+    }
+
+    unsigned long startTime = millis();
+    unsigned long currentTime = startTime;
+
+    while (currentTime - startTime < duration) {
+        currentTime = millis();
+        float progress = (float)(currentTime - startTime) / duration;
+
+        for (int i = 0; i < numLegs; ++i) {
+            float newZ = startZ[i] + (targetZ - startZ[i]) * progress;
+            float newX = startX[i] + (targetX - startX[i]) * progress;
+            float newY = startY[i] + (targetY - startY[i]) * progress;
+
+            int* leg = legs[legIndices[i]];
+            int address = (legIndices[i] < 3) ? 1 : 0;
+          
+            setLeg(newX, newZ, newY, 0, leg, address);
+        }
+
+        delay(1); // Petite pause pour assurer la fluidité du mouvement
+    }
+
+    // Mise à jour de la position finale
+    for (int i = 0; i < numLegs; ++i) {
+        setLeg(targetX, targetZ, targetY, 0, legs[legIndices[i]], (legIndices[i] < 3) ? 1 : 0);
+        
+        // Mise à jour de la position actuelle
+        CurrentPosition[legIndices[i]].z = targetZ;
+        CurrentPosition[legIndices[i]].x = targetX;
+        CurrentPosition[legIndices[i]].y = targetY;
+    }
+}
 
 void setServo(int servoChannels[], int numChannels, float angles[], int address, int duree) {
   /*if(startAngles[servoChannels[0]].femur > 0) {

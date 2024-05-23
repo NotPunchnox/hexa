@@ -5,6 +5,8 @@
 #include <Adafruit_PWMServoDriver.h>
 #include "src/functions/servo.h"
 
+float speed = 2.5;
+
 void setup() {
   Serial.begin(115200);
   Init();
@@ -13,11 +15,12 @@ void setup() {
   //Sleep();
   //Up();
   Default();
-  Walk();
-  Walk();
-  Walk();
-  Walk();
-  Walk();
+  Walk(speed);
+  Walk(speed);
+  Walk(speed*2);
+  Walk(speed*2);
+  Walk(1);
+  Walk(1);
 }
 
 void loop() {

@@ -61,7 +61,7 @@ void Default() {
 
     for (int s = 0; s < 1; ++s) {
         int randomLegIndex = random(0, 6);  // Sélectionner une patte aléatoirement
-        int randomWaitDelay = random(0, 9) * 4000;  // Sélectionner une durée aléatoirement
+        int randomWaitDelay = random(0, 9) * 1000;  // Sélectionner une durée aléatoirement
         int randomLegMove = random(0, 1);  // Sélectionner une patte aléatoirement
 
         for (int i = 1; i < sizeof(DefaultMatrice) / sizeof(DefaultMatrice[0]); ++i) {
