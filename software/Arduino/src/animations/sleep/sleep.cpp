@@ -10,53 +10,32 @@ float matrice_sleep[][5] = {
   {PX, PZ/2, PY, 0, 500},
   {PX, PZ/4, PY, 0, 500},
   {PX, 1, PY, 0, 1000},
-  /*
-  {PX, -2, PY, 0, 1000},
-  {PX, -6, PY, 0, 1000},
-  */
 };
 
-void SetLeg(float x, float z, float y, int duree, int LEG[3], int address) {
-  LegAngles res = Algo(x, z, y, duree);
 
-  float angles[3];
-
-  if (LEG == LML || LEG == LFL || LEG == LBL) {//Si c'est une patte de gauche alors il faut inverser les angles tibia et femur
-    
-    angles[0] = res.AngleTibia;
-    angles[1] = 180-res.AngleFemur;
-    angles[2] = res.AngleCoxa;
-  } else {
-    angles[0] = 180-res.AngleTibia;
-    angles[1] = res.AngleFemur;
-    angles[2] = res.AngleCoxa;
+void Sleep(float speed) {
+  float matrice_sleep[][5] = {
+    {PX, PZ, PY, 200  * speed, 20},
+    {PX, PZ-(PZ/4), PY, 300  * speed, 0},
+    {PX, PZ/2, PY, 300  * speed, 0},
+    {PX, PZ/4, PY, 300  * speed, 0},
+    {PX, 1, PY, 300  * speed, 1000},
   };
 
-  setServo(LEG, 3, angles, address, duree);
-}
-
-void Sleep() {
   for (int i = 0; i < sizeof(matrice_sleep) / sizeof(matrice_sleep[0]); ++i) {
-    /*
-    Address = 1 ( 0x41 ):
-      LBR
-      LBL
-      LML
-    */
+         /*
+        {
+          0: LFL -> leg front left;
+          1: LBL -> leg back left;
+          2: LML -> leg middle left;
+          3: LFR -> leg front right;
+          4: LMR -> leg middle right;
+          5: LBR -> leg back right;
+        }
+        */
+        int legIndices[] = {0, 1, 2, 3, 4, 5}; // Indices des pattes à déplacer en même temps
 
-    //Patte avant droite
-    SetLeg(matrice_sleep[i][0], matrice_sleep[i][1], matrice_sleep[i][2], matrice_sleep[i][3], LFR, 0);
-    //Pattes millieu droite
-    SetLeg(matrice_sleep[i][0], matrice_sleep[i][1], matrice_sleep[i][2], matrice_sleep[i][3], LMR, 0);
-    //Patte avant gauche
-    SetLeg(matrice_sleep[i][0], matrice_sleep[i][1], matrice_sleep[i][2], matrice_sleep[i][3], LBR, 0);
-    //Patte millieu gauche
-    SetLeg(matrice_sleep[i][0], matrice_sleep[i][1], -matrice_sleep[i][2], matrice_sleep[i][3], LML, 1);
-    //Patte arrière droite
-    SetLeg(matrice_sleep[i][0], matrice_sleep[i][1], -matrice_sleep[i][2], matrice_sleep[i][3], LFL, 1);
-    //Patte arrière gauche
-    SetLeg(matrice_sleep[i][0], matrice_sleep[i][1], -matrice_sleep[i][2], matrice_sleep[i][3], LBL, 1);
-
+        moveLegsSmoothly(legIndices, 6, matrice_sleep[i][0], matrice_sleep[i][1], matrice_sleep[i][2], matrice_sleep[i][3]);
 
     delay(matrice_sleep[i][4]);
   }

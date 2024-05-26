@@ -4,19 +4,15 @@
 #include "../walk/walk.h"
 #include <Arduino.h>
 
-// Matrice de sleep_animation (x, z, y, ms) => hauteur, extension, rotation coxa en cm, temps du mouvement.
-float matrice_up[][5] = {
-  {PX, 1, PY, 1000, 500},
-  {PX, PZ/2, PY, 250, 0},
-  {PX, PZ, PY, 350, 0},
-  {PX, PZ+3, PY, 350, 0},
-  /*
-  {PX, -2, PY, 0, 1000},
-  {PX, -6, PY, 0, 1000},
-  */
-};
+void Up(float speed) {
 
-void Up() {
+  float matrice_up[][5] = {
+    {PX, 1, PY, 200  * speed, 500},
+    {PX, PZ/2, PY, 150  * speed, 0},
+    {PX, PZ, PY, 250  * speed, 0},
+    {PX, PZ+3, PY, 250  * speed, 0},
+  };
+
   for (int i = 0; i < sizeof(matrice_up) / sizeof(matrice_up[0]); ++i) {
          /*
         {

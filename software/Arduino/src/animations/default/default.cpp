@@ -8,7 +8,7 @@
 // Matrice de positions dans un environnement 3D (x, z, y, ms, attente)
 float DefaultMatrice[][5] = {
   {PX, PZ, PY, 0, 3000}, // Patte par défaut
-  {PX, PZ-4, PY-5, 400, 40}, // Patte par défaut
+  {PX, PZ-4, PY-5, 100, 40}, // Patte par défaut
   {PX, PZ, PY-5, 200, 30}, // Patte par défaut
 };
 float MoveRandomLeg[][5] = {

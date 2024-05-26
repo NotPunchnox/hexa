@@ -42,6 +42,7 @@ void setLeg(float x, float z, float y, int duree, int LEG[3], int address) {
     }
 
     if (LEG == LML || LEG == LMR) {
+      x = x +2;
       y = -y;
     }
     Serial.print("\nx: ");

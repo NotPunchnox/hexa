@@ -73,18 +73,18 @@ void Walk(float speed) {
     float SPEED = 100 * speed;
 
     float WalkUpMatrice[][5] = {
-        {PX, PZ, -2*R, SPEED, 0},    // Reposer la patte sur l'axe Z
-        {PX, PZ-3, PY, SPEED, 0},       // Patte levée sur l'axe Z
-        {PX, PZ-3, R, SPEED, 0},    // Avancer la patte sur l'axe Y
-        {PX, PZ, 2 * R, SPEED, 0},   // Reposer la patte sur l'axe Z
-        {PX, PZ, -2*R, SPEED, 0},    // Reposer la patte sur l'axe Z
+        {PX, PZ, -2*R, SPEED, 0},
+        {PX, PZ, -2*R, SPEED, 0},
+        {PX, PZ-3, PY, SPEED, 0},
+        {PX, PZ-3, R, SPEED, 0},
+        {PX, PZ, 2 * R, SPEED, 0},
     };
     float WalkBottomMatrice[][5] = {
-        {PX, PZ, -2 * R, SPEED, 20},    // Avancer la patte sur l'axe Y
-        {PX, PZ, PY, SPEED, 20},       // Patte levée sur l'axe Z
-        {PX, PZ, 2 * R, SPEED, 20},    // Avancer la patte sur l'axe Y
-        {PX, PZ-3, PY, SPEED, 20},   // Reposer la patte sur l'axe Z
-        {PX, PZ-3, -2*R, SPEED, 20},       // Patte levée sur l'axe Z
+        {PX, PZ-3, -2*R, SPEED, 20},
+        {PX, PZ, -2 * R, SPEED, 20},
+        {PX, PZ, PY, SPEED, 20},
+        {PX, PZ, 2 * R, SPEED, 20},
+        {PX, PZ-3, PY, SPEED, 20},
     };
 
     for (int i = 0; i < sizeof(WalkUpMatrice) / sizeof(WalkUpMatrice[0]); ++i) {

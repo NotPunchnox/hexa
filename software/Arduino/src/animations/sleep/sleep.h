@@ -5,6 +5,6 @@
 #include "../../functions/Algo.h"
 
 void SetLeg(float, float, float, int, int[3], int);
-void Sleep();
+void Sleep(float speed);
 
 #endif
