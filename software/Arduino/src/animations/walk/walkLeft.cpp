@@ -47,9 +47,10 @@ void WalkLeft(float speed) {
     float R = 2.5;
     float SPEED = 200 * speed;
     int numLegs = 6;
+    int numPoses = 3;
 
     // Matrices de positions pour chaque patte
-    float WalkMatrice[numLegs][3][3] = {
+    float WalkMatrice[numLegs][numPoses][3] = {
         // {x, z, y} pour chaque patte {LFL, LBL, LML, LFR, LMR, LBR}
         {{PX, PZ, PY}, {PX + R, PZ - 3, PY}, {PX - 2 * R, PZ, PY}},
         {{PX, PZ, PY}, {PX + R, PZ - 3, PY}, {PX - 2 * R, PZ, PY}},
@@ -66,7 +67,7 @@ void WalkLeft(float speed) {
 
         float targetX[numLegs], targetZ[numLegs], targetY[numLegs];
 
-        for (int j = 0; j < 3; ++j) {
+        for (int j = 0; j < numLegs; ++j) {
             targetX[j] = WalkMatrice[i][j][0];
             targetZ[j] = WalkMatrice[i][j][1];
             targetY[j] = WalkMatrice[i][j][2];
