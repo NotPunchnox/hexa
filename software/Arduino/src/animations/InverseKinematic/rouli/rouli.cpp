@@ -68,6 +68,22 @@ void Rouli(float speed, float Top, float Bottom, float Left, float Right) {
         {{PX, PZ, PY}, {PX, PZ, PY}}, // RML
         {{PX, PZ, PY}, {PX, PZ + Bottom, PY}},             // RBL
     };
+    float RouliLeft[numLegs][numPoses][3] = {
+        {{PX, PZ, PY}, {PX, PZ+Left, PY}},
+        {{PX, PZ, PY}, {PX, PZ+Left, PY}},
+        {{PX, PZ, PY}, {PX, PZ+Left, PY}},
+        {{PX, PZ, PY}, {PX, PZ-Left, PY}},
+        {{PX, PZ, PY}, {PX, PZ-Left, PY}},
+        {{PX, PZ, PY}, {PX, PZ-Left, PY}},
+    };
+    float RouliRight[numLegs][numPoses][3] = {
+        {{PX, PZ, PY}, {PX, PZ-Right , PY}},
+        {{PX, PZ, PY}, {PX, PZ-Right, PY}},
+        {{PX, PZ, PY}, {PX, PZ-Right, PY}},
+        {{PX, PZ, PY}, {PX, PZ+Right, PY}},
+        {{PX, PZ, PY}, {PX, PZ+Right, PY}},
+        {{PX, PZ, PY}, {PX, PZ+Right, PY}},
+    };
 
     for (int pose = 0; pose < numPoses; ++pose) {
         int legIndices[] = {0, 1, 2, 3, 4, 5};
@@ -83,6 +99,14 @@ void Rouli(float speed, float Top, float Bottom, float Left, float Right) {
                 targetX[leg] = RouliBottom[leg][pose][0];
                 targetZ[leg] = RouliBottom[leg][pose][1];
                 targetY[leg] = RouliBottom[leg][pose][2];
+            } else if (Left>0) {
+                targetX[leg] = RouliLeft[leg][pose][0];
+                targetZ[leg] = RouliLeft[leg][pose][1];
+                targetY[leg] = RouliLeft[leg][pose][2];
+            } else if (Right>0) {
+                targetX[leg] = RouliRight[leg][pose][0];
+                targetZ[leg] = RouliRight[leg][pose][1];
+                targetY[leg] = RouliRight[leg][pose][2];
             };
             
         }
