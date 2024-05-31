@@ -43,47 +43,46 @@ void moveUniquePoseLegsSmoothly(int legIndices[], float targetX[], float targetZ
     }
 }
 
-// Fonction principale pour marcher vers la gauche
+// Fonction principale pour ajuster la hauteur des pattes en fonction des mouvements
 void Rouli(float speed, float Top, float Bottom, float Left, float Right) {
     float SPEED = 200 * speed;
     int numLegs = 6;
     int numPoses = 2;
 
-    // Matrices de positions pour chaque patte
-    float RouliTop[numLegs][numPoses][3] = {
-        // {x, z, y} pour chaque patte {LFL, LML, LBL, RFL, RML, RBL}
-        {{PX, PZ, PY}, {PX, PZ + Top, PY}},
-        {{PX, PZ, PY}, {PX, PZ, PY}},
-        {{PX, PZ, PY}, {PX, PZ - Top, PY}},
-        {{PX, PZ, PY}, {PX, PZ + Top, PY}},
-        {{PX, PZ, PY}, {PX, PZ, PY}},
-        {{PX, PZ, PY}, {PX, PZ -Top, PY}},
+    // Matrice de positions de base pour chaque patte
+    float RouliMatrix[numLegs][3] = {
+        {PX, PZ, PY}, // LFL
+        {PX, PZ, PY}, // LML
+        {PX, PZ, PY}, // LBL
+        {PX, PZ, PY}, // RFL
+        {PX, PZ, PY}, // RML
+        {PX, PZ, PY}  // RBL
     };
-    float RouliBottom[numLegs][numPoses][3] = {
-        // {x, z, y} pour chaque patte {LFL, LML, LBL, RFL, RML, RBL}
-        {{PX, PZ, PY}, {PX, PZ-Bottom , PY}},        // LFL
-        {{PX, PZ, PY}, {PX, PZ, PY}}, // LML
-        {{PX, PZ, PY}, {PX, PZ + Bottom, PY}},             // LBL
-        {{PX, PZ, PY}, {PX, PZ-Bottom, PY}},       // RFL
-        {{PX, PZ, PY}, {PX, PZ, PY}}, // RML
-        {{PX, PZ, PY}, {PX, PZ + Bottom, PY}},             // RBL
-    };
-    float RouliLeft[numLegs][numPoses][3] = {
-        {{PX, PZ, PY}, {PX, PZ+Left, PY}},
-        {{PX, PZ, PY}, {PX, PZ+Left, PY}},
-        {{PX, PZ, PY}, {PX, PZ+Left, PY}},
-        {{PX, PZ, PY}, {PX, PZ-Left, PY}},
-        {{PX, PZ, PY}, {PX, PZ-Left, PY}},
-        {{PX, PZ, PY}, {PX, PZ-Left, PY}},
-    };
-    float RouliRight[numLegs][numPoses][3] = {
-        {{PX, PZ, PY}, {PX, PZ-Right , PY}},
-        {{PX, PZ, PY}, {PX, PZ-Right, PY}},
-        {{PX, PZ, PY}, {PX, PZ-Right, PY}},
-        {{PX, PZ, PY}, {PX, PZ+Right, PY}},
-        {{PX, PZ, PY}, {PX, PZ+Right, PY}},
-        {{PX, PZ, PY}, {PX, PZ+Right, PY}},
-    };
+
+    // Appliquer les transformations uniquement sur l'axe Z
+    for (int leg = 0; leg < numLegs; ++leg) {
+        /*
+        LOGIQUE:
+        Patte 0 % 3 = 0
+        Patte 1 % 3 = 1
+        Patte 2 % 3 = 2
+        Patte 3 % 3 = 0
+        Patte 4 % 3 = 1
+        Patte 5 % 3 = 2
+        */
+        if (Top > 0) {
+            RouliMatrix[leg][1] += (leg % 3 == 0) ? Top : ((leg % 3 == 2) ? -Top : 0);
+        }
+        if (Bottom > 0) {
+            RouliMatrix[leg][1] += (leg % 3 == 0) ? -Bottom : ((leg % 3 == 2) ? Bottom : 0);
+        }
+        if (Left > 0) {
+            RouliMatrix[leg][1] += (leg < 3) ? Left : -Left;
+        }
+        if (Right > 0) {
+            RouliMatrix[leg][1] += (leg < 3) ? -Right : Right;
+        }
+    }
 
     for (int pose = 0; pose < numPoses; ++pose) {
         int legIndices[] = {0, 1, 2, 3, 4, 5};
@@ -91,24 +90,9 @@ void Rouli(float speed, float Top, float Bottom, float Left, float Right) {
         float targetX[numLegs], targetZ[numLegs], targetY[numLegs];
 
         for (int leg = 0; leg < numLegs; ++leg) {
-            if(Top>0) {
-                targetX[leg] = RouliTop[leg][pose][0];
-                targetZ[leg] = RouliTop[leg][pose][1];
-                targetY[leg] = RouliTop[leg][pose][2];
-            } else if(Bottom>0) {
-                targetX[leg] = RouliBottom[leg][pose][0];
-                targetZ[leg] = RouliBottom[leg][pose][1];
-                targetY[leg] = RouliBottom[leg][pose][2];
-            } else if (Left>0) {
-                targetX[leg] = RouliLeft[leg][pose][0];
-                targetZ[leg] = RouliLeft[leg][pose][1];
-                targetY[leg] = RouliLeft[leg][pose][2];
-            } else if (Right>0) {
-                targetX[leg] = RouliRight[leg][pose][0];
-                targetZ[leg] = RouliRight[leg][pose][1];
-                targetY[leg] = RouliRight[leg][pose][2];
-            };
-            
+            targetX[leg] = RouliMatrix[leg][0];
+            targetZ[leg] = RouliMatrix[leg][1];
+            targetY[leg] = RouliMatrix[leg][2];
         }
 
         moveUniquePoseLegsSmoothly(legIndices, targetX, targetZ, targetY, numLegs, SPEED);
