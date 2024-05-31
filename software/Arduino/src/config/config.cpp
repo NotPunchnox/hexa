@@ -52,4 +52,4 @@ float PX = default_pose[0];
 float PZ = default_pose[1];
 float PY = default_pose[2];
 
-int* legs[] = {LFL, LBL, LML, LFR, LMR, LBR};
+int* legs[] = {LFL, LML, LBL, LFR, LMR, LBR};

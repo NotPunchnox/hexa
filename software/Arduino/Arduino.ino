@@ -4,9 +4,11 @@
 #include "src/animations/sleep/sleep.h"
 #include "src/animations/up/Up.h"
 #include "src/animations/walk/walk.h"
-#include "src/animations/walk/walkLeft.h"
+//#include "src/animations/walk/walkLeft.h"
 #include "src/animations/default/default.h"
 #include "src/functions/servo.h"
+
+#include "src/animations/InverseKinematic/rouli/rouli.h"
 
 
 const char* ssid = "HexaApp";
@@ -29,15 +31,20 @@ void startWalking() {
 void setup() {
   Serial.begin(115200);
   Init();
-
+/*
   WiFi.softAP(ssid, password);
 
   IPAddress IP = WiFi.softAPIP();
   Serial.print("Point d'accès IP: ");
-  Serial.println(IP);
+  Serial.println(IP);*/
 
   Up(3);
-  WalkLeft(4.5);
+  Rouli(4, 3.0, 0.0, 0.0, 0.0);
+  Rouli(4, 0.0, 3.0, 0.0, 0.0);
+  Rouli(4, 3.0, 0.0, 0.0, 0.0);
+  Rouli(4, 0.0, 3.0, 0.0, 0.0);
+  //Rouli(4, 0.0, 2.0, 0.0, 0.0);
+  //WalkLeft(4.5);
   //WalkLeft(4.5);
 
   /*
