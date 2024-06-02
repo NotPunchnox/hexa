@@ -6,6 +6,6 @@
 #include "../../../functions/servo.h"
 
 void Rouli(float speed, float Top, float Bottom, float Left, float Right);
-void TurnZ(String sens, float speed);
+void moveUniquePoseLegsSmoothly(int legIndices[], float targetX[], float targetZ[], float targetY[], int numLegs, int duration);
 
 #endif

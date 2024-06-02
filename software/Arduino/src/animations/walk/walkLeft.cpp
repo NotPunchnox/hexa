@@ -1,6 +1,7 @@
 #include "../../config/config.h"
 #include "../../config/Angles.h"
 #include "../../functions/servo.h"
+#include "../InverseKinematic/rouli/rouli.h"
 
 // Fonction principale pour marcher vers la gauche
 void WalkLeft(float speed) {
@@ -31,6 +32,6 @@ void WalkLeft(float speed) {
             targetY[i] = WalkMatrice[i][poseIndex][2];
         }
 
-        moveLegsMatrices(legIndices, targetX, targetZ, targetY, numLegs, SPEED);
+        moveUniquePoseLegsSmoothly(legIndices, targetX, targetZ, targetY, numLegs, SPEED);
     }
 }

@@ -2,6 +2,7 @@
 #include "../../../config/config.h"
 #include "../../../config/Angles.h"
 #include "../../../functions/servo.h"
+#include "../rouli/rouli.h"
 
 // Fonction principale pour ajuster la hauteur des pattes en fonction des mouvements
 void ChangeTop(float speed, float Top) {
@@ -28,6 +29,6 @@ void ChangeTop(float speed, float Top) {
         targetY[leg] = RouliMatrix[leg][2];
     }
 
-    moveLegsMatrices(legIndices, targetX, targetZ, targetY, numLegs, SPEED);
+    moveUniquePoseLegsSmoothly(legIndices, targetX, targetZ, targetY, numLegs, SPEED);
     PZ = PZ+Top;
 }

@@ -8,17 +8,18 @@
 
 #include "src/animations/InverseKinematic/poses/Top.h"
 #include "src/router/Walking.h"
+#include "src/animations/InverseKinematic/rouli/turnZ.h"
 
 void performAnimations() {
     Up(4);
     TurnZ("horaire", 2);
-    TurnZ("anti-horaire", 2);
+    //TurnZ("anti-horaire", 2);
 
     delay(2000);
 
-    ChangeTop(2.5, 2);//speed & +cm
+    //ChangeTop(2.5, 2);//speed & +cm
 
-    WalkLeft(4);
+    //WalkLeft(4);
     Sleep(3);
 }
 

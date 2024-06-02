@@ -3,6 +3,46 @@
 #include "../../../config/Angles.h"
 #include "../../../functions/servo.h"
 
+// Fonction pour déplacer les pattes progressivement avec des coordonnées différentes par pattes
+void moveUniquePoseLegsSmoothly(int legIndices[], float targetX[], float targetZ[], float targetY[], int numLegs, int duration) {
+    float startX[numLegs], startZ[numLegs], startY[numLegs];
+
+    for (int i = 0; i < numLegs; ++i) {
+        startX[i] = CurrentPosition[legIndices[i]].x;
+        startZ[i] = CurrentPosition[legIndices[i]].z;
+        startY[i] = CurrentPosition[legIndices[i]].y;
+    }
+
+    unsigned long startTime = millis();
+    unsigned long currentTime = startTime;
+
+    while (currentTime - startTime < duration) {
+        currentTime = millis();
+        float progress = (float)(currentTime - startTime) / duration;
+
+        for (int i = 0; i < numLegs; ++i) {
+            float newX = startX[i] + (targetX[i] - startX[i]) * progress;
+            float newZ = startZ[i] + (targetZ[i] - startZ[i]) * progress;
+            float newY = startY[i] + (targetY[i] - startY[i]) * progress;
+
+            int* leg = legs[legIndices[i]];
+            int address = (legIndices[i] < 3) ? 1 : 0;
+
+            setLeg(newX, newZ, newY, 0, leg, address);
+        }
+
+        delay(1);
+    }
+
+    // Mise à jour de la position finale
+    for (int i = 0; i < numLegs; ++i) {
+        setLeg(targetX[i], targetZ[i], targetY[i], 0, legs[legIndices[i]], (legIndices[i] < 3) ? 1 : 0);
+        CurrentPosition[legIndices[i]].x = targetX[i];
+        CurrentPosition[legIndices[i]].z = targetZ[i];
+        CurrentPosition[legIndices[i]].y = targetY[i];
+    }
+}
+
 // Fonction principale pour ajuster la hauteur des pattes en fonction des mouvements
 void Rouli(float speed, float Top, float Bottom, float Left, float Right) {
     float SPEED = 200 * speed;
@@ -53,5 +93,5 @@ void Rouli(float speed, float Top, float Bottom, float Left, float Right) {
         targetY[leg] = RouliMatrix[leg][2];
     }
 
-    moveLegsMatrices(legIndices, targetX, targetZ, targetY, numLegs, SPEED);
+    moveUniquePoseLegsSmoothly(legIndices, targetX, targetZ, targetY, numLegs, SPEED);
 }
