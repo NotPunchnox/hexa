@@ -31,23 +31,31 @@ void startWalking() {
 void setup() {
   Serial.begin(115200);
   Init();
-/*
+
   WiFi.softAP(ssid, password);
 
   IPAddress IP = WiFi.softAPIP();
   Serial.print("Point d'accès IP: ");
-  Serial.println(IP);*/
+  Serial.println(IP);
 
   Up(3);
+  //vitesse, Top, Bottom, Left, Right
   Rouli(4, 3.0, 0.0, 0.0, 0.0);
   Rouli(4, 0.0, 3.0, 0.0, 0.0);
-  Rouli(4, 3.0, 0.0, 0.0, 0.0);
-  Rouli(4, 0.0, 3.0, 0.0, 0.0);
-  //Rouli(4, 0.0, 2.0, 0.0, 0.0);
-  //WalkLeft(4.5);
-  //WalkLeft(4.5);
+  Rouli(4, 0.0, 0.0, 3.0, 0.0);
+  Rouli(4, 0.0, 0.0, 0.0, 3.0);
 
-  /*
+  Rouli(4, 0.0, 0.0, 0.0, 0.0);
+  
+  Rouli(4, 3.0, 0.0, 3.0, 0.0);
+  Rouli(4, 3.0, 0.0, 0.0, 3.0);
+  Rouli(4, 0.0, 3.0, 0.0, 3.0);
+  Rouli(4, 0.0, 3.0, 3.0, 0.0);
+
+  Rouli(4, 0.0, 0.0, 0.0, 0.0);
+
+  Sleep(3);
+  
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
     String html = R"rawliteral(
       <html>
@@ -121,7 +129,7 @@ void setup() {
   });
 
   server.begin();
-  */
+  
 
   /*
   Default();
