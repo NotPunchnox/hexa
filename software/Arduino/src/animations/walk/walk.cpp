@@ -91,19 +91,17 @@ void Walk(float speed) {
         /*
         {
           0: LFL -> leg front left;
-          1: LBL -> leg back left;
-          2: LML -> leg middle left;
+          1: LML -> leg back left;
+          2: LBL -> leg middle left;
           3: LFR -> leg front right;
           4: LMR -> leg middle right;
-          5: LBR -> leg back right;
+          5: RBL -> leg back right;
         }
         */
 
-        int legIndices[] = {0, 1, 4};
-        int legIndicesBottom[] = {3, 2, 5};
+        int legIndices[] = {0, 4, 2};
+        int legIndicesBottom[] = {3, 1, 5};
 
-        //moveLegsSmoothly(legIndices, 3, WalkUpMatrice[i][0], WalkUpMatrice[i][1], WalkUpMatrice[i][2], WalkUpMatrice[i][3]);
-        //moveLegsSmoothly(legIndicesBottom, 3, WalkBottomMatrice[i][0], WalkBottomMatrice[i][1], WalkBottomMatrice[i][2], WalkBottomMatrice[i][3]);
         moveLegsSmoothlyWalk(legIndices, legIndicesBottom, WalkUpMatrice[i][0], WalkUpMatrice[i][1], WalkUpMatrice[i][2], WalkBottomMatrice[i][0], WalkBottomMatrice[i][1], WalkBottomMatrice[i][2], WalkUpMatrice[i][3]);
 
         delay(WalkUpMatrice[i][4]);

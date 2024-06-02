@@ -6,5 +6,6 @@
 #include "../../../functions/servo.h"
 
 void Rouli(float speed, float Top, float Bottom, float Left, float Right);
+void TurnZ(String sens, float speed);
 
 #endif

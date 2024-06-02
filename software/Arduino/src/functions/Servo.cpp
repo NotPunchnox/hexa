@@ -3,7 +3,7 @@
 #include "../config/Angles.h"
 #include <Adafruit_PWMServoDriver.h>
 #include "../functions/Algo.h"
-
+#include "../router/Wifi.h"
 
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x40);
 Adafruit_PWMServoDriver pwm2 = Adafruit_PWMServoDriver(0x41);
@@ -25,6 +25,8 @@ void Init() {
   pwm2.begin();
   pwm2.setOscillatorFrequency(27000000);
   pwm2.setPWMFreq(SERVO_FREQ);
+
+  StartRouter();
 }
 
 int pulseWidth(float angle) {
@@ -132,10 +134,46 @@ void moveLegsSmoothly(int legIndices[], int numLegs, float targetX, float target
     }
 }
 
+void moveLegsMatrices(int legIndices[], float targetX[], float targetZ[], float targetY[], int numLegs, int duration) {
+    float startX[numLegs], startZ[numLegs], startY[numLegs];
+
+    for (int i = 0; i < numLegs; ++i) {
+        startX[i] = CurrentPosition[legIndices[i]].x;
+        startZ[i] = CurrentPosition[legIndices[i]].z;
+        startY[i] = CurrentPosition[legIndices[i]].y;
+    }
+
+    unsigned long startTime = millis();
+    unsigned long currentTime = startTime;
+
+    while (currentTime - startTime < duration) {
+        currentTime = millis();
+        float progress = (float)(currentTime - startTime) / duration;
+
+        for (int i = 0; i < numLegs; ++i) {
+            float newX = startX[i] + (targetX[i] - startX[i]) * progress;
+            float newZ = startZ[i] + (targetZ[i] - startZ[i]) * progress;
+            float newY = startY[i] + (targetY[i] - startY[i]) * progress;
+
+            int* leg = legs[legIndices[i]];
+            int address = (legIndices[i] < 3) ? 1 : 0;
+
+            setLeg(newX, newZ, newY, 0, leg, address);
+        }
+
+        delay(1);
+    }
+
+    // Mise à jour de la position finale
+    for (int i = 0; i < numLegs; ++i) {
+        setLeg(targetX[i], targetZ[i], targetY[i], 0, legs[legIndices[i]], (legIndices[i] < 3) ? 1 : 0);
+        CurrentPosition[legIndices[i]].x = targetX[i];
+        CurrentPosition[legIndices[i]].z = targetZ[i];
+        CurrentPosition[legIndices[i]].y = targetY[i];
+    }
+}
+
 void setServo(int servoChannels[], int numChannels, float angles[], int address, int duree) {
-  /*if(startAngles[servoChannels[0]].femur > 0) {
-   moveServosSmoothly(servoChannels, numChannels, duree, angles, address);
-  } else {*/
     for (int i = 0; i < numChannels; ++i) {
         if (address == 1) {
           pwm2.writeMicroseconds(servoChannels[i], pulseWidth(angles[i]));
@@ -143,10 +181,4 @@ void setServo(int servoChannels[], int numChannels, float angles[], int address,
           pwm.writeMicroseconds(servoChannels[i], pulseWidth(angles[i]));
         }
     }
-    /*
-    startAngles[servoChannels[0]].AngleTibia = angles[0];
-    startAngles[servoChannels[0]].AngleFemur = angles[1];
-    startAngles[servoChannels[0]].AngleCoxa = angles[2];
-    */
-//}
 }
