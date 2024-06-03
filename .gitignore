@@ -2,5 +2,8 @@ software/Arduino/node_modules
 software/Arduino/package.json
 software/Arduino/package-lock.json
 software/Arduino/.vscode/
-.vscode/c_cpp_properties.json
-.vscode/arduino.json
+.vscode
+software/IA/API/.env
+software/IA/API/node_modules
+software/IA/API/package-lock.json
+software/IA/API/src/Modal.json

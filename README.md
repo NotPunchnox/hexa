@@ -1,7 +1,7 @@
 # Hexa
 *Hexa est un robot open source en phase de développement. Son objectif est d'aider dans l'initiation à la robotique. Il sera équipé d'un système d'intelligence artificielle pour la communication, la gestion des animations ( cinématique inversée ), l'adaptabilité à son environnement.*
 
-*De plus, je compte intégrer des outils liés au pentest pour diverses applications*
+
 
 <div>
     <img src="medias/robot.jpg" width="50%" height="50%"/><img src="medias/robot_vu_de_face.jpg" width="50%" height="50%"/>

@@ -9,17 +9,20 @@
 #include "src/animations/InverseKinematic/poses/Top.h"
 #include "src/router/Walking.h"
 #include "src/animations/InverseKinematic/rouli/turnZ.h"
+#include "src/animations/default/default.h"
 
 void performAnimations() {
     Up(4);
-    TurnZ("horaire", 2);
-    //TurnZ("anti-horaire", 2);
+    TurnZ("horaire", 1.5, 1);
+    TurnZ("anti-horaire", 1.3, 1);
 
+    ChangeTop(3, 0);//speed & +cm
+    delay(2000);
+    ChangeTop(3, 2);//speed & +cm
+    delay(2000);
+    ChangeTop(3, -2);//speed & +cm
     delay(2000);
 
-    //ChangeTop(2.5, 2);//speed & +cm
-
-    //WalkLeft(4);
     Sleep(3);
 }
 
@@ -32,6 +35,7 @@ void setup() {
 
 void loop() {
 
+  //WalkLeft(4);
 
   if (isWalking) {
     unsigned long currentMillis = millis();

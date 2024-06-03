@@ -8,15 +8,16 @@
 void ChangeTop(float speed, float Top) {
     float SPEED = 100 * speed;
     int numLegs = 6;
+    PZ = PZ+Top;
 
     // Matrice de positions de base pour chaque patte
     float RouliMatrix[numLegs][3] = {
-        {PX, PZ + Top, PY}, // LFL
-        {PX, PZ + Top, PY}, // LML
-        {PX, PZ + Top, PY}, // LBL
-        {PX, PZ + Top, PY}, // RFL
-        {PX, PZ + Top, PY}, // RML
-        {PX, PZ + Top, PY}  // RBL
+        {PX, PZ, PY}, // LFL
+        {PX, PZ, PY}, // LML
+        {PX, PZ, PY}, // LBL
+        {PX, PZ, PY}, // RFL
+        {PX, PZ, PY}, // RML
+        {PX, PZ, PY}  // RBL
     };
 
     int legIndices[] = {0, 1, 2, 3, 4, 5};
@@ -30,5 +31,4 @@ void ChangeTop(float speed, float Top) {
     }
 
     moveUniquePoseLegsSmoothly(legIndices, targetX, targetZ, targetY, numLegs, SPEED);
-    PZ = PZ+Top;
 }

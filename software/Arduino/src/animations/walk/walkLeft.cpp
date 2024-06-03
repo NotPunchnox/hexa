@@ -13,17 +13,22 @@ void WalkLeft(float speed) {
     // Matrices de positions pour chaque patte
     float WalkMatrice[numLegs][numPoses][3] = {
         // {x, z, y} pour chaque patte {LFL, LML, LBL, LFR, LMR, LBR}
-        {{PX, PZ, PY}, {PX + R, PZ - 3, PY}, {PX + R, PZ, PY}, {PX - R, PZ, PY}},
-        {{PX, PZ, PY}, {PX + R, PZ - 3, PY}, {PX + R, PZ, PY}, {PX - R, PZ, PY}},
-        {{PX, PZ, PY}, {PX + R, PZ - 3, PY}, {PX + R, PZ, PY}, {PX - R, PZ, PY}},
+        {{PX, PZ, PY}, {PX + R, PZ-3, PY}, {PX + (2*R), PZ, PY}, {PX - R, PZ, PY}},
 
-        {{PX, PZ, PY}, {PX - R, PZ, PY}, {PX + 2 * R, PZ, PY}, {PX - R, PZ, PY}},
-        {{PX, PZ, PY}, {PX - R, PZ, PY}, {PX + 2 * R, PZ, PY}, {PX - R, PZ, PY}},
-        {{PX, PZ, PY}, {PX - R, PZ, PY}, {PX + 2 * R, PZ, PY}, {PX - R, PZ, PY}},
+        {{PX, PZ, PY}, {PX - R, PZ-3, PY}, {PX - (2*R), PZ, PY}, {PX + R, PZ, PY}},
+
+        {{PX, PZ, PY}, {PX + R, PZ-3, PY}, {PX + (2*R), PZ, PY}, {PX - R, PZ, PY}},
+
+
+        {{PX, PZ, PY}, {PX - R, PZ, PY}, {PX - (2*R), PZ, PY}, {PX + R, PZ, PY}},
+
+        {{PX, PZ, PY}, {PX + R, PZ, PY}, {PX + (2*R), PZ, PY}, {PX - R, PZ, PY}},
+
+        {{PX, PZ, PY}, {PX - R, PZ, PY}, {PX - (2*R), PZ, PY}, {PX + R, PZ, PY}},
     };
 
     for (int poseIndex = 0; poseIndex < numPoses; ++poseIndex) {
-        int legIndices[] = {0, 1, 2, 3, 4, 5};
+        int legIndices[] = {0, 4, 2, 3, 1, 5};
         float targetX[numLegs], targetZ[numLegs], targetY[numLegs];
 
         for (int i = 0; i < numLegs; ++i) {
