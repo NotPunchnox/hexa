@@ -6,7 +6,6 @@ import json
 import time
 import os
 
-# Initialisation de pygame pour jouer le son
 pygame.mixer.init()
 client = texttospeech.TextToSpeechClient()
 
