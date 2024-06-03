@@ -13,9 +13,9 @@ client = texttospeech.TextToSpeechClient()
 
 def recognize_speech_from_mic(recognizer, microphone):
     with microphone as source:
-        print("Ajustement pour le bruit ambiant...")
+        print("\033[43mAjustement pour le bruit ambiant...\033[0m")
         recognizer.adjust_for_ambient_noise(source)
-        print("Écoute...")
+        print("\033[32mÉcoute...\033[0m")
         audio = recognizer.listen(source)
     
     response = {
@@ -41,7 +41,6 @@ def send_request_to_api(content):
     headers = {"Content-Type": "application/json"}
 
     response = requests.get(url, data=json.dumps(data), headers=headers)
-    print(response)
     return response.json()
 
 # Fonction pour convertir le texte en parole et jouer le son
@@ -58,7 +57,7 @@ def speak_text(text):
     )
     with open("response.mp3", "wb") as out:
         out.write(response.audio_content)
-        print('Le contenu de l\'auto a été sauvegardé dans le fichier: "response.mp3"')
+        print('\033[34mLe contenu de l\'auto a été sauvegardé dans le fichier: "response.mp3"\033[0m')
     
     pygame.mixer.music.load("response.mp3")
     pygame.mixer.music.play()
@@ -79,11 +78,11 @@ def main():
         recognizer = sr.Recognizer()
         microphone = sr.Microphone()
 
-        print("Parlez maintenant!")
+        print("\033[43mParlez maintenant!\033[0m")
         speech_recognition_result = recognize_speech_from_mic(recognizer, microphone)
 
         if speech_recognition_result["transcription"]:
-            print("Vous avez dit: {}".format(speech_recognition_result["transcription"]))
+            print("Vous avez dit: {}\033[32m".format(speech_recognition_result["transcription"])+"\033[0m")
             api_response = send_request_to_api(speech_recognition_result["transcription"])
             
             # Extraire les informations nécessaires de la réponse de l'API
@@ -103,7 +102,7 @@ def main():
         
             final_response = f"Expérimentation numéro: {sauvegarde}, {actions}, {message}"
             
-            print(final_response)
+            print("Hexa: \033[36m"+ final_response+"\033[0m")
             speak_text(final_response)
             
             
