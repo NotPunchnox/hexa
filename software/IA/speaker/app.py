@@ -5,10 +5,11 @@ import pygame
 import json
 import time
 import os
+import serial
 
 pygame.mixer.init()
 client = texttospeech.TextToSpeechClient()
-
+ser = serial.Serial('COM11', 115200)
 
 def recognize_speech_from_mic(recognizer, microphone):
     with microphone as source:
@@ -68,6 +69,14 @@ def speak_text(text):
     pygame.mixer.music.unload()
     os.remove("response.mp3")
 
+#envoi de réponse sur le port com série
+def send_command(command):
+    ser.write((command + '\n').encode())
+    time.sleep(1)
+
+    response = ser.read_all().decode(errors='ignore').strip()
+    print("Hardware:", response)
+    return response
 
 # Fonction main
 def main():
@@ -99,11 +108,13 @@ def main():
             else:
                 actions = "aucune action à effectuer"
         
-            final_response = f"Expérimentation numéro: {sauvegarde}, {actions}, {message}"
-            
-            print("Hexa: \033[36m"+ final_response+"\033[0m")
+            final_response = f"Expérimentation numéro: {sauvegarde}, {message}"
+
+            for command in content["actions"]:
+                send_command(command)
             speak_text(final_response)
             
+            print("Hexa: \033[36m"+ final_response+"\033[0m")
             
         elif speech_recognition_result["error"]:
             print("ERREUR: {}".format(speech_recognition_result["error"]))

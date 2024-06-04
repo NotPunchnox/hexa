@@ -11,6 +11,8 @@
 #include "src/animations/InverseKinematic/rouli/turnZ.h"
 #include "src/animations/default/default.h"
 
+#include "src/AI/MoveLogic.h"
+
 void performAnimations() {
     Up(4);
     TurnZ("horaire", 1.5, 1);
@@ -30,12 +32,22 @@ void setup() {
   Serial.begin(115200);
   Init();
 
-  performAnimations();
+  Up(4);
+
+  //performAnimations();
 }
 
 void loop() {
 
-  //WalkLeft(4);
+  if (Serial.available() > 0) {
+    String command = Serial.readStringUntil('\n');
+
+    String response = "Commands: " + command;
+    Serial.println(response);
+
+    IA_Movements(response);
+    
+  }
 
   if (isWalking) {
     unsigned long currentMillis = millis();

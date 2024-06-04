@@ -1,32 +1,21 @@
-from google.cloud import texttospeech
+import serial
+import time
 
-# Instantiates a client
-client = texttospeech.TextToSpeechClient()
+# Configurez le port série
+ser = serial.Serial('COM11', 115200)
 
-# Set the text input to be synthesized
-synthesis_input = texttospeech.SynthesisInput(text="Bonjour le monde!")
-voices = client.list_voices()
-print(voices)
+def send_command(command):
+    ser.write((command + '\n').encode())
+    time.sleep(1)
 
-# Build the voice request, select the language code ("en-US") and the ssml
-# voice gender ("neutral")
-voice = texttospeech.VoiceSelectionParams(
-    language_code="fr-FR", ssml_gender=texttospeech.SsmlVoiceGender.NEUTRAL, name="fr-FR-Wavenet-B",
-)
+    response = ser.read_all().decode(errors='ignore').strip()
+    return response
 
-# Select the type of audio file you want returned
-audio_config = texttospeech.AudioConfig(
-    audio_encoding=texttospeech.AudioEncoding.MP3
-)
+if __name__ == "__main__":
+    while True:
+        #command = input("Entrez une commande pour l'ESP8266: ")
+        actions = ["ChangeTop_2_3", "ChangeTop_2.5_-3"]
+        for command in actions:
+            response = send_command(command)
 
-# Perform the text-to-speech request on the text input with the selected
-# voice parameters and audio file type
-response = client.synthesize_speech(
-    input=synthesis_input, voice=voice, audio_config=audio_config
-)
-
-# The response's audio_content is binary.
-with open("output.mp3", "wb") as out:
-    # Write the response to the output file.
-    out.write(response.audio_content)
-    print('Audio content written to file "output.mp3"')
+        print("Hardware:", response)

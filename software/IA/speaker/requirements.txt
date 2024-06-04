@@ -1,4 +1,4 @@
 SpeechRecognition
-gtts
 requests
 pygame
+pyserial

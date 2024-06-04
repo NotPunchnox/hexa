@@ -13,5 +13,6 @@
   "scripts": {
     "start": "node .",
     "dev": "nodemon ."
-  }
+  },
+  "ignore": ["./src/Modal.json"]
 }
