@@ -3,8 +3,8 @@ const {
     HarmCategory,
     HarmBlockThreshold,
 } = require("@google/generative-ai");
-const {history} = require('./Modal.json')
-
+const { history } = require('./Modal.json');
+const fs = require('fs');
 require('dotenv').config();
 
 const apiKey = process.env.API_KEY;
@@ -22,7 +22,8 @@ const generationConfig = {
     responseMimeType: "application/json",
 };
 
-const safetySettings = [{
+const safetySettings = [
+    {
         category: HarmCategory.HARM_CATEGORY_HARASSMENT,
         threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
     },
@@ -40,6 +41,23 @@ const safetySettings = [{
     },
 ];
 
+function Train(text, result) {
+    const newEntry = [
+        {
+            role: "user",
+            parts: [{ text: text }],
+        },
+        {
+            role: "model",
+            parts: [{ text: result }],
+        },
+    ];
+
+    history.push(...newEntry);
+    console.log('Données sauvegardées');
+    fs.writeFileSync(__dirname + '/Modal.json', JSON.stringify({ history }, null, 2));
+}
+
 async function run(text) {
     const chatSession = model.startChat({
         generationConfig,
@@ -48,21 +66,7 @@ async function run(text) {
     });
 
     const result = await chatSession.sendMessage(text);
-    var Modal = require('./Modal.json')
-    Modal.history.push({
-        role: "user",
-        parts: [{
-            text: text
-        }]
-    })
-    Modal.history.push({
-        role: "model",
-        parts: [{
-            text: result.response.text()
-        }]
-    })
-    require('fs').writeFileSync(__dirname + '\\Modal.json', JSON.stringify(Modal))
-    return result.response.text()
+    return { result, text };
 }
 
-module.exports = run
+module.exports = { run, Train };

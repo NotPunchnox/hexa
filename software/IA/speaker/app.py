@@ -1,15 +1,13 @@
 import speech_recognition as sr
 from google.cloud import texttospeech
-import requests
-import pygame
-import json
-import time
-import os
-import serial
+from os import environ
+import requests, pygame, json, time, os, serial
 
+ser = ""
 pygame.mixer.init()
+environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
+
 client = texttospeech.TextToSpeechClient()
-ser = serial.Serial('COM11', 115200)
 
 def recognize_speech_from_mic(recognizer, microphone):
     with microphone as source:
@@ -80,18 +78,32 @@ def send_command(command):
 
 # Fonction main
 def main():
+    os.system('cls')
+
+    Mode = input("Voice or chat ? \nRépondez par [voice\chat]: ")
+    Dev = input("\nMode Développeur [Y\\N]:")
+
+    if Dev == "N":
+        ser = serial.Serial('COM11', 115200)
 
     while True:
-    
-        recognizer = sr.Recognizer()
-        microphone = sr.Microphone()
 
-        print("\033[43mParlez maintenant!\033[0m")
-        speech_recognition_result = recognize_speech_from_mic(recognizer, microphone)
+        if Mode == "voice":
+            recognizer = sr.Recognizer()
+            microphone = sr.Microphone()
 
-        if speech_recognition_result["transcription"]:
-            print("Vous avez dit: {}\033[32m".format(speech_recognition_result["transcription"])+"\033[0m")
-            api_response = send_request_to_api(speech_recognition_result["transcription"])
+            print("\033[43mParlez maintenant!\033[0m")
+
+            speech_recognition_result = recognize_speech_from_mic(recognizer, microphone)
+            text = speech_recognition_result["transcription"]
+
+            print("Vous avez dit: {}\033[32m".format(text)+"\033[0m")
+
+        elif Mode == "chat":
+            text = input("Vous: ")
+
+        if text:
+            api_response = send_request_to_api(text)
             
             # Extraire les informations nécessaires de la réponse de l'API
             try:
@@ -110,11 +122,13 @@ def main():
         
             final_response = f"Expérimentation numéro: {sauvegarde}, {message}"
 
-            for command in content["actions"]:
-                send_command(command)
+            if Dev == "N":
+                for command in content["actions"]:
+                    send_command(command)
             speak_text(final_response)
             
             print("Hexa: \033[36m"+ final_response+"\033[0m")
+            print("Hexa: \033[36m"+ actions +"\033[0m")
             
         elif speech_recognition_result["error"]:
             print("ERREUR: {}".format(speech_recognition_result["error"]))
