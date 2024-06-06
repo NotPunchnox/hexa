@@ -1,54 +1,41 @@
-#include "../../../functions/Algo.h"
 #include "../../../config/config.h"
 #include "../../../config/Angles.h"
 #include "../../../functions/servo.h"
+#include "../rouli/rouli.h"
 
-// Fonction principale pour ajuster la hauteur des pattes en fonction des mouvements
-void Turn(float speed, String side, int cycles) {
-
+// Fonction principale pour marcher vers la gauche
+void Turn(String sens, float speed, int cycles){
+    float R = 2.5;
     float SPEED = 200 * speed;
     int numLegs = 6;
+    int numPoses = 4;
 
-    // Matrice de positions de base pour chaque patte
-    float RouliMatrix[numLegs][3] = {
-        {PX, PZ, PY}, // LFL
-        {PX, PZ, PY}, // LML
-        {PX, PZ, PY}, // LBL
-        {PX, PZ, PY}, // RFL
-        {PX, PZ, PY}, // RML
-        {PX, PZ, PY}  // RBL
+    // Matrices de positions pour chaque patte
+    float TurnMatrice[numLegs][numPoses][3] = {
+        // {x, z, y} pour chaque patte {LFL, LML, LBL, LFR, LMR, LBR}
+        {{PX, PZ, PY}, {PX - (2*R), PZ-3, PY}, {PX - (2*R), PZ, PY}, {PX, PZ, PY}},
+
+        {{PX, PZ, PY}, {PX, PZ, PY}, {PX, PZ, PY}, {PX, PZ, PY}},
+
+        {{PX, PZ, PY}, {PX - (2*R), PZ-3, PY + (2*R)}, {PX - (2*R), PZ, PY}, {PX, PZ, PY}},
+
+
+        {{PX, PZ, PY}, {PX, PZ, PY}, {PX, PZ, PY}, {PX, PZ, PY}},
+
+        {{PX, PZ, PY}, {PX , PZ-3, PY-(2*R)}, {PX - (2*R), PZ, PY}, {PX, PZ, PY}},
+
+        {{PX, PZ, PY}, {PX, PZ, PY}, {PX, PZ, PY}, {PX, PZ, PY}},
     };
 
-    // Appliquer les transformations uniquement sur l'axe Z
-    for (int leg = 0; leg < numLegs; ++leg) {
-        /*
-        LOGIQUE:
-        Patte 0 % 3 = 0
-        Patte 1 % 3 = 1
-        Patte 2 % 3 = 2
-        Patte 3 % 3 = 0
-        Patte 4 % 3 = 1
-        Patte 5 % 3 = 2
-        */
-         if(side == "Left" ||side == "left") {
-            //tourner vers la gauche
-            //RouliMatrix[leg][1];
-        } else if(side =="Right" || side == "right") {
-            //tourner vers la droite
-        } else {
-            Serial.println("Side no found!");
+    for (int poseIndex = 0; poseIndex < numPoses; ++poseIndex) {
+        int legIndices[] = {0, 1, 2, 3, 4, 5};
+        float targetX[numLegs], targetZ[numLegs], targetY[numLegs];
+
+        for (int i = 0; i < numLegs; ++i) {
+            targetX[i] = TurnMatrice[i][poseIndex][0];
+            targetZ[i] = TurnMatrice[i][poseIndex][1];
+            targetY[i] = TurnMatrice[i][poseIndex][2];
         }
+        moveLegsMatrices(legIndices, targetX, targetZ, targetY, numLegs, SPEED)
     }
-
-    int legIndices[] = {0, 1, 2, 3, 4, 5};
-
-    float targetX[numLegs], targetZ[numLegs], targetY[numLegs];
-
-    for (int leg = 0; leg < numLegs; ++leg) {
-        targetX[leg] = RouliMatrix[leg][0];
-        targetZ[leg] = RouliMatrix[leg][1];
-        targetY[leg] = RouliMatrix[leg][2];
-    }
-
-    moveLegsMatrices(legIndices, targetX, targetZ, targetY, numLegs, SPEED);
 }

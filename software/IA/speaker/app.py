@@ -3,11 +3,13 @@ from google.cloud import texttospeech
 from os import environ
 import requests, pygame, json, time, os, serial
 
-ser = ""
 pygame.mixer.init()
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 
 client = texttospeech.TextToSpeechClient()
+#ser = serial.Serial('COM11', 115200)
+ser = ""
+
 
 def recognize_speech_from_mic(recognizer, microphone):
     with microphone as source:
@@ -67,8 +69,11 @@ def speak_text(text):
     pygame.mixer.music.unload()
     os.remove("response.mp3")
 
+
+
 #envoi de réponse sur le port com série
 def send_command(command):
+    
     ser.write((command + '\n').encode())
     time.sleep(1)
 
@@ -82,9 +87,6 @@ def main():
 
     Mode = input("Voice or chat ? \nRépondez par [voice\chat]: ")
     Dev = input("\nMode Développeur [Y\\N]:")
-
-    if Dev == "N":
-        ser = serial.Serial('COM11', 115200)
 
     while True:
 
