@@ -7,16 +7,16 @@ pygame.mixer.init()
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 
 client = texttospeech.TextToSpeechClient()
-#ser = serial.Serial('COM11', 115200)
-ser = ""
+ser = serial.Serial('COM11', 115200)
+#ser = ""
 
 
 def recognize_speech_from_mic(recognizer, microphone):
     with microphone as source:
         print("\033[43mAjustement pour le bruit ambiant...\033[0m")
-        recognizer.adjust_for_ambient_noise(source)
+        recognizer.adjust_for_ambient_noise(source, duration=1)
         print("\033[32mÉcoute...\033[0m")
-        audio = recognizer.listen(source)
+        audio = recognizer.listen(source, timeout=5, phrase_time_limit=10)
     
     response = {
         "success": True,

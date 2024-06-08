@@ -11,6 +11,8 @@
 #include "src/animations/InverseKinematic/rouli/turnZ.h"
 #include "src/animations/default/default.h"
 
+#include "src/animations/InverseKinematic/turn/turn.h"
+
 #include "src/AI/MoveLogic.h"
 
 void performAnimations() {
@@ -33,7 +35,6 @@ void setup() {
   Init();
 
   Up(4);
-
   //performAnimations();
 }
 

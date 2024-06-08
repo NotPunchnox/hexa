@@ -62,5 +62,29 @@ void IA_Movements(String response) {
         for (int i = 0; i < cycles; ++i) {
             Walk(speed);
         }
+    } else if(response.indexOf("Turn_") != -1) {
+        String parts[4];
+        splitString(response, '_', parts, 4);
+
+        if (parts[1].length() > 0 && parts[2].length() > 0 && parts[3].length() > 0) {
+            String side = parts[1];
+            float speed = parts[2].toFloat();
+            int cycles = parts[3].toInt();
+
+            Turn(side, speed, cycles);
+        } else {
+            Serial.println("Erreur : Format de commande incorrect.");
+        }
+    } else if (response.indexOf("Rouli_") != -1) {
+        String parts[6]; // Assurez-vous d'avoir suffisamment de parties
+        splitString(response, '_', parts, 6); // Diviser en 6 parties
+
+        float speed = parts[1].toFloat();
+        float top = parts[2].toFloat();
+        float bottom = parts[3].toFloat();
+        float left = parts[4].toFloat();
+        float right = parts[5].toFloat();
+
+        Rouli(speed, top, bottom, left, right);
     }
 }
