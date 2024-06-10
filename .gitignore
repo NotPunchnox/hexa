@@ -7,3 +7,4 @@ software/IA/API/.env
 software/IA/API/node_modules
 software/IA/API/package-lock.json
 software/IA/API/src/Modal.json
+software/IA/vision/node_modules

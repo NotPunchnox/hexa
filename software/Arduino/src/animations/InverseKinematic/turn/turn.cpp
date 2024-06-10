@@ -5,7 +5,7 @@
 
 // Fonction principale pour tourner
 void Turn(String sens, float speed, int cycles) {
-    float R = 2.5; // Rayon de la marche
+    float R = 3; // Rayon de la marche
     float SPEED = 200 * speed;
     int numLegs = 6;
     int numSteps = 5; // Nombre de pas par séquence
