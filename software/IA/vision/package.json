@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "@google-cloud/vision": "^4.3.0",
-    "@tensorflow-models/coco-ssd": "^2.2.3",
-    "@tensorflow/tfjs-node": "^4.20.0"
-  }
-}

@@ -7,14 +7,14 @@ import threading
 url = "http://192.168.1.52:8000/stream.mjpg"
 
 # Charger le modèle de détection d'objets pré-entraîné
-net = cv2.dnn.readNet("yolov3.weights", "yolov3.cfg")
+net = cv2.dnn.readNet("./model/yolov3.weights", "./model/yolov3.cfg")
 
-# Utiliser CUDA si disponible
+
 net.setPreferableBackend(cv2.dnn.DNN_BACKEND_CUDA)
 net.setPreferableTarget(cv2.dnn.DNN_TARGET_CUDA)
 
 classes = []
-with open("coco.names", "r") as f:
+with open("./model/coco.names", "r") as f:
     classes = [line.strip() for line in f.readlines()]
 
 layer_names = net.getLayerNames()
@@ -23,12 +23,12 @@ output_layers = [layer_names[i - 1] for i in unconnected_layers]
 
 frame = None
 lock = threading.Lock()
+streaming = True
 
-# Fonction pour détecter les objets dans une image
+
 def detect_objects(image):
     height, width, _ = image.shape
-    resized_image = cv2.resize(image, (224, 224))  # Réduire la taille de l'image à 224x224
-    blob = cv2.dnn.blobFromImage(resized_image, 0.00392, (224, 224), (0, 0, 0), True, crop=False)
+    blob = cv2.dnn.blobFromImage(image, 0.00392, (320, 320), (0, 0, 0), True, crop=False)
     net.setInput(blob)
     outs = net.forward(output_layers)
     class_ids = []
@@ -63,33 +63,32 @@ def detect_objects(image):
             label = str(classes[class_ids[i]])
             color = colors[class_ids[i]]
             cv2.rectangle(image, (x, y), (x + w, y + h), color, 2)
-            cv2.putText(image, label, (x, y - 10), font, 1, color, 2)  # Réduire la taille et l'épaisseur de la police
+            cv2.putText(image, label, (x, y - 10), font, 1, color, 2)
 
     return image
 
-# Fonction pour lire le flux vidéo à partir de l'URL
+
 def read_video_stream(url):
-    global frame, lock
+    global frame, lock, streaming
     cap = cv2.VideoCapture(url)
     if not cap.isOpened():
         print("Error: Could not open video stream")
         return
 
-    while cap.isOpened():
-        ret, frame = cap.read()
+    while streaming:
+        ret, new_frame = cap.read()
         if not ret:
             print("Failed to grab frame")
             break
 
         with lock:
-            frame_copy = frame.copy()
-        time.sleep(0.01)
+            frame = new_frame
 
     cap.release()
 
-# Fonction pour traiter et afficher les frames
+
 def process_frames():
-    global frame, lock
+    global frame, lock, streaming
     while True:
         start_time = time.time()
         with lock:
@@ -104,12 +103,13 @@ def process_frames():
         fps = 1 / (end_time - start_time)
         print(f"FPS: {fps:.2f}")
 
-        if cv2.waitKey(1) & 0xFF == ord('q'):
+        if cv2.waitKey(25) & 0xFF == ord('q'):
+            streaming = False
             break
 
     cv2.destroyAllWindows()
 
-# Démarrer les threads pour la capture vidéo et le traitement
+
 t1 = threading.Thread(target=read_video_stream, args=(url,))
 t2 = threading.Thread(target=process_frames)
 

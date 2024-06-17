@@ -7,8 +7,8 @@ pygame.mixer.init()
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 
 client = texttospeech.TextToSpeechClient()
-ser = serial.Serial('COM11', 115200)
-#ser = ""
+#ser = serial.Serial('COM11', 115200)
+ser = ""
 
 
 def recognize_speech_from_mic(recognizer, microphone):
