@@ -2,7 +2,7 @@ import yolov5
 import cv2
 import numpy as np
 
-model = yolov5.load('./model/yolov5n.pt')
+model = yolov5.load('../model/yolov5n6.pt')
 
 # Paramètres du modèle
 model.conf = 0.25  # niveau de "confiance" NMS
@@ -11,9 +11,10 @@ model.agnostic = False  # NMS indépendant de la classe
 model.multi_label = False  # une seule étiquette par box
 model.max_det = 10  # Max de détections par images
 
+last_detection = []
 
 classes = []
-with open('./model/coco.names', 'r') as f:
+with open('../model/coco.names', 'r') as f:
     classes = [line.strip() for line in f.readlines()]
 
 
@@ -24,6 +25,8 @@ def detect_and_display(frame):
     scores = predictions[:, 4]
     categories = predictions[:, 5]
 
+    objects_detected = []    
+
     for box, score, category in zip(boxes, scores, categories):
         x1, y1, x2, y2 = box.int().tolist()
         label = f"{classes[int(category)]} {score:.2f}"
@@ -31,7 +34,12 @@ def detect_and_display(frame):
         cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
         cv2.putText(frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
-        print(f"Detected: {classes[int(category)]} with confidence {score:.2f} at [{x1}, {y1}, {x2}, {y2}]")
+        name = classes[int(category)]
+        objects_detected.append(name)
+        
+    if last_detection != objects_detected:
+        print(f"Detected: {objects_detected}")
+        #print(f"Detected: {name} with confidence {score:.2f} at [{x1}, {y1}, {x2}, {y2}]")
 
     rendered_frame = np.squeeze(results.render())
     return rendered_frame

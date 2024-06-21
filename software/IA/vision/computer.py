@@ -1,95 +1,78 @@
-import yolov5
 import cv2
-import numpy as np
-import threading
 import time
+import yolov5
+import numpy as np
 
-# Load YOLOv5 model
+# Charger le modèle YOLOv5n
 model = yolov5.load('./model/yolov5n.pt')
 
-# Model parameters
-model.conf = 0.25  # NMS confidence threshold
-model.iou = 0.45  # NMS IoU threshold
-model.agnostic = False  # Class-agnostic NMS
-model.multi_label = False  # One label per box
-model.max_det = 10  # Max detections per image
+# Paramètres du modèle
+model.conf = 0.25  # Seuil de confiance pour NMS
+model.iou = 0.45  # Seuil IoU pour NMS
+model.agnostic = False  # NMS indépendant de la classe
+model.multi_label = False  # Une seule étiquette par boîte
+model.max_det = 10  # Nombre maximum de détections par image
 
-# Load class names
-classes = []
+# Charger les noms des classes
 with open('./model/coco.names', 'r') as f:
     classes = [line.strip() for line in f.readlines()]
 
-frame = None
-lock = threading.Lock()
-streaming = True
+# Délai minimum entre chaque traitement d'image par l'IA
+process_delay = 0.5  # 2 images par seconde
 
-def detect_and_display(image):
-    results = model(image)
+last_process_time = time.time()
+
+def detect_objects(frame):
+    global last_process_time
+
+    # Vérifier si suffisamment de temps s'est écoulé depuis le dernier traitement
+    current_time = time.time()
+    if current_time - last_process_time < process_delay:
+        return frame
+
+    # Mettre à jour le dernier temps de traitement
+    last_process_time = current_time
+
+    # Détecter et afficher les objets
+    results = model(frame)
     predictions = results.pred[0]
-    boxes = predictions[:, :4]  # x1, y1, x2, y2
-    scores = predictions[:, 4]
-    categories = predictions[:, 5]
 
-    for box, score, category in zip(boxes, scores, categories):
-        x1, y1, x2, y2 = box.int().tolist()
-        label = f"{classes[int(category)]} {score:.2f}"
+    for pred in predictions:
+        x1, y1, x2, y2 = pred[:4].int().tolist()  # Récupérer et convertir les coordonnées en entiers
+        score = float(pred[4])
+        category = int(pred[5])
+
+        label = f"{classes[category]} {score:.2f}"
         color = (0, 255, 0)
-        cv2.rectangle(image, (x1, y1), (x2, y2), color, 2)
-        cv2.putText(image, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+        cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
+        cv2.putText(frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+        print(f"Detected: {classes[category]} with confidence {score:.2f} at [{x1}, {y1}, {x2}, {y2}]")
 
-    rendered_frame = np.squeeze(results.render())
-    return rendered_frame
+    return frame
+
 
 def read_video_stream(url):
-    global frame, lock, streaming
     cap = cv2.VideoCapture(url)
     if not cap.isOpened():
         print("Error: Could not open video stream")
         return
 
-    while streaming:
-        ret, new_frame = cap.read()
+    while True:
+        ret, frame = cap.read()
         if not ret:
             print("Failed to grab frame")
             break
 
-        with lock:
-            frame = new_frame
-
-    cap.release()
-
-def process_frames():
-    global frame, lock, streaming
-    while True:
-        start_time = time.time()
-        with lock:
-            if frame is None:
-                continue
-            frame_copy = frame.copy()
-
-        frame_copy = detect_and_display(frame_copy)
-        cv2.imshow("Object Detection", frame_copy)
-
-        end_time = time.time()
-        fps = 1 / (end_time - start_time)
-        print(f"FPS: {fps:.2f}")
+        frame = detect_objects(frame)
+        cv2.imshow("Video Stream", frame)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
-            streaming = False
             break
 
+    cap.release()
     cv2.destroyAllWindows()
 
 if __name__ == "__main__":
-    # URL of the video stream
+    # URL du flux vidéo
     url = "http://192.168.1.52:8000/stream.mjpg"
-
-    # Start threads for reading and processing video stream
-    t1 = threading.Thread(target=read_video_stream, args=(url,))
-    t2 = threading.Thread(target=process_frames)
-
-    t1.start()
-    t2.start()
-
-    t1.join()
-    t2.join()
+    read_video_stream(url)
