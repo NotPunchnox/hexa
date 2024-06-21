@@ -1,7 +1,7 @@
 import speech_recognition as sr
 from google.cloud import texttospeech
 from os import environ
-import requests, pygame, json, time, os, serial
+import requests, pygame, json, time, os#, serial
 
 pygame.mixer.init()
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'

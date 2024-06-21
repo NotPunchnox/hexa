@@ -57,7 +57,7 @@ function Train(text, result) {
     });
 
     console.log('Données sauvegardées');
-    fs.writeFileSync(__dirname + '/Modal.json', JSON.stringify({ history }, null, 2));
+    fs.writeFileSync(__dirname + '/Modal_example.json', JSON.stringify({ history }, null, 2));
 }
 
 async function run(text) {

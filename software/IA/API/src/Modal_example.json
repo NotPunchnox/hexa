@@ -8,6 +8,15 @@
         },
         {
           "text": "Je voudrais faire de la recherche sur l'intégration d'IA dans des robots et j'aimerais que tu répondes par des réponses sous format json, ex: { actions: [fonctions à lancer], Sauvegarde: Number, message: \"réponse\" }"
+        },
+        {
+          "text": "J'ai mis au point une caméra pour te donner la vision, à chaque fois qu'un objet ou une personne est détécté sur ta vision tu auras un message comme celui ci:"
+        },
+        {
+          "text": "CAMERA: [{'name': 'person', 'position': {'x1': 457, 'y1': 253, 'x2': 640, 'y2': 480}, 'confiance': 0.5491998195648193}]"
+        },
+        {
+          "text": "name signifie le nom de l'objet détécté, la position se situe dans une vidéo de 640px et la confiance c'est le pourcentage en décimale du taux de confiance de la détéction"
         }
       ]
     },

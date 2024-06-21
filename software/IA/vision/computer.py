@@ -1,10 +1,9 @@
 import cv2
 import time
 import yolov5
-import numpy as np
+import requests
 
-# Charger le modèle YOLOv5n
-model = yolov5.load('./model/yolov5n.pt')
+model = yolov5.load('./model/yolov5n6.pt')
 
 # Paramètres du modèle
 model.conf = 0.25  # Seuil de confiance pour NMS
@@ -13,42 +12,63 @@ model.agnostic = False  # NMS indépendant de la classe
 model.multi_label = False  # Une seule étiquette par boîte
 model.max_det = 10  # Nombre maximum de détections par image
 
+last_detection_names = set()
+
 # Charger les noms des classes
 with open('./model/coco.names', 'r') as f:
     classes = [line.strip() for line in f.readlines()]
 
 # Délai minimum entre chaque traitement d'image par l'IA
-process_delay = 0.5  # 2 images par seconde
+process_delay = 0.5
 
 last_process_time = time.time()
 
 def detect_objects(frame):
-    global last_process_time
-
-    # Vérifier si suffisamment de temps s'est écoulé depuis le dernier traitement
+    global last_process_time, last_detection_names
     current_time = time.time()
     if current_time - last_process_time < process_delay:
         return frame
-
-    # Mettre à jour le dernier temps de traitement
     last_process_time = current_time
 
-    # Détecter et afficher les objets
     results = model(frame)
     predictions = results.pred[0]
+    boxes = predictions[:, :4]  # x1, y1, x2, y2
+    scores = predictions[:, 4]
+    categories = predictions[:, 5]
 
-    for pred in predictions:
-        x1, y1, x2, y2 = pred[:4].int().tolist()  # Récupérer et convertir les coordonnées en entiers
-        score = float(pred[4])
-        category = int(pred[5])
+    objects_detected = []
 
-        label = f"{classes[category]} {score:.2f}"
-        color = (0, 255, 0)
-        cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
-        cv2.putText(frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
-        print(f"Detected: {classes[category]} with confidence {score:.2f} at [{x1}, {y1}, {x2}, {y2}]")
+    for box, score, category in zip(boxes, scores, categories):
+        if score > 0.5:
+            x1, y1, x2, y2 = box.int().tolist()
+            label = f"{classes[int(category)]} {score:.2f}"
+            color = (0, 255, 0)
+            cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
+            cv2.putText(frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
-    return frame
+            name = classes[int(category)]
+            object_detected = {
+                "name": name,
+                "position": {"x1": x1, "y1": y1, "x2": x2, "y2": y2},
+                "confiance": float(score)
+            }
+            objects_detected.append(object_detected)
+
+    current_detection_names = {obj["name"] for obj in objects_detected}
+
+    if current_detection_names != last_detection_names:
+        print(f"Detected: {objects_detected}")
+        last_detection_names = current_detection_names
+
+        url = "http://localhost:3000/api/vision"
+        payload = {"array": objects_detected}
+        headers = {
+            "Content-Type": "application/json",
+            "User-Agent": "insomnia/2023.5.8"
+        }
+
+        response = requests.get(url, json=payload, headers=headers)
+        print(response.text)
 
 
 def read_video_stream(url):
@@ -63,8 +83,8 @@ def read_video_stream(url):
             print("Failed to grab frame")
             break
 
-        frame = detect_objects(frame)
-        cv2.imshow("Video Stream", frame)
+        detect_objects(frame)
+        cv2.imshow("Object Detection", frame)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
