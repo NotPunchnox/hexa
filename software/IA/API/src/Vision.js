@@ -24,5 +24,5 @@ module.exports = (array) => {
     const history = Modal.history
 
     console.log(Modal.history)
-    fs.writeFileSync(__dirname + '/Modal_example.json', JSON.stringify({ history }, null, 2));
+    fs.writeFileSync(__dirname + '/Modal.json', JSON.stringify({ history }, null, 2));
 }

@@ -39,12 +39,12 @@ def detect_objects(frame):
     objects_detected = []
 
     for box, score, category in zip(boxes, scores, categories):
-        if score > 0.5:
+        if score > 0.3:
             x1, y1, x2, y2 = box.int().tolist()
-            label = f"{classes[int(category)]} {score:.2f}"
-            color = (0, 255, 0)
-            cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
-            cv2.putText(frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+            # label = f"{classes[int(category)]} {score:.2f}"
+            # color = (0, 255, 0)
+            # cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
+            # cv2.putText(frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
             name = classes[int(category)]
             object_detected = {
