@@ -1,14 +1,14 @@
 import speech_recognition as sr
 from google.cloud import texttospeech
 from os import environ
-import requests, pygame, json, time, os#, serial
+import requests, pygame, json, time, os, serial
 
 pygame.mixer.init()
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 
 client = texttospeech.TextToSpeechClient()
-#ser = serial.Serial('COM11', 115200)
-ser = ""
+ser = serial.Serial('COM11', 115200)
+#ser = ""
 
 
 def recognize_speech_from_mic(recognizer, microphone):

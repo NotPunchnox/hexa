@@ -10,7 +10,7 @@ model.conf = 0.25  # Seuil de confiance pour NMS
 model.iou = 0.45  # Seuil IoU pour NMS
 model.agnostic = False  # NMS indépendant de la classe
 model.multi_label = False  # Une seule étiquette par boîte
-model.max_det = 10  # Nombre maximum de détections par image
+model.max_det = 3  # Nombre maximum de détections par image
 
 last_detection_names = set()
 
@@ -19,7 +19,7 @@ with open('./model/coco.names', 'r') as f:
     classes = [line.strip() for line in f.readlines()]
 
 # Délai minimum entre chaque traitement d'image par l'IA
-process_delay = 0.5
+process_delay = 0.7
 
 last_process_time = time.time()
 
@@ -39,7 +39,7 @@ def detect_objects(frame):
     objects_detected = []
 
     for box, score, category in zip(boxes, scores, categories):
-        if score > 0.3:
+        if score > 0.4:
             x1, y1, x2, y2 = box.int().tolist()
             # label = f"{classes[int(category)]} {score:.2f}"
             # color = (0, 255, 0)
@@ -84,13 +84,13 @@ def read_video_stream(url):
             break
 
         detect_objects(frame)
-        cv2.imshow("Object Detection", frame)
+        #cv2.imshow("Object Detection", frame)
 
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
+        #if cv2.waitKey(1) & 0xFF == ord('q'):
+        #    break
 
     cap.release()
-    cv2.destroyAllWindows()
+    #cv2.destroyAllWindows()
 
 if __name__ == "__main__":
     # URL du flux vidéo

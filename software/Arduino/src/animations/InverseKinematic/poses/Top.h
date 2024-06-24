@@ -6,5 +6,8 @@
 #include "../../../functions/servo.h"
 
 void ChangeTop(float speed, float Top);
+void ChangeY(float speed, float Y);
+void ChangeX(float speed, float X);
+void ChangeXY(float speed, float X, float Y);
 
 #endif
