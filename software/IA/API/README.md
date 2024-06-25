@@ -6,3 +6,7 @@
 
 
 Cette api vous permettra d'acceder à un model par défaut de Hexa ( un exemple de sûr model est à disposition car je garde mon model privé désolé )
+
+
+[En cours de développement]
+Lancement de l'application: `node server Hexa-neural` or `node server Gemini`
