@@ -1,7 +1,7 @@
 const {
     GoogleGenerativeAI,
     HarmCategory,
-    HarmBlockThreshold,
+    HarmBlockThreshold
 } = require("@google/generative-ai");
 const fs = require('fs');
 const {
@@ -11,6 +11,8 @@ require('dotenv').config();
 
 const apiKey = process.env.API_KEY;
 const genAI = new GoogleGenerativeAI(apiKey);
+
+console.log(genAI.getGenerativeModel)
 
 const model = genAI.getGenerativeModel({
     model: "gemini-1.5-flash",
@@ -66,7 +68,6 @@ async function run(text) {
         safetySettings,
         history: history,
     });
-
     const result = await chatSession.sendMessage(text);
     return {
         result,
