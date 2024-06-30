@@ -36,7 +36,7 @@ def recognize_speech_from_mic(recognizer, microphone):
 
 # Fonction pour envoyer le texte à l'API et obtenir la réponse
 def send_request_to_api(content):
-    url = "http://localhost:3000/api/question"
+    url = "http://localhost:8000/api/question"
     data = {"content": content}
     headers = {"Content-Type": "application/json"}
 

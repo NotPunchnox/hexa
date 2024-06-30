@@ -60,7 +60,7 @@ def detect_objects(frame):
         print(f"Detected: {objects_detected}")
         last_detection_names = current_detection_names
 
-        url = "http://localhost:3000/api/vision"
+        url = "http://localhost:8000/api/vision"
         payload = {"array": objects_detected}
         headers = {
             "Content-Type": "application/json",
