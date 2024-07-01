@@ -13,3 +13,4 @@ software/IA/LLAMA_API/models/modal.json
 software/IA/Ollama tests/models/modal.json
 software/IA/Ollama tests/models/chatHistory.json
 software/IA/Ollama tests/Modelfile
+software/IA/Ollama tests/models/model-format.json
