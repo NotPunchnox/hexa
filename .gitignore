@@ -14,3 +14,5 @@ software/IA/Ollama tests/models/modal.json
 software/IA/Ollama tests/models/chatHistory.json
 software/IA/Ollama tests/Modelfile
 software/IA/Ollama tests/models/model-format.json
+software/IA/Ollama tests/package-lock.json
+software/IA/Ollama tests/node_modules
