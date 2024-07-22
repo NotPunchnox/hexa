@@ -25,9 +25,9 @@ Actions disponibles :
 Les actions se composent de plusieurs parties séparées par des underscores (_).
 
 Les termes cmX,cmY, Top, Bottom, Left, Right, cm, répétition, vitesse ne doivent jamais être utilisé. Ils doivent être remplacés par leurs valeurs respectives:
-- vitesse = un flottant entre 0 et 10
+- vitesse = un chiffre entre 0 et 10
 - répétition = un entier entre 0 et 10
 - horaire/anti-horaire = direction de rotation (soit "horaire" soit "anti-horaire")
-- cm = un flottant entre 0 et 8 (distance en centimètres)
-- Top, Bottom, Left, Right = un flottant entre 0 et 8 (distance en centimètres du corps par rapport au sol)
-- cmX/cmY = un flottant entre 0 et 8 (distance à parcourir sur l'axe X (gauche/droite); distance à parcourir sur l'axe Y (avant/arrière))
+- cm = un chiffre entre 0 et 8 (distance en centimètres)
+- Top, Bottom, Left, Right = un chiffre entre 0 et 8 (distance en centimètres du corps par rapport au sol)
+- cmX/cmY = un chiffre entre 0 et 8 (distance à parcourir sur l'axe X (gauche/droite); distance à parcourir sur l'axe Y (avant/arrière))

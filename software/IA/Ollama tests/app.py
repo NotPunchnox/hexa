@@ -40,7 +40,7 @@ def send_request_to_api(content):
     data = {"content": content}
     headers = {"Content-Type": "application/json"}
 
-    response = requests.post(url, data=json.dumps(data), headers=headers)
+    response = requests.get(url, data=json.dumps(data), headers=headers)
     return response.json()
 
 # Fonction pour convertir le texte en parole et jouer le son
@@ -113,6 +113,7 @@ def main():
             except:
                 content = api_response["content"]
 
+            sauvegarde = content["Sauvegarde"]
             actions = content["actions"]
             message = content["message"]
 
@@ -121,7 +122,7 @@ def main():
             else:
                 actions = "aucune action à effectuer"
         
-            final_response = f"{message}"
+            final_response = f"Expérimentation numéro: {sauvegarde}, {message}"
 
             if Dev == "N":
                 for command in content["actions"]:

@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@langchain/community": "^0.2.16",
     "axios": "^1.7.2",
     "cosine-similarity": "^1.0.1",
     "prompt-sync": "^4.2.0",
