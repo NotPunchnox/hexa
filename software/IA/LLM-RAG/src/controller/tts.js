@@ -19,7 +19,10 @@ export default async(text) => {
   const [response] = await client.synthesizeSpeech(request);
   const writeFile = util.promisify(fs.writeFile);
 
-  await writeFile(path.resolve('./src/audio/output.mp3'), response.audioContent, 'binary');
-  console.log('Audio content written to file: ', path.resolve('./src/audio/output.mp3'));
-  await playAudioFile('./src/audio/output.mp3');
+  let p = path.resolve('./src/audio/speech.mp3')
+
+  await writeFile(p, response.audioContent, 'binary');
+  await playAudioFile(p);
+  setTimeout(() => fs.rmSync(p), 500)
+  
 }

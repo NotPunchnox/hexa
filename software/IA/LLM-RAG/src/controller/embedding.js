@@ -13,7 +13,7 @@ const search = async (prompt, l=3) => {
   try {
     let resultGlobal = []
 
-    if (/rag|hexapod|ia|ai|retrieval|augmented|generation|gpt|llm|paradisier/i.test(prompt)) {
+    if (/rag|hexapod|ia|ai|retrieval|augmented|generation|gpt|llm|paradisier|cinématique|cinematique|inversée|kinematique|kinématique/i.test(prompt)) {
       resultGlobal = await vectorStore.vectorStoreGlobal.similaritySearch(prompt, l);
     }
 

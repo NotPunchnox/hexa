@@ -1,7 +1,7 @@
 import {ChatOllama} from "@langchain/community/chat_models/ollama";
 import {StringOutputParser} from "@langchain/core/output_parsers";
 import {PromptTemplate} from "@langchain/core/prompts";
-import {RunnableSequence,RunnablePassthrough} from "@langchain/core/runnables";
+import {RunnableSequence} from "@langchain/core/runnables";
 import {formatDocumentsAsString} from "langchain/util/document";
 import embedding from "../controller/embedding.js";
 import config from "../../config.json" assert { type: "json" }
@@ -10,6 +10,7 @@ import tts from "../controller/tts.js";
 var ChatHistory = []
 
 export default async(prompt, l=3, modelSelected=config.LLM_MODEL) => {
+    let Timer = Date.now()
 
     if(ChatHistory.length > 5) ChatHistory = ChatHistory.slice(2, ChatHistory.length)
     ChatHistory.push(`user: ${prompt}`)
@@ -70,12 +71,14 @@ Réponse: `;
                 question: prompt
             });
 
-            process.stdout.write('\n\x1b[1mRéponse:\x1b[0m\x1b[36m');
+            process.stdout.write('\n\x1b[1mRéponse:\x1b[0m\x1b[36m ');
             let chunks = []
             for await (const chunk of finalResult) process.stdout.write(chunk), chunks.push(chunk);
             process.stdout.write('\x1b[0m\n');
 
             ChatHistory.push(`AI: ${chunks.join('').replace(/\n|\r/g, '')}`)
+
+            console.log(`Temps de génération: ${((Date.now()-Timer)/1000)}s`)
 
             if(config.tts) {
                 try {
