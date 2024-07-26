@@ -67,7 +67,7 @@ def detect_objects(frame):
             "User-Agent": "insomnia/2023.5.8"
         }
 
-        response = requests.get(url, json=payload, headers=headers)
+        response = requests.post(url, json=payload, headers=headers)
         print(response.text)
 
 
