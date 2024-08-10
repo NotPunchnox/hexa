@@ -9,10 +9,3 @@ software/IA/API/package-lock.json
 software/IA/API/src/Modal.json
 software/IA/vision/node_modules
 software/IA/vision/yolov3.weights
-software/IA/LLAMA_API/models/modal.json
-software/IA/Ollama tests/models/modal.json
-software/IA/Ollama tests/models/chatHistory.json
-software/IA/Ollama tests/Modelfile
-software/IA/Ollama tests/models/model-format.json
-software/IA/Ollama tests/package-lock.json
-software/IA/Ollama tests/node_modules

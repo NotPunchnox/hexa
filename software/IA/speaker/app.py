@@ -7,8 +7,8 @@ pygame.mixer.init()
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 
 client = texttospeech.TextToSpeechClient()
-ser = serial.Serial('COM11', 115200)
-#ser = ""
+#ser = serial.Serial('COM11', 115200)
+ser = ""
 
 
 def recognize_speech_from_mic(recognizer, microphone):
@@ -36,11 +36,11 @@ def recognize_speech_from_mic(recognizer, microphone):
 
 # Fonction pour envoyer le texte à l'API et obtenir la réponse
 def send_request_to_api(content):
-    url = "http://localhost:8000/api/question"
+    url = "http://localhost:3001/api/question"
     data = {"content": content}
     headers = {"Content-Type": "application/json"}
 
-    response = requests.get(url, data=json.dumps(data), headers=headers)
+    response = requests.post(url, data=json.dumps(data), headers=headers)
     return response.json()
 
 # Fonction pour convertir le texte en parole et jouer le son
@@ -113,7 +113,6 @@ def main():
             except:
                 content = api_response["content"]
 
-            sauvegarde = content["Sauvegarde"]
             actions = content["actions"]
             message = content["message"]
 
@@ -122,7 +121,7 @@ def main():
             else:
                 actions = "aucune action à effectuer"
         
-            final_response = f"Expérimentation numéro: {sauvegarde}, {message}"
+            final_response = f"{message}"
 
             if Dev == "N":
                 for command in content["actions"]:
