@@ -24,6 +24,23 @@ void splitString(String str, char delimiter, String* resultArray, int maxParts) 
         currentIndex = nextIndex + 1;
     }
 }
+void parseCustomMatrix(String matrixString, float animationMatrix[6][4][3]) {
+    String steps[4];
+    splitString(matrixString, '_', steps, 4);  // Diviser en étapes
+
+    for (int step = 0; step < 4; ++step) {
+        String positions[6];
+        splitString(steps[step], ';', positions, 6); // Diviser en positions pour chaque patte
+
+        for (int leg = 0; leg < 6; ++leg) {
+            String coords[3];
+            splitString(positions[leg], ',', coords, 3); // Diviser en coordonnées x, z, y
+            animationMatrix[leg][step][0] = coords[0].toFloat(); // x
+            animationMatrix[leg][step][1] = coords[1].toFloat(); // z
+            animationMatrix[leg][step][2] = coords[2].toFloat(); // y
+        }
+    }
+}
 
 void IA_Movements(String response) {
     if(response.indexOf("ChangeTop_") != -1) {
@@ -115,5 +132,22 @@ void IA_Movements(String response) {
         } else {
             Serial.println("Erreur : Format de commande incorrect.");
         }
+    } else if(response.indexOf("Custom_") != -1) {
+        String parts[4]; 
+        splitString(response, '_', parts, 4);
+
+        if (parts[0] == "Custom" && parts[3].length() > 0) {
+            String matrixString = parts[1] + "_" + parts[2];
+            float speed = parts[3].toFloat();
+            int cycles = parts[4].toInt();
+
+            float animationMatrix[6][4][3];
+            parseCustomMatrix(matrixString, animationMatrix);
+
+            Custom(animationMatrix, 4, speed, cycles);
+        } else {
+            Serial.println("Erreur : Format de commande incorrect.");
+        }
     }
 }
+

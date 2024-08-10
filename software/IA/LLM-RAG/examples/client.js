@@ -1,8 +1,11 @@
+import config from "../config.json" assert { type: "json" }
+import {ChatHistory} from "../src/router/Question.js"
+
+export default config
+
 import readline from "readline";
 import InitLogic from "../src/controller/InitLogic.js";
 import Question from "../src/router/Question.js";
-import config from "../config.json" assert { type: "json" }
-
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -36,6 +39,16 @@ const chatLoop = async () => {
     try {
       let modelSelected = config.LLM_MODEL;
       let question = prompt;
+      if(prompt.startsWith('config') && prompt.split(' ').length > 1) {
+        if(prompt.split(' ')[1] == "tts") config.tts = Boolean(prompt.split(' ')[2]);
+        if(prompt.split(' ')[1] == "model") config.LLM_MODEL = prompt.split(' ')[2];
+        if(prompt.split(' ')[1] === "format") config.format = prompt.split(' ')[2] !== "json" ? null : "json";
+        if(prompt.split(' ')[1] === "stream") config.format = Boolean(prompt.split(' ')[2]);
+        return console.log('Saved !')
+      }
+      if(prompt === "help") return console.log("- config tts (true|false)\n- config model (gemma)\n- config format (null|json)\n- config stream (true|false)\n- chat: get chat History\n- clear|cls: clear console")
+      if(prompt === "chat") return console.log('\n', ChatHistory, '\n');
+        if(prompt === "cls" || prompt === "clear") return console.clear();
 
       if (prompt.includes('-')) {
           const parts = prompt.split('-');

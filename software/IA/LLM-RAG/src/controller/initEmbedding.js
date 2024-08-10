@@ -1,14 +1,16 @@
 import { OllamaEmbeddings } from "@langchain/community/embeddings/ollama";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
-import config from "../../config.json" assert { type: "json" }
+// import config from "../../config.json" assert { type: "json" }
+import config from "../../examples/client.js"
 import textSplitter from "./textSplitter.js";
 
-const embeddings = new OllamaEmbeddings({
-  model: config.EMBEDDING_MODEL,
-  baseUrl: config.OLLAMA_API_URL
-});
-
 export default async () => {
+  const embeddings = new OllamaEmbeddings({
+    model: config.EMBEDDING_MODEL,
+    baseUrl: config.OLLAMA_API_URL
+  });
+  
+
   try {
     const {
       documentsActions,

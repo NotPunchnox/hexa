@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robot Animation Control</title>
+    <style>
+        /* Styles similaires à ce qui a été décrit précédemment */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input[type="text"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .step-container {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Robot Animation Control</h1>
+
+        <label for="animation">Select Animation:</label>
+        <select id="animation">
+            <option value="Walk">Walk</option>
+            <option value="TurnZ">TurnZ</option>
+            <option value="Rouli">Rouli</option>
+            <option value="Custom">Custom</option>
+        </select>
+
+        <label for="speed">Speed:</label>
+        <input type="number" id="speed" placeholder="Enter speed" step="0.1">
+
+        <label for="cycles">Cycles:</label>
+        <input type="number" id="cycles" placeholder="Enter number of cycles">
+
+        <div id="customInput" style="display:none;">
+            <h2>Custom Animation Matrix</h2>
+            <div id="stepsContainer"></div>
+            <button type="button" onclick="addStep()">Add Step</button>
+        </div>
+
+        <button onclick="sendCommand()">Send Command</button>
+    </div>
+
+    <script>
+        document.getElementById('animation').addEventListener('change', function() {
+            const customInput = document.getElementById('customInput');
+            if (this.value === 'Custom') {
+                customInput.style.display = 'block';
+            } else {
+                customInput.style.display = 'none';
+            }
+        });
+
+        function addStep() {
+            const stepsContainer = document.getElementById('stepsContainer');
+            const stepIndex = stepsContainer.children.length;
+
+            const stepDiv = document.createElement('div');
+            stepDiv.className = 'step-container';
+
+            stepDiv.innerHTML = `
+                <h3>Step ${stepIndex + 1}</h3>
+                <label for="step_${stepIndex}_LFL">LFL (x,z,y):</label>
+                <input type="text" id="step_${stepIndex}_LFL" placeholder="Enter positions for LFL">
+
+                <label for="step_${stepIndex}_LML">LML (x,z,y):</label>
+                <input type="text" id="step_${stepIndex}_LML" placeholder="Enter positions for LML">
+
+                <label for="step_${stepIndex}_LBL">LBL (x,z,y):</label>
+                <input type="text" id="step_${stepIndex}_LBL" placeholder="Enter positions for LBL">
+
+                <label for="step_${stepIndex}_LFR">LFR (x,z,y):</label>
+                <input type="text" id="step_${stepIndex}_LFR" placeholder="Enter positions for LFR">
+
+                <label for="step_${stepIndex}_LMR">LMR (x,z,y):</label>
+                <input type="text" id="step_${stepIndex}_LMR" placeholder="Enter positions for LMR">
+
+                <label for="step_${stepIndex}_LBR">LBR (x,z,y):</label>
+                <input type="text" id="step_${stepIndex}_LBR" placeholder="Enter positions for LBR">
+            `;
+
+            stepsContainer.appendChild(stepDiv);
+        }
+
+        function sendCommand() {
+            const animation = document.getElementById('animation').value;
+            const speed = document.getElementById('speed').value;
+            const cycles = document.getElementById('cycles').value;
+
+            let command = `${animation}_${speed}_${cycles}`;
+
+            if (animation === 'Custom') {
+                const stepsContainer = document.getElementById('stepsContainer');
+                const stepCount = stepsContainer.children.length;
+
+                let matrixData = [];
+                for (let i = 0; i < stepCount; i++) {
+                    const LFL = document.getElementById(`step_${i}_LFL`).value;
+                    const LML = document.getElementById(`step_${i}_LML`).value;
+                    const LBL = document.getElementById(`step_${i}_LBL`).value;
+                    const LFR = document.getElementById(`step_${i}_LFR`).value;
+                    const LMR = document.getElementById(`step_${i}_LMR`).value;
+                    const LBR = document.getElementById(`step_${i}_LBR`).value;
+
+                    matrixData.push([LFL, LML, LBL, LFR, LMR, LBR].join(';'));
+                }
+
+                command = `${animation}_${matrixData.join('|')}_${speed}_${cycles}`;
+            }
+
+            console.log(JSON.stringify({ command }))
+            // Envoyer la commande au serveur Node.js
+            fetch('http://localhost:3005/send-command', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ command }),
+            }).then(response => {
+                if (response.ok) {
+                    console.log('Command sent successfully');
+                } else {
+                    console.log('Failed to send command');
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>

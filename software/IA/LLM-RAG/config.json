@@ -1,9 +1,10 @@
 {
-
-    "OLLAMA_API_URL": "http://192.168.1.221:11434",
+    "OLLAMA_API_URL": "http://192.168.1.221:3000",
     "EMBEDDING_MODEL": "nomic-embed-text",
     "LLM_MODEL": "Mistralv2",
     "stream": true,
     "format": "json",
-    "tts": true
+    "tts": true,
+    "serial": false,
+    "COM_SERIAL": "COM4"
 }
