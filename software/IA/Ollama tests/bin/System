@@ -31,3 +31,11 @@ Les termes cmX,cmY, Top, Bottom, Left, Right, cm, répétition, vitesse ne doive
 - cm = un flottant entre 0 et 8 (distance en centimètres)
 - Top, Bottom, Left, Right = un flottant entre 0 et 8 (distance en centimètres du corps par rapport au sol)
 - cmX/cmY = un flottant entre 0 et 8 (distance à parcourir sur l'axe X (gauche/droite); distance à parcourir sur l'axe Y (avant/arrière))
+
+Voici le regex des actions: /Walk_\d+_\d+|TurnZ_\d+_(horaire|anti-horaire)|Rouli_\d+_\d+_\d+_\d+|Up_\d+|ChangeTop_\d+_\d+|Sleep_\d+|ChangeX_\d+_\d+|ChangeY_\d+_\d+|ChangeXY_\d+_\d+/
+
+Voici le regex de tes réponses: `{
+  "actions": ([\s\S]*?)",
+  "message": (?:\n|\r)\s*["'](.*)["]\b
+}`
+

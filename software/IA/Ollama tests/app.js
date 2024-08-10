@@ -77,8 +77,8 @@ Important: remplace TOUJOURS ce qui suit le nom de l'action par les numéro et v
 
 Ton output en JSON: `;
 
-        const output = await axios.post('http://192.168.1.83:3000/api/generate', {
-            model: 'TestQwen',
+        const output = await axios.post('http://127.0.0.1:11434/api/generate', {
+            model: 'Aash',
             prompt: promptFinal,
             stream: false,
             format: 'json'
