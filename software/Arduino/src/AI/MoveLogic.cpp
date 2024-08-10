@@ -6,6 +6,8 @@
 #include "../animations/sleep/sleep.h"
 #include "../animations/up/Up.h"
 #include "../animations/walk/walk.h"
+#include "../animations/custom/custom.h"
+#include "../animations/fun/fun.h"
 
 // Fonction pour diviser une chaîne de caractères en morceaux basés sur un délimiteur
 void splitString(String str, char delimiter, String* resultArray, int maxParts) {
@@ -24,26 +26,21 @@ void splitString(String str, char delimiter, String* resultArray, int maxParts) 
         currentIndex = nextIndex + 1;
     }
 }
-void parseCustomMatrix(String matrixString, float animationMatrix[6][4][3]) {
-    String steps[4];
-    splitString(matrixString, '_', steps, 4);  // Diviser en étapes
+void parseCustomMatrix(String matrixString, float animationMatrix[6][1][3]) {
+    String positions[6];
+    splitString(matrixString, ';', positions, 6); // Diviser en positions pour chaque patte
 
-    for (int step = 0; step < 4; ++step) {
-        String positions[6];
-        splitString(steps[step], ';', positions, 6); // Diviser en positions pour chaque patte
-
-        for (int leg = 0; leg < 6; ++leg) {
-            String coords[3];
-            splitString(positions[leg], ',', coords, 3); // Diviser en coordonnées x, z, y
-            animationMatrix[leg][step][0] = coords[0].toFloat(); // x
-            animationMatrix[leg][step][1] = coords[1].toFloat(); // z
-            animationMatrix[leg][step][2] = coords[2].toFloat(); // y
-        }
+    for (int leg = 0; leg < 6; ++leg) {
+        String coords[3];
+        splitString(positions[leg], ',', coords, 3); // Diviser en coordonnées x, z, y
+        animationMatrix[leg][0][0] = coords[0].toFloat(); // x
+        animationMatrix[leg][0][1] = coords[1].toFloat(); // z
+        animationMatrix[leg][0][2] ()= coords[2].toFloat(); // y
     }
 }
 
 void IA_Movements(String response) {
-    if(response.indexOf("ChangeTop_") != -1) {
+    if (response.indexOf("ChangeTop_") != -1) {
         String parts[3]; // Tableau pour stocker les morceaux de la chaîne de caractères
         splitString(response, '_', parts, 3);
 
@@ -58,7 +55,7 @@ void IA_Movements(String response) {
         int speed = parts[1].toFloat();
         String side = parts[2];
 
-        if(side == "horaire" || side == "anti-horaire") {
+        if (side == "horaire" || side == "anti-horaire") {
             TurnZ(side, speed, 1);
         }
     } else if (response.indexOf("Sleep_") != -1) {
@@ -79,7 +76,7 @@ void IA_Movements(String response) {
         for (int i = 0; i < cycles; ++i) {
             Walk(speed);
         }
-    } else if(response.indexOf("Turn_") != -1) {
+    } else if (response.indexOf("Turn_") != -1) {
         String parts[4];
         splitString(response, '_', parts, 4);
 
@@ -103,7 +100,7 @@ void IA_Movements(String response) {
         float right = parts[5].toFloat();
 
         Rouli(speed, top, bottom, left, right);
-    }else if(response.indexOf("ChangeY_") != -1) {
+    }else if (response.indexOf("ChangeY_") != -1) {
         String parts[3];
         splitString(response, '_', parts, 3);
 
@@ -111,7 +108,7 @@ void IA_Movements(String response) {
         int cm = parts[2].toFloat();
 
         ChangeY(speed, cm);
-    }else if(response.indexOf("ChangeX_") != -1) {
+    }else if (response.indexOf("ChangeX_") != -1) {
         String parts[3];
         splitString(response, '_', parts, 3);
 
@@ -119,7 +116,7 @@ void IA_Movements(String response) {
         int cm = parts[2].toFloat();
 
         ChangeX(speed, cm);
-    } else if(response.indexOf("ChangeXY_") != -1) {
+    } else if (response.indexOf("ChangeXY_") != -1) {
         String parts[4];
         splitString(response, '_', parts, 4);
 
@@ -132,22 +129,42 @@ void IA_Movements(String response) {
         } else {
             Serial.println("Erreur : Format de commande incorrect.");
         }
-    } else if(response.indexOf("Custom_") != -1) {
+    } else if (response.indexOf("Custom_") != -1) {
         String parts[4]; 
         splitString(response, '_', parts, 4);
 
-        if (parts[0] == "Custom" && parts[3].length() > 0) {
-            String matrixString = parts[1] + "_" + parts[2];
-            float speed = parts[3].toFloat();
-            int cycles = parts[4].toInt();
+        Serial.println("Split Parts:");
+        for(int i = 0; i < 4; i++) {
+            Serial.print("Part["); Serial.print(i); Serial.print("]: ");
+            Serial.println(parts[i]);
+        }
 
-            float animationMatrix[6][4][3];
+        if (parts[1].length() > 0 && parts[2].length() > 0 && parts[3].length() > 0) {
+            String matrixString = parts[1] + "_" + parts[2];
+            float speed = parts[2].toFloat();
+
+            float animationMatrix[6][1][3];
             parseCustomMatrix(matrixString, animationMatrix);
 
-            Custom(animationMatrix, 4, speed, cycles);
+            Custom(animationMatrix, speed);
         } else {
             Serial.println("Erreur : Format de commande incorrect.");
         }
-    }
+    } else if (response.indexOf("Attack_") != -1) {
+        String parts[3];
+        splitString(response, '_', parts, 2);
+
+        int speed = parts[1].toFloat();
+
+        AttackMove(speed)
+    } else if (response.indexOf("Jump_") != -1) {
+        String parts[3];
+        splitString(response, '_', parts, 2);
+
+        int speed = parts[1].toFloat();
+
+        Jump(speed)
+    } 
+
 }
 

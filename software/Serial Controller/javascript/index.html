@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Robot Animation Control</title>
     <style>
-        /* Styles similaires à ce qui a été décrit précédemment */
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #121212;
+            color: #E0E0E0;
             margin: 0;
             padding: 20px;
         }
@@ -16,38 +16,81 @@
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #fff;
+            background-color: #1E1E1E;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        h1, h2, h3 {
+            color: #BB86FC;
         }
         label {
             display: block;
             margin-top: 10px;
         }
-        input[type="text"],
-        input[type="number"],
-        select,
-        textarea {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+        input[type="range"] {
+            width: 100px;
+            margin: 5px;
+        }
+        output {
+            font-weight: bold;
+            margin-left: 10px;
+            color: #03DAC6;
+        }
+        .step-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         button {
             margin-top: 20px;
             padding: 10px 20px;
-            background-color: #007BFF;
-            color: white;
+            background-color: #03DAC6;
+            color: #121212;
             border: none;
             border-radius: 4px;
             cursor: pointer;
         }
         button:hover {
-            background-color: #0056b3;
+            background-color: #018786;
         }
         .step-container {
             margin-top: 15px;
+            padding: 15px;
+            background-color: #2C2C2C;
+            border-radius: 4px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+        .slider-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .leg-label {
+            width: 40px;
+            margin-right: 10px;
+        }
+        .slider-output {
+            margin-left: 10px;
+            min-width: 30px;
+        }
+        .speed-container {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .speed-label {
+            margin-right: 10px;
+        }
+        .remove-button {
+            background-color: #FF5252;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .remove-button:hover {
+            background-color: #FF1744;
         }
     </style>
 </head>
@@ -55,37 +98,16 @@
     <div class="container">
         <h1>Robot Animation Control</h1>
 
-        <label for="animation">Select Animation:</label>
-        <select id="animation">
-            <option value="Walk">Walk</option>
-            <option value="TurnZ">TurnZ</option>
-            <option value="Rouli">Rouli</option>
-            <option value="Custom">Custom</option>
-        </select>
-
-        <label for="speed">Speed:</label>
-        <input type="number" id="speed" placeholder="Enter speed" step="0.1">
-
-        <label for="cycles">Cycles:</label>
-        <input type="number" id="cycles" placeholder="Enter number of cycles">
-
-        <div id="customInput" style="display:none;">
-            <h2>Custom Animation Matrix</h2>
-            <div id="stepsContainer"></div>
-            <button type="button" onclick="addStep()">Add Step</button>
-        </div>
-
-        <button onclick="sendCommand()">Send Command</button>
+        <div id="stepsContainer"></div>
+        <button onclick="addStep()">Save</button>
+        <button onclick="sendAllCommands()">Send Command</button>
     </div>
 
     <script>
-        document.getElementById('animation').addEventListener('change', function() {
-            const customInput = document.getElementById('customInput');
-            if (this.value === 'Custom') {
-                customInput.style.display = 'block';
-            } else {
-                customInput.style.display = 'none';
-            }
+        const defaultPose = { x: 12, z: 9, y: 0 };
+
+        document.addEventListener("DOMContentLoaded", function() {
+            addStep(); // Ajouter un step par défaut
         });
 
         function addStep() {
@@ -94,74 +116,136 @@
 
             const stepDiv = document.createElement('div');
             stepDiv.className = 'step-container';
+            stepDiv.setAttribute('data-step-index', stepIndex);
 
             stepDiv.innerHTML = `
-                <h3>Step ${stepIndex + 1}</h3>
-                <label for="step_${stepIndex}_LFL">LFL (x,z,y):</label>
-                <input type="text" id="step_${stepIndex}_LFL" placeholder="Enter positions for LFL">
-
-                <label for="step_${stepIndex}_LML">LML (x,z,y):</label>
-                <input type="text" id="step_${stepIndex}_LML" placeholder="Enter positions for LML">
-
-                <label for="step_${stepIndex}_LBL">LBL (x,z,y):</label>
-                <input type="text" id="step_${stepIndex}_LBL" placeholder="Enter positions for LBL">
-
-                <label for="step_${stepIndex}_LFR">LFR (x,z,y):</label>
-                <input type="text" id="step_${stepIndex}_LFR" placeholder="Enter positions for LFR">
-
-                <label for="step_${stepIndex}_LMR">LMR (x,z,y):</label>
-                <input type="text" id="step_${stepIndex}_LMR" placeholder="Enter positions for LMR">
-
-                <label for="step_${stepIndex}_LBR">LBR (x,z,y):</label>
-                <input type="text" id="step_${stepIndex}_LBR" placeholder="Enter positions for LBR">
+                <div class="step-header">
+                    <h3>Step ${stepIndex + 1}</h3>
+                    <button class="remove-button" onclick="removeStep(${stepIndex})">Remove</button>
+                </div>
+                ${createSliderHTML('LFL', stepIndex)}
+                ${createSliderHTML('LML', stepIndex)}
+                ${createSliderHTML('LBL', stepIndex)}
+                ${createSliderHTML('LFR', stepIndex)}
+                ${createSliderHTML('LMR', stepIndex)}
+                ${createSliderHTML('LBR', stepIndex)}
+                <div class="speed-container">
+                    <label class="speed-label" for="step_${stepIndex}_speed">Speed:</label>
+                    <input type="range" min="0.1" max="5" value="1" step="0.1" id="step_${stepIndex}_speed" oninput="updateOutput(this)">
+                    <output id="output_step_${stepIndex}_speed">1</output>
+                </div>
             `;
 
             stepsContainer.appendChild(stepDiv);
+
+            // Ajouter un event listener pour chaque slider du nouveau step
+            const sliders = stepDiv.querySelectorAll('input[type="range"]');
+            sliders.forEach(slider => {
+                slider.addEventListener('input', () => sendRealTimeCommand(stepIndex));
+            });
         }
 
-        function sendCommand() {
-            const animation = document.getElementById('animation').value;
-            const speed = document.getElementById('speed').value;
-            const cycles = document.getElementById('cycles').value;
+        function createSliderHTML(leg, stepIndex) {
+            return `
+                <div class="slider-group">
+                    <span class="leg-label">${leg}:</span>
+                    X: <input type="range" min="-10" max="10" value="${defaultPose.x}" step="0.1" id="step_${stepIndex}_${leg}_X" oninput="updateOutput(this)">
+                    <output id="output_step_${stepIndex}_${leg}_X" class="slider-output">${defaultPose.x}</output>
+                    Z: <input type="range" min="-10" max="10" value="${defaultPose.z}" step="0.1" id="step_${stepIndex}_${leg}_Z" oninput="updateOutput(this)">
+                    <output id="output_step_${stepIndex}_${leg}_Z" class="slider-output">${defaultPose.z}</output>
+                    Y: <input type="range" min="-10" max="10" value="${defaultPose.y}" step="0.1" id="step_${stepIndex}_${leg}_Y" oninput="updateOutput(this)">
+                    <output id="output_step_${stepIndex}_${leg}_Y" class="slider-output">${defaultPose.y}</output>
+                </div>
+            `;
+        }
 
-            let command = `${animation}_${speed}_${cycles}`;
 
-            if (animation === 'Custom') {
-                const stepsContainer = document.getElementById('stepsContainer');
-                const stepCount = stepsContainer.children.length;
+        function updateOutput(slider) {
+            const output = document.getElementById(`output_${slider.id}`);
+            output.value = slider.value;
 
-                let matrixData = [];
-                for (let i = 0; i < stepCount; i++) {
-                    const LFL = document.getElementById(`step_${i}_LFL`).value;
-                    const LML = document.getElementById(`step_${i}_LML`).value;
-                    const LBL = document.getElementById(`step_${i}_LBL`).value;
-                    const LFR = document.getElementById(`step_${i}_LFR`).value;
-                    const LMR = document.getElementById(`step_${i}_LMR`).value;
-                    const LBR = document.getElementById(`step_${i}_LBR`).value;
+            // Envoi en temps réel pour le step en cours de modification
+            const stepIndex = slider.closest('.step-container').getAttribute('data-step-index');
+            sendRealTimeCommand(stepIndex);
+        }
 
-                    matrixData.push([LFL, LML, LBL, LFR, LMR, LBR].join(';'));
-                }
+        function sendRealTimeCommand(stepIndex) {
+            const command = generateCommand(stepIndex);
+            sendCommandToServer(command);
+            console.log(`Real-time command sent for Step ${stepIndex + 1}:`);
+            console.log(command.arduinoCode);
+        }
 
-                command = `${animation}_${matrixData.join('|')}_${speed}_${cycles}`;
-            }
+        function generateCommand(stepIndex) {
+            const legs = ['LFL', 'LML', 'LBL', 'LFR', 'LMR', 'LBR'];
+            let stepArray = [];
+            let stepArduinoArray = [];
 
-            console.log(JSON.stringify({ command }))
-            // Envoyer la commande au serveur Node.js
+            legs.forEach(leg => {
+                const x = document.getElementById(`step_${stepIndex}_${leg}_X`).value;
+                const z = document.getElementById(`step_${stepIndex}_${leg}_Z`).value;
+                const y = document.getElementById(`step_${stepIndex}_${leg}_Y`).value;
+                stepArray.push(`${x},${z},${y}`);
+                stepArduinoArray.push(`{${x}, ${z}, ${y}}`);
+            });
+
+            const speed = document.getElementById(`step_${stepIndex}_speed`).value;
+
+            const matrixString = stepArray.join(';');
+            const arduinoCode = `
+float TurnMatrice[6][1][3] = {
+    // {x, z, y} pour chaque patte {LFL, LML, LBL, LFR, LMR, LBR}
+    {${stepArduinoArray.join(', ')}},
+};
+Speed: ${speed};
+`;
+
+            return { matrixString, arduinoCode, speed };
+        }
+
+        function sendCommandToServer(command) {
+            console.log(`Custom_${command.matrixString}_${command.speed}`);
             fetch('http://localhost:3005/send-command', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ command }),
+                body: JSON.stringify({ command: `Custom_${command.matrixString}_${command.speed}` }),
             }).then(response => {
                 if (response.ok) {
-                    console.log('Command sent successfully');
+                    console.log('Command sent successfully:', `Custom_${command.matrixString}_${command.speed}`);
                 } else {
                     console.log('Failed to send command');
                 }
             }).catch(error => {
                 console.error('Error:', error);
             });
+        }
+
+        function sendAllCommands() {
+            const stepsContainer = document.getElementById('stepsContainer');
+            const stepCount = stepsContainer.children.length;
+
+            for (let i = 0; i < stepCount; i++) {
+                const command = generateCommand(i);
+                sendCommandToServer(command);
+                console.log(`Command sent for Step ${i + 1}:`);
+                console.log(command.arduinoCode);
+            }
+        }
+
+        function removeStep(stepIndex) {
+            const stepDiv = document.querySelector(`.step-container[data-step-index="${stepIndex}"]`);
+            if (stepDiv) {
+                stepDiv.remove();
+
+                // Reindex the remaining steps
+                const steps = document.querySelectorAll('.step-container');
+                steps.forEach((step, index) => {
+                    step.setAttribute('data-step-index', index);
+                    step.querySelector('h3').textContent = `Step ${index + 1}`;
+                });
+            }
         }
     </script>
 </body>

@@ -3,24 +3,29 @@
 #include "../../functions/servo.h"
 #include "../InverseKinematic/rouli/rouli.h"
 
-// Fonction principale pour tourner ou effectuer des mouvements personnalisés
-void Custom(float animationMatrix[][4][3], int numSteps, float speed, int cycles) {
+// Fonction principale pour effectuer un mouvement personnalisé pour une seule étape
+void Custom(float animationMatrix[6][1][3], float speed) {
     float SPEED = 200 * speed;
     int numLegs = 6;
 
-    for (int cycle = 0; cycle < cycles; ++cycle) {
-        for (int stepIndex = 0; stepIndex < numSteps; ++stepIndex) {
-            int legIndices[] = {0, 1, 2, 3, 4, 5};
-            float targetX[numLegs], targetZ[numLegs], targetY[numLegs];
+    float targetX[numLegs], targetZ[numLegs], targetY[numLegs];
 
-            for (int i = 0; i < numLegs; ++i) {
-                targetX[i] = animationMatrix[i][stepIndex][0];
-                targetZ[i] = animationMatrix[i][stepIndex][1];
-                targetY[i] = animationMatrix[i][stepIndex][2];
-            }
-
-            moveLegsMatrices(legIndices, targetX, targetZ, targetY, numLegs, SPEED);
-            delay(100); // Petite pause pour assurer la fluidité du mouvement
-        }
+    for (int leg = 0; leg < numLegs; ++leg) {
+        targetX[leg] = animationMatrix[leg][0][0];
+        targetZ[leg] = animationMatrix[leg][0][1];
+        targetY[leg] = animationMatrix[leg][0][2];
     }
+
+    Serial.println("Executing single step:");
+    for (int i = 0; i < numLegs; ++i) {
+        Serial.print("Leg "); Serial.print(i);
+        Serial.print(": X="); Serial.print(targetX[i]);
+        Serial.print(" Z="); Serial.print(targetZ[i]);
+        Serial.print(" Y="); Serial.println(targetY[i]);
+    }
+    Serial.println("-----");
+
+    int legIndices[] = {0, 1, 2, 3, 4, 5};
+    moveLegsMatrices(legIndices, targetX, targetZ, targetY, numLegs, SPEED);
+    delay(100);
 }

@@ -23,14 +23,6 @@ void Turn(String sens, float speed, int cycles) {
         {{PX, PZ, PY}, {PX, PZ, PY+direction*R*2}, {PX, PZ-3, PY}, {PX, PZ-3, PY}},
         {{PX, PZ, PY}, {PX, PZ-3, PY+direction*R}, {PX, PZ, PY+direction*R*2}, {PX, PZ, PY}},
         {{PX, PZ, PY}, {PX-direction*R*2, PZ, PY}, {PX, PZ-3, PY}, {PX, PZ-3, PY}},
-
-    //     {{PX, PZ, PY}, {PX, PZ, PY}, {PX, PZ-5, PY}, {PX-direction * R, PZ-5, PY}, {PX-direction * R, PZ, PY}}, // LFL
-    //     {{PX, PZ -5, PY + direction * R}, {PX, PZ, PY+direction * R}, {PX, PZ, PY+direction * R}, {PX, PZ, PY-direction * R}, {PX, PZ, PY-direction * R}}, // LML
-    //     {{PX, PZ, PY}, {PX, PZ, PY}, {PX, PZ-5, PY}, {PX, PZ-5, PY-direction * R}, {PX, PZ, PY-direction * R}}, // LBL
-        
-    //     {{PX - direction * R, PZ-5, PY}, {PX-direction * R, PZ, PY}, {PX-direction * R, PZ, PY}, {PX+direction * R, PZ, PY}, {PX+direction * R, PZ, PY}}, // LFR
-    //     {{PX, PZ, PY}, {PX, PZ, PY}, {PX, PZ-5, PY}, {PX, PZ-5, PY+direction * R}, {PX, PZ, PY+direction * R}}, // LMR
-    //     {{PX, PZ -5, PY - direction * R}, {PX, PZ, PY-direction * R}, {PX, PZ, PY-direction * R}, {PX, PZ, PY+direction * R}, {PX, PZ, PY+direction * R}} // LBR
     };
 
     for (int cycle = 0; cycle < cycles; ++cycle) {

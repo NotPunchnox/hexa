@@ -1,9 +1,9 @@
-#ifndef JUMP_H
-#define JUMP_H
+#ifndef CUSTOM_H
+#define CUSTOM_H
 
 #include <Arduino.h>
 #include "../../functions/Algo.h"
 
-void Jump(float speed);
+void Custom(float animationMatrix[][1][3], float speed);
 
 #endif
