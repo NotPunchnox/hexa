@@ -4,7 +4,9 @@
   "description": "Simple interface to control robot animations via Serial Port",
   "main": "script.js",
   "dependencies": {
+    "body-parser": "^1.20.2",
     "cors": "^2.8.5",
+    "express": "^4.19.2",
     "serialport": "^10.5.0"
   },
   "scripts": {
