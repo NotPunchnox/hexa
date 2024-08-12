@@ -11,3 +11,5 @@ software/IA/vision/node_modules
 software/IA/vision/yolov3.weights
 software/Serial Controller/javascript/node_modules
 software/Serial Controller/javascript/package-lock.json
+software/Gampad/node_modules
+software/Gampad/package-lock.json
