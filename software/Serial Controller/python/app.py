@@ -1,6 +1,6 @@
 import time, os, serial
 
-ser = serial.Serial('COM11', 115200)
+ser = serial.Serial('COM4', 115200)
 
 #envoi de réponse sur le port com série
 def send_command(command):
@@ -13,22 +13,40 @@ def send_command(command):
     return response
 
 ActionsXY = [
-    #"TurnZ_1_horaire",
-    "ChangeXY_2_0",
-    "ChangeXY_4_5",
-    "ChangeXY_8_-5",
-    "ChangeXY_8_5",
-    "ChangeXY_8_-5",
-    "ChangeXY_8_5",
-    "ChangeTop_3_2",
-    "ChangeTop_6_-4",
-    "ChangeTop_3_2",
-    "ChangeTop_3_-2",
-    "ChangeXY_8_-5",
-    "ChangeXY_8_5",
-    "ChangeXY_8_-5",
-    "ChangeTop_2_2",
-    "Turn_left_2_3",
+"ChangeXY_2_0_0",
+"ChangeXY_2_0_-3",
+"ChangeXY_2_0_-5",
+"ChangeXY_2_0_0",
+"ChangeXY_2_0_-5",
+"ChangeXY_2_0_0",
+"ChangeXY_2_0_1",
+"ChangeXY_2_0_2",
+"ChangeXY_2_0_3",
+"ChangeXY_2_0_4",
+"ChangeXY_2_0_3",
+"ChangeXY_2_0_2",
+"ChangeXY_2_0_1",
+"ChangeXY_2_0_2",
+"ChangeXY_2_0_3",
+"ChangeXY_2_0_2",
+"ChangeXY_2_0_1",
+"ChangeXY_2_0_0",
+"ChangeXY_2_0_-2",
+"ChangeXY_2_0_-3",
+"ChangeXY_2_0_-4",
+"ChangeXY_2_0_-5",
+"ChangeXY_2_0_-4",
+"ChangeXY_2_0_-2",
+"ChangeXY_2_0_0",
+    # "ChangeTop_3_2",
+    # "ChangeTop_6_-4",
+    # "ChangeTop_3_2",
+    # "ChangeTop_3_-2",
+    # "ChangeXY_8_-5",
+    # "ChangeXY_8_5",
+    # "ChangeXY_8_-5",
+    # "ChangeTop_2_2",
+    # "Turn_left_2_3",
 
     # "ChangeXY_4_0_0",
     # "ChangeXY_4_4_4",
@@ -49,7 +67,7 @@ ActionsXY = [
     
     # "TurnZ_1_anti-horaire",
     # "ChangeTop_4_-3",
-    "Sleep_3"
+    # "Sleep_3"
 ]
 
 # Fonction main
@@ -64,6 +82,7 @@ def main():
 
     for command in ActionsXY:
         send_command(command)
+        print(command, " sent!")
     
     time.sleep(10)
 
