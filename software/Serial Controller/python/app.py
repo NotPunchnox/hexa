@@ -1,6 +1,6 @@
 import time, os, serial
 
-ser = serial.Serial('COM4', 115200)
+ser = serial.Serial('COM3', 115200)
 
 #envoi de réponse sur le port com série
 def send_command(command):
@@ -13,31 +13,8 @@ def send_command(command):
     return response
 
 ActionsXY = [
-"ChangeXY_2_0_0",
-"ChangeXY_2_0_-3",
-"ChangeXY_2_0_-5",
-"ChangeXY_2_0_0",
-"ChangeXY_2_0_-5",
-"ChangeXY_2_0_0",
-"ChangeXY_2_0_1",
-"ChangeXY_2_0_2",
-"ChangeXY_2_0_3",
-"ChangeXY_2_0_4",
-"ChangeXY_2_0_3",
-"ChangeXY_2_0_2",
-"ChangeXY_2_0_1",
-"ChangeXY_2_0_2",
-"ChangeXY_2_0_3",
-"ChangeXY_2_0_2",
-"ChangeXY_2_0_1",
-"ChangeXY_2_0_0",
-"ChangeXY_2_0_-2",
-"ChangeXY_2_0_-3",
-"ChangeXY_2_0_-4",
-"ChangeXY_2_0_-5",
-"ChangeXY_2_0_-4",
-"ChangeXY_2_0_-2",
-"ChangeXY_2_0_0",
+"ChangeXY_0.8_-3_-3",
+"ChangeXY_0.25_-4_-4"
     # "ChangeTop_3_2",
     # "ChangeTop_6_-4",
     # "ChangeTop_3_2",

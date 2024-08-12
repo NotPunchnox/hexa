@@ -1,13 +1,15 @@
 const { SerialPort, ReadlineParser } = require('serialport');
 
-const portRemote = new SerialPort({ path: 'COM7', baudRate: 9600 });
-const RobotPort = new SerialPort({ path: 'COM4', baudRate: 115200 });
+const portRemote = new SerialPort({ path: 'COM4', baudRate: 9600 });
+const RobotPort = new SerialPort({ path: 'COM3', baudRate: 115200 });
 
 const parserRemote = portRemote.pipe(new ReadlineParser({ delimiter: '\n' }));
 const parserRobot = RobotPort.pipe(new ReadlineParser({ delimiter: '\n' }));
 
 let lX2 = 0, lY2 = 0;
 let lX = 0, lY = 0;
+let Total = 0;
+
 const MID_X = 512;
 const MID_Y = 512;
 const TOLERANCE = 10;
@@ -18,8 +20,8 @@ let commandTop = '';
 
 function calculateDirection(value, midValue) {
     const range = 1023; // Assuming joystick range is 0 to 1023
-    const scaledValue = Math.floor(((value - midValue) / (range / 2)) * 5);
-    return Math.max(-5, Math.min(5, scaledValue)); // Clamp values between -5 and 5
+    const scaledValue = Math.floor(((value - midValue) / (range / 2)) * 4);
+    return Math.max(-4, Math.min(4, scaledValue)); // Clamp values between -5 and 5
 }
 
 async function sendCommand(command) {
@@ -32,14 +34,6 @@ async function sendCommand(command) {
 
             console.log('Command sent:', command);
 
-            
-            setTimeout(() => {
-                parserRobot.once('data', (data) => {
-                    const response = data.trim();
-                    console.log("ROBOT:", response);
-                    resolve(response);
-                });
-            }, 1000);
         });
     });
 }
@@ -56,16 +50,18 @@ parserRemote.on('data', async data => {
         lX = xValue;
         lY = yValue;
 
-        const directionX = (Math.abs(xValue - MID_X) > TOLERANCE) ? calculateDirection(xValue, MID_X) : 0;
-        const directionY = (Math.abs(yValue - MID_Y) > TOLERANCE) ? calculateDirection(yValue, MID_Y) : 0;
+        const directionX = (Math.abs(xValue - MID_X) > TOLERANCE*3) ? calculateDirection(xValue, MID_X) : 0;
+        let directionY = (Math.abs(yValue - MID_Y) > TOLERANCE*3) ? calculateDirection(yValue, MID_Y) : 0;
+        if(Math.abs(yValue - 102) <= 3) directionY = 4
 
-        const newCommand = `ChangeXY_${vitesse}_${directionX}_${directionY}`;
+        const newCommand = `ChangeXY_${vitesse/2}_${directionX}_${directionY}`;
 
         if (command !== newCommand) {
             command = newCommand;
 
             try {
                 await sendCommand(command);
+                await setTimeout(() => {}, 2000);
             } catch (err) {
                 console.error('Failed to send command:', err);
             }
@@ -78,8 +74,12 @@ parserRemote.on('data', async data => {
         lX2 = xValue;
         lY2 = yValue;
 
-        let directionY = (Math.abs(yValue - MID_Y) > TOLERANCE) ? calculateDirection(yValue, MID_Y) : 0;
-        if(directionY > 0) {directionY = -1} else directionY = 1
+        let directionY = (Math.abs(yValue - MID_Y) > (TOLERANCE*3)) ? calculateDirection(yValue, MID_Y) : 0;
+        if(directionY === 0) return;
+        directionY > 0 ? directionY = -1 : directionY = 1;
+
+        if(Total + directionY > 5 || Total + directionY < -5 ) return;
+        Total = Total+directionY
 
         const newCommand = `ChangeTop_${vitesse}_${directionY}`;
 
