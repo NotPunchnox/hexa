@@ -16,6 +16,8 @@ void Turn(String sens, float speed, int cycles) {
     // Matrices de positions pour chaque patte
     float TurnMatrice[numLegs][numSteps][3] = {
         // {x, z, y} pour chaque patte {LFL, LML, LBL, LFR, LMR, LBR}
+        //Colonne = Une séquence
+        //Ligne = patte
         {{PX, PZ, PY}, {PX, PZ-3, PY-direction * R}, {PX, PZ, PY-direction * R*2}, {PX, PZ, PY}}, // LFL
         {{PX, PZ, PY}, {PX, PZ, PY - direction *R*2}, {PX, PZ-3, PY}, {PX, PZ-3, PY}},
         {{PX, PZ, PY}, {PX-direction * R, PZ-3, PY}, {PX-direction * R*2, PZ, PY}, {PX, PZ, PY}},
