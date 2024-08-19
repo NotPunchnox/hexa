@@ -1,7 +1,6 @@
 #include "../../config/config.h"
 #include "../../functions/Algo.h"
 #include "../../functions/servo.h"
-#include "../walk/walk.h"
 #include <Arduino.h>
 
 void Up(float speed) {

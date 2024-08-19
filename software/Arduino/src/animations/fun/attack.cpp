@@ -1,7 +1,6 @@
-#include "../../../config/config.h"
-#include "../../../config/Angles.h"
-#include "../../../functions/servo.h"
-#include "../rouli/rouli.h"
+#include "../../config/config.h"
+#include "../../config/Angles.h"
+#include "../../functions/servo.h"
 
 // Fonction principale pour l'attaque
 void AttackMove(float speed) {

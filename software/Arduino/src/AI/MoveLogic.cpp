@@ -8,6 +8,7 @@
 #include "../animations/walk/walk.h"
 #include "../animations/custom/custom.h"
 #include "../animations/fun/fun.h"
+#include "../router/Walking.h"
 
 // Fonction pour diviser une chaîne de caractères en morceaux basés sur un délimiteur
 void splitString(String str, char delimiter, String* resultArray, int maxParts) {
@@ -35,7 +36,7 @@ void parseCustomMatrix(String matrixString, float animationMatrix[6][1][3]) {
         splitString(positions[leg], ',', coords, 3); // Diviser en coordonnées x, z, y
         animationMatrix[leg][0][0] = coords[0].toFloat(); // x
         animationMatrix[leg][0][1] = coords[1].toFloat(); // z
-        animationMatrix[leg][0][2] ()= coords[2].toFloat(); // y
+        animationMatrix[leg][0][2] = coords[2].toFloat(); // y
     }
 }
 
@@ -67,15 +68,46 @@ void IA_Movements(String response) {
         Sleep(speed);
         
     } else if (response.indexOf("Walk_") != -1) {
-        String parts[3];
-        splitString(response, '_', parts, 3);
+        // Log de la réponse initiale
+        Serial.println("Commande reçue: " + response);
+
+        String parts[5];
+        splitString(response, '_', parts, 5);
+
+        // Log des parties après le split
+        Serial.println("Parts après le split:");
+        for (int i = 0; i < 5; ++i) {
+            Serial.println("Part " + String(i) + ": " + parts[i]);
+        }
 
         float speed = parts[1].toFloat();
-        int cycles = parts[2].toInt();
+        int X = parts[2].toInt();
+        int Y = parts[3].toInt();
+        int cycles = parts[4].toInt();
+
+        // Log des valeurs converties
+        Serial.println("Vitesse: " + String(speed));
+        Serial.println("X: " + String(X));
+        Serial.println("Y: " + String(Y));
+        Serial.println("Cycles: " + String(cycles));
 
         for (int i = 0; i < cycles; ++i) {
-            Walk(speed);
+            Serial.println("Exécution de la boucle: " + String(i + 1));
+            Walk(speed, X, Y);
         }
+
+        Serial.println("Commande Walk terminée");
+    } else if (response.indexOf("StartWalk_") != -1) {//StartWalk_speed_X_Y
+        String parts[4];
+        splitString(response, '_', parts, 4);
+
+        float speed = parts[1].toFloat();
+        int X = parts[2].toFloat();
+        int Y = parts[3].toFloat();
+        
+        startWalking(X, Y, speed);
+    }  else if (response.indexOf("StopWalk") != -1) {//StopWalk
+        totalWalkCycles = 0;
     } else if (response.indexOf("Turn_") != -1) {
         String parts[4];
         splitString(response, '_', parts, 4);
@@ -156,14 +188,14 @@ void IA_Movements(String response) {
 
         int speed = parts[1].toFloat();
 
-        AttackMove(speed)
+        AttackMove(speed);
     } else if (response.indexOf("Jump_") != -1) {
         String parts[3];
         splitString(response, '_', parts, 2);
 
         int speed = parts[1].toFloat();
 
-        Jump(speed)
+        Jump(speed);
     } 
 
 }

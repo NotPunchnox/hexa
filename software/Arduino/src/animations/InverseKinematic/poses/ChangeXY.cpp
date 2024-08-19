@@ -2,7 +2,6 @@
 #include "../../../config/config.h"
 #include "../../../config/Angles.h"
 #include "../../../functions/servo.h"
-#include "../rouli/rouli.h"
 #include <Arduino.h>
 
 // Fonction principale pour ajuster la hauteur des pattes en fonction des mouvements X et Y
@@ -37,5 +36,5 @@ void ChangeXY(float speed, float X, float Y) {
         targetY[leg] = RouliMatrix[leg][2];
     }
 
-    moveUniquePoseLegsSmoothly(legIndices, targetX, targetZ, targetY, numLegs, SPEED);
+    moveLegsMatrices(legIndices, targetX, targetZ, targetY, numLegs, SPEED);
 }

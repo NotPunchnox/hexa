@@ -63,10 +63,10 @@ void StartRouter() {
 
 
     //Routes api rest
-    server.on("/walk", HTTP_GET, [](AsyncWebServerRequest *request){
-        request->send(200, "text/plain", "Le robot marche!");
-        startWalking();
-    });
+    // server.on("/walk", HTTP_GET, [](AsyncWebServerRequest *request){
+    //     request->send(200, "text/plain", "Le robot marche!");
+    //     startWalking();
+    // });
 
     server.on("/up", HTTP_GET, [](AsyncWebServerRequest *request){
         Up(speed);
