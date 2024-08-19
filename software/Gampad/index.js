@@ -1,6 +1,6 @@
 const { SerialPort, ReadlineParser } = require('serialport');
 
-const portRemote = new SerialPort({ path: 'COM4', baudRate: 9600 });
+const portRemote = new SerialPort({ path: 'COM5', baudRate: 9600 });
 const RobotPort = new SerialPort({ path: 'COM3', baudRate: 115200 });
 
 const parserRemote = portRemote.pipe(new ReadlineParser({ delimiter: '\n' }));
@@ -12,8 +12,8 @@ let Total = 0;
 
 const MID_X = 512;
 const MID_Y = 512;
-const TOLERANCE = 10;
-const vitesse = 0.5;
+const TOLERANCE = 30;
+const vitesse = 1.5;
 
 let command = '';
 let commandTop = '';
@@ -50,11 +50,10 @@ parserRemote.on('data', async data => {
         lX = xValue;
         lY = yValue;
 
-        const directionX = (Math.abs(xValue - MID_X) > TOLERANCE*3) ? calculateDirection(xValue, MID_X) : 0;
-        let directionY = (Math.abs(yValue - MID_Y) > TOLERANCE*3) ? calculateDirection(yValue, MID_Y) : 0;
+        const directionX = (Math.abs(xValue - MID_X) > TOLERANCE*2) ? calculateDirection(xValue, MID_X) : 0;
+        let directionY = (Math.abs(yValue - MID_Y) > TOLERANCE*2) ? calculateDirection(yValue, MID_Y) : 0;
         if(Math.abs(yValue - 102) <= 3) directionY = 4
-
-        const newCommand = `ChangeXY_${vitesse/2}_${directionX}_${directionY}`;
+        const newCommand = `ChangeXY_${vitesse}_${directionX}_${directionY}`;
 
         if (command !== newCommand) {
             command = newCommand;
@@ -74,7 +73,8 @@ parserRemote.on('data', async data => {
         lX2 = xValue;
         lY2 = yValue;
 
-        let directionY = (Math.abs(yValue - MID_Y) > (TOLERANCE*3)) ? calculateDirection(yValue, MID_Y) : 0;
+        // console.log(yValue, Math.abs(yValue - MID_Y) > (TOLERANCE), calculateDirection(yValue, MID_Y))
+        let directionY = (Math.abs(yValue - MID_Y) > (TOLERANCE)) ? calculateDirection(yValue, MID_Y) : 0;
         if(directionY === 0) return;
         directionY > 0 ? directionY = -1 : directionY = 1;
 
