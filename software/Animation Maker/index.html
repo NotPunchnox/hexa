@@ -214,7 +214,7 @@
             return `
                 <div class="slider-group">
                     <span class="leg-label">${leg}:</span>
-                    X: <input type="range" min="-10" max="10" value="${previousStepValues[leg]?.x || defaultPose.x}" step="0.1" id="step_${stepIndex}_${leg}_X" oninput="updateOutput(this)">
+                    X: <input type="range" min="-10" max="15" value="${previousStepValues[leg]?.x || defaultPose.x}" step="0.1" id="step_${stepIndex}_${leg}_X" oninput="updateOutput(this)">
                     <output id="output_step_${stepIndex}_${leg}_X" class="slider-output">${previousStepValues[leg]?.x || defaultPose.x}</output>
                     Z: <input type="range" min="-10" max="10" value="${previousStepValues[leg]?.z || defaultPose.z}" step="0.1" id="step_${stepIndex}_${leg}_Z" oninput="updateOutput(this)">
                     <output id="output_step_${stepIndex}_${leg}_Z" class="slider-output">${previousStepValues[leg]?.z || defaultPose.z}</output>
