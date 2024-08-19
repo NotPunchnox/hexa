@@ -1,7 +1,7 @@
 const { SerialPort, ReadlineParser } = require('serialport');
 
-const portRemote = new SerialPort({ path: 'COM5', baudRate: 9600 });
-const RobotPort = new SerialPort({ path: 'COM3', baudRate: 115200 });
+const portRemote = new SerialPort({ path: 'COM6', baudRate: 9600 });
+const RobotPort = new SerialPort({ path: 'COM4', baudRate: 115200 });
 
 const parserRemote = portRemote.pipe(new ReadlineParser({ delimiter: '\n' }));
 const parserRobot = RobotPort.pipe(new ReadlineParser({ delimiter: '\n' }));
@@ -43,6 +43,29 @@ parserRemote.on('data', async data => {
     const match2 = data.trim().match(/Joystick 1 - X = (\d{1,3}), Y = (\d{1,3})/);
 
     if (match) {
+        // const [xValue, yValue] = [parseInt(match[1]), parseInt(match[2])];
+
+        // if (xValue === lX && yValue === lY) return;
+
+        // lX = xValue;
+        // lY = yValue;
+
+        // const directionX = (Math.abs(xValue - MID_X) > TOLERANCE*2) ? calculateDirection(xValue, MID_X) : 0;
+        // let directionY = (Math.abs(yValue - MID_Y) > TOLERANCE*2) ? calculateDirection(yValue, MID_Y) : 0;
+        // if(Math.abs(yValue - 102) <= 3) directionY = 4
+        // const newCommand = `ChangeXY_${vitesse}_${directionX}_${directionY}`;
+
+        // if (command !== newCommand) {
+        //     command = newCommand;
+
+        //     try {
+        //         await sendCommand(command);
+        //         await setTimeout(() => {}, 2000);
+        //     } catch (err) {
+        //         console.error('Failed to send command:', err);
+        //     }
+        // }
+
         const [xValue, yValue] = [parseInt(match[1]), parseInt(match[2])];
 
         if (xValue === lX && yValue === lY) return;
@@ -52,13 +75,16 @@ parserRemote.on('data', async data => {
 
         const directionX = (Math.abs(xValue - MID_X) > TOLERANCE*2) ? calculateDirection(xValue, MID_X) : 0;
         let directionY = (Math.abs(yValue - MID_Y) > TOLERANCE*2) ? calculateDirection(yValue, MID_Y) : 0;
-        if(Math.abs(yValue - 102) <= 3) directionY = 4
-        const newCommand = `ChangeXY_${vitesse}_${directionX}_${directionY}`;
+        if(Math.abs(yValue - 102) <= 3) directionY = 4;
+        let newCommand = `Walk_${vitesse * 2}_${directionX}_${directionY}_2`;
+
+        if(directionX == 0 && directionY == 0) newCommand = `Walk_${vitesse * 2}_${directionX}_${directionY}_2`;
 
         if (command !== newCommand) {
             command = newCommand;
 
             try {
+                await setTimeout(() => {}, 240*3*2);
                 await sendCommand(command);
                 await setTimeout(() => {}, 2000);
             } catch (err) {
