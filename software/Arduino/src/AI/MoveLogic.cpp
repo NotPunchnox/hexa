@@ -67,6 +67,18 @@ void IA_Movements(String response) {
 
         Sleep(speed);
         
+    } else if (response.indexOf("StartWalk_") != -1) {//StartWalk_speed_X_Y
+        String parts[4];
+        splitString(response, '_', parts, 4);
+
+        float speed = parts[1].toFloat();
+        int X = parts[2].toFloat();
+        int Y = parts[3].toFloat();
+        
+        startWalking(X, Y, speed);
+    }  else if (response.indexOf("StopWalk") != -1) {//StopWalk
+        Walk(4, 0, 0);
+        isWalking = false;
     } else if (response.indexOf("Walk_") != -1) {
         // Log de la réponse initiale
         Serial.println("Commande reçue: " + response);
@@ -97,17 +109,6 @@ void IA_Movements(String response) {
         }
 
         Serial.println("Commande Walk terminée");
-    } else if (response.indexOf("StartWalk_") != -1) {//StartWalk_speed_X_Y
-        String parts[4];
-        splitString(response, '_', parts, 4);
-
-        float speed = parts[1].toFloat();
-        int X = parts[2].toFloat();
-        int Y = parts[3].toFloat();
-        
-        startWalking(X, Y, speed);
-    }  else if (response.indexOf("StopWalk") != -1) {//StopWalk
-        totalWalkCycles = 0;
     } else if (response.indexOf("Turn_") != -1) {
         String parts[4];
         splitString(response, '_', parts, 4);
