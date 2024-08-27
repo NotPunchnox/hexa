@@ -37,14 +37,7 @@ void loop() {
     if (currentMillis - previousMillis >= 240*speed) {
       previousMillis = currentMillis;
       Walk(speed, X, Y);
-      walkCycles++;
-
-      if (walkCycles >= totalWalkCycles) {
-        isWalking = false;
-      }
     }
   }
-
-  // delay(200);
 
 }

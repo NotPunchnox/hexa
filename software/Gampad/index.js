@@ -1,6 +1,6 @@
 const { SerialPort, ReadlineParser } = require('serialport');
 
-const portRemote = new SerialPort({ path: 'COM6', baudRate: 9600 });
+const portRemote = new SerialPort({ path: 'COM7', baudRate: 9600 });
 const RobotPort = new SerialPort({ path: 'COM4', baudRate: 115200 });
 
 const parserRemote = portRemote.pipe(new ReadlineParser({ delimiter: '\n' }));
@@ -20,8 +20,8 @@ let commandTop = '';
 
 function calculateDirection(value, midValue) {
     const range = 1023; // Assuming joystick range is 0 to 1023
-    const scaledValue = Math.floor(((value - midValue) / (range / 2)) * 4);
-    return Math.max(-4, Math.min(4, scaledValue)); // Clamp values between -5 and 5
+    const scaledValue = Math.floor(((value - midValue) / (range / 2)) * 3);
+    return Math.max(-3, Math.min(3, scaledValue)); // Clamp values between -5 and 5
 }
 
 async function sendCommand(command) {
@@ -32,7 +32,7 @@ async function sendCommand(command) {
                 return reject(err);
             }
 
-            console.log('Command sent:', command);
+             console.log('Command sent:', command);
 
         });
     });
@@ -75,18 +75,17 @@ parserRemote.on('data', async data => {
 
         const directionX = (Math.abs(xValue - MID_X) > TOLERANCE*2) ? calculateDirection(xValue, MID_X) : 0;
         let directionY = (Math.abs(yValue - MID_Y) > TOLERANCE*2) ? calculateDirection(yValue, MID_Y) : 0;
-        if(Math.abs(yValue - 102) <= 3) directionY = 4;
-        let newCommand = `Walk_${vitesse * 2}_${directionX}_${directionY}_2`;
+        if(Math.abs(yValue - 102) <= 3) directionY = 3;
+        let newCommand = `StartWalk_${vitesse}_${directionX*-1}_${directionY*-1}`;
 
-        if(directionX == 0 && directionY == 0) newCommand = `Walk_${vitesse * 2}_${directionX}_${directionY}_2`;
+        if(directionX == 0 && directionY == 0) newCommand = `StopWalk`;
 
         if (command !== newCommand) {
             command = newCommand;
 
             try {
-                await setTimeout(() => {}, 240*3*2);
                 await sendCommand(command);
-                await setTimeout(() => {}, 2000);
+                // await setTimeout(() => {}, 1000);
             } catch (err) {
                 console.error('Failed to send command:', err);
             }
