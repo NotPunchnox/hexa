@@ -4,7 +4,7 @@
 
 // Fonction principale pour tourner
 void Turn(String sens, float speed, int cycles) {
-    float R = 3; // Rayon de la marche
+    float R = 1.5; // Rayon de la marche
     float SPEED = 200 * speed;
     int numLegs = 6;
     int numSteps = 4; // Nombre de pas par séquence
@@ -17,13 +17,13 @@ void Turn(String sens, float speed, int cycles) {
         // {x, z, y} pour chaque patte {LFL, LML, LBL, LFR, LMR, LBR}
         //Colonne = Une séquence
         //Ligne = patte
-        {{PX, PZ, PY}, {PX, PZ-3, PY-direction * R}, {PX, PZ, PY-direction * R*2}, {PX, PZ, PY}}, // LFL
-        {{PX, PZ, PY}, {PX, PZ, PY - direction *R*2}, {PX, PZ-3, PY}, {PX, PZ-3, PY}},
-        {{PX, PZ, PY}, {PX-direction * R, PZ-3, PY}, {PX-direction * R*2, PZ, PY}, {PX, PZ, PY}},
+        {{PX+R, PZ, PY-R},   {PX+R, PZ, PY-R}, {PX-R, PZ-(R*2), PY+R}, {PX-R, PZ, PY+R} }, // LFL
+        {{PX-R, PZ-(R*2), PY+R}, {PX-R, PZ, PY+R}, {PX+R, PZ, PY-R},   {PX+R, PZ, PY-R} }, // LML
+        {{PX-R, PZ, PY-R},   {PX-R, PZ, PY-R}, {PX+R, PZ-(R*2), PY+R}, {PX+R, PZ, PY+R} }, // LBL
 
-        {{PX, PZ, PY}, {PX, PZ, PY+direction*R*2}, {PX, PZ-3, PY}, {PX, PZ-3, PY}},
-        {{PX, PZ, PY}, {PX, PZ-3, PY+direction*R}, {PX, PZ, PY+direction*R*2}, {PX, PZ, PY}},
-        {{PX, PZ, PY}, {PX-direction*R*2, PZ, PY}, {PX, PZ-3, PY}, {PX, PZ-3, PY}},
+        {{PX+R, PZ-(R*2), PY-R}, {PX+R, PZ, PY-R}, {PX-R, PZ, PY+R},   {PX-R, PZ, PY+R} }, // LFR
+        {{PX-R, PZ, PY+R},   {PX-R, PZ, PY+R}, {PX+R, PZ-(R*2), PY-R}, {PX+R, PZ, PY-R} }, // LMR
+        {{PX-R, PZ-(R*2), PY-R}, {PX-R, PZ, PY-R}, {PX+R, PZ, PY+R},   {PX+R, PZ, PY+R} }  // LBR
     };
 
     for (int cycle = 0; cycle < cycles; ++cycle) {

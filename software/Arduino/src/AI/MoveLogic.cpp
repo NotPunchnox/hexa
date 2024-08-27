@@ -113,8 +113,8 @@ void IA_Movements(String response) {
         splitString(response, '_', parts, 4);
 
         if (parts[1].length() > 0 && parts[2].length() > 0 && parts[3].length() > 0) {
-            String side = parts[1];
-            float speed = parts[2].toFloat();
+            float speed = parts[1].toFloat();
+            String side = parts[2];
             int cycles = parts[3].toInt();
 
             Turn(side, speed, cycles);
