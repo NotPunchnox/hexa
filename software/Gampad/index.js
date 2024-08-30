@@ -1,7 +1,7 @@
 const { SerialPort, ReadlineParser } = require('serialport');
 
-const portRemote = new SerialPort({ path: 'COM7', baudRate: 9600 });
-const RobotPort = new SerialPort({ path: 'COM4', baudRate: 115200 });
+const portRemote = new SerialPort({ path: 'COM5', baudRate: 9600 });
+const RobotPort = new SerialPort({ path: 'COM3', baudRate: 115200 });
 
 const parserRemote = portRemote.pipe(new ReadlineParser({ delimiter: '\n' }));
 const parserRobot = RobotPort.pipe(new ReadlineParser({ delimiter: '\n' }));
@@ -17,6 +17,7 @@ const vitesse = 1.5;
 
 let command = '';
 let commandTop = '';
+let turning = false;
 
 function calculateDirection(value, midValue) {
     const range = 1023; // Assuming joystick range is 0 to 1023
@@ -100,18 +101,24 @@ parserRemote.on('data', async data => {
 
         // console.log(yValue, Math.abs(yValue - MID_Y) > (TOLERANCE), calculateDirection(yValue, MID_Y))
         let directionY = (Math.abs(yValue - MID_Y) > (TOLERANCE)) ? calculateDirection(yValue, MID_Y) : 0;
-        if(directionY === 0) return;
-        directionY > 0 ? directionY = -1 : directionY = 1;
+        let directionX = (Math.abs(xValue - MID_X) > TOLERANCE*2) ? calculateDirection(xValue, MID_X) : 0;
 
-        if(Total + directionY > 5 || Total + directionY < -5 ) return;
-        Total = Total+directionY
-
-        const newCommand = `ChangeTop_${vitesse}_${directionY}`;
-
-            try {
-                await sendCommand(newCommand);
-            } catch (err) {
-                console.error('Failed to send command:', err);
-            }
+        if(directionY !== 0 && directionX === 0){
+            directionY > 0 ? directionY = -1 : directionY = 1;
+            if (Total + directionY > 5 || Total + directionY < -5 ) return;
+            Total = Total+directionY
+            newCommand = `ChangeTop_${vitesse}_${directionY}`;
+        } else if(directionX !== 0 && directionY === 0) {//StartTurn_1_left_1
+            newCommand = `StartTurn_${vitesse/4}_${directionX > 0 ? "right" : "left"}_${Math.abs(directionX/4)}`
+            turning = true;
+        } else {
+            newCommand = `StopTurn`;
+        }
+        
+        if(commandTop === newCommand && !newCommand.includes('ChangeTop') || newCommand === 'StopTurn' && turning == false) return;
+        if(newCommand === 'StopTurn') turning = false
+        commandTop = newCommand;
+        
+        await sendCommand(newCommand);
     }
 });

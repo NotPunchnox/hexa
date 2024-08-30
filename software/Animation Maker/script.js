@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const app = express();
-const port = new SerialPort({ path: 'COM4', baudRate: 115200 });
+const port = new SerialPort({ path: 'COM3', baudRate: 115200 });
 
 app.use(bodyParser.json());
 app.use(cors())

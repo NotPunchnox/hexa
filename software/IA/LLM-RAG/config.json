@@ -1,7 +1,7 @@
 {
     "OLLAMA_API_URL": "http://127.0.0.1:3005",
     "EMBEDDING_MODEL": "nomic-embed-text",
-    "LLM_MODEL": "phi2",
+    "LLM_MODEL": "qwen2-math:1.5b",
     "stream": true,
     "format": "json",
     "tts": false,

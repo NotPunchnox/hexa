@@ -39,5 +39,12 @@ void loop() {
       Walk(speed, X, Y);
     }
   }
+  if (isTurning) {
+    unsigned long currentMillis = millis();
+    if (currentMillis - previousMillis >= 240*speed) {
+      previousMillis = currentMillis;
+      Turn(Side, speed, 1, rayon);
+    }
+  }
 
 }

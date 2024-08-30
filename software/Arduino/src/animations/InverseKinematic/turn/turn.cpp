@@ -3,11 +3,12 @@
 #include "../../../functions/servo.h"
 
 // Fonction principale pour tourner
-void Turn(String sens, float speed, int cycles) {
-    float R = 1.5; // Rayon de la marche
+void Turn(String sens, float speed, int cycles, float r) {
+    float R = r; // Rayon de la marche
     float SPEED = 200 * speed;
     int numLegs = 6;
     int numSteps = 4; // Nombre de pas par séquence
+    int Z = 3;
 
     // Déterminer le sens de la rotation
     int direction = (sens == "left") ? 1 : -1;
@@ -17,13 +18,14 @@ void Turn(String sens, float speed, int cycles) {
         // {x, z, y} pour chaque patte {LFL, LML, LBL, LFR, LMR, LBR}
         //Colonne = Une séquence
         //Ligne = patte
-        {{PX+R, PZ, PY-R},   {PX+R, PZ, PY-R}, {PX-R, PZ-(R*2), PY+R}, {PX-R, PZ, PY+R} }, // LFL
-        {{PX-R, PZ-(R*2), PY+R}, {PX-R, PZ, PY+R}, {PX+R, PZ, PY-R},   {PX+R, PZ, PY-R} }, // LML
-        {{PX-R, PZ, PY-R},   {PX-R, PZ, PY-R}, {PX+R, PZ-(R*2), PY+R}, {PX+R, PZ, PY+R} }, // LBL
 
-        {{PX+R, PZ-(R*2), PY-R}, {PX+R, PZ, PY-R}, {PX-R, PZ, PY+R},   {PX-R, PZ, PY+R} }, // LFR
-        {{PX-R, PZ, PY+R},   {PX-R, PZ, PY+R}, {PX+R, PZ-(R*2), PY-R}, {PX+R, PZ, PY-R} }, // LMR
-        {{PX-R, PZ-(R*2), PY-R}, {PX-R, PZ, PY-R}, {PX+R, PZ, PY+R},   {PX+R, PZ, PY+R} }  // LBR
+        {{PX + R * direction, PZ,   PY - R * direction},  {PX + R * direction, PZ, PY - R * direction}, {PX - R * direction, PZ - Z, PY + R * direction}, {PX - R * direction, PZ, PY + R * direction} }, // LFL
+        {{PX + R * direction, PZ - Z, PY - R * direction},  {PX + R * direction, PZ, PY - R * direction}, {PX - R * direction, PZ,   PY + R * direction}, {PX - R * direction, PZ, PY + R * direction} }, // LML
+        {{PX - R * direction, PZ,   PY - R * direction},  {PX - R * direction, PZ, PY - R * direction}, {PX + R * direction, PZ - Z, PY + R * direction}, {PX + R * direction, PZ, PY + R * direction} }, // LBL
+
+        {{PX + R * direction, PZ - Z, PY - R * direction},  {PX + R * direction, PZ, PY - R * direction}, {PX - R * direction, PZ,   PY + R * direction}, {PX - R * direction, PZ, PY + R * direction} }, // LFR
+        {{PX - R * direction, PZ,   PY + R * direction},  {PX - R * direction, PZ, PY + R * direction}, {PX + R * direction, PZ - Z, PY - R * direction}, {PX + R * direction, PZ, PY - R * direction} }, // LMR
+        {{PX - R * direction, PZ - Z, PY - R * direction},  {PX - R * direction, PZ, PY - R * direction}, {PX + R * direction, PZ,   PY + R * direction}, {PX + R * direction, PZ, PY + R * direction} }  // LBR
     };
 
     for (int cycle = 0; cycle < cycles; ++cycle) {
@@ -38,7 +40,7 @@ void Turn(String sens, float speed, int cycles) {
             }
 
             moveLegsMatrices(legIndices, targetX, targetZ, targetY, numLegs, SPEED);
-            //delay(100); // Petite pause pour assurer la fluidité du mouvement
+            delay(10);
         }
     }
 }

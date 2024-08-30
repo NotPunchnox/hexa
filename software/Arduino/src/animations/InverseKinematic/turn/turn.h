@@ -1,6 +1,7 @@
 #ifndef TURN_H
 #define TURN_H
 
-void Turn(String sens, float speed, int cycles);
+/* String:side, float: speed, int: cycles, float: rayon */
+void Turn(String sens, float speed, int cycles, float r);
 
 #endif

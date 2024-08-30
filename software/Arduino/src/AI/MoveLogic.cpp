@@ -109,16 +109,32 @@ void IA_Movements(String response) {
         }
 
         Serial.println("Commande Walk terminée");
-    } else if (response.indexOf("Turn_") != -1) {
+    } else if (response.indexOf("StartTurn_") != -1) {//StartTurn_speed_side_rayon
         String parts[4];
         splitString(response, '_', parts, 4);
+
+        float speed = parts[1].toFloat();
+        String side = parts[2];
+        float rayon = parts[3].toFloat();
+        
+        startTurning(side, speed, rayon);
+    }  else if (response.indexOf("StopTurn") != -1) {//StopWalk
+        Turn("left", 2, 1, 0);
+        isTurning = false;
+    } else if (response.indexOf("Turn_") != -1) {
+        String parts[5];
+        splitString(response, '_', parts, 5);
+        float r = 1.5;
 
         if (parts[1].length() > 0 && parts[2].length() > 0 && parts[3].length() > 0) {
             float speed = parts[1].toFloat();
             String side = parts[2];
             int cycles = parts[3].toInt();
+            if(parts[4].length() > 0) {
+                r = parts[4].toFloat();
+            }
 
-            Turn(side, speed, cycles);
+            Turn(side, speed, cycles, r);
         } else {
             Serial.println("Erreur : Format de commande incorrect.");
         }
