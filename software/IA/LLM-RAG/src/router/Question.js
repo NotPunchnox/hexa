@@ -51,23 +51,31 @@ export default async (prompt, l = 3, modelSelected = config.LLM_MODEL) => {
         resultGlobal = formatDocumentsAsString(resultGlobal);
         // console.log(resultConversations, resultGlobal, resultActions)
 
-        const textTemplate = `Utilisez les éléments de contexte suivants pour répondre à la question à la fin, avec le format json connue.
+        const textTemplate = 
+`Répondez à la question suivante en format JSON. Soyez clair et concis. Si des actions sont requises, utilisez-les, sinon laissez le tableau d'actions vide.
+
+Context: {context};
+history: {conversation};
+actions: {syntaxAction};
+QUESTION: {question};
+
+Réponse:`;
+
+        console.log(`Utilisez les éléments de contexte suivants pour répondre à la question à la fin, avec le format json connue.
 Répondez de manière claire et concise en utilisant seulement le format JSON imposé.
 Utilisez des actions si nécessaire sinon laissez le tableau vide, n'essayez pas d'en inventer.
 
 ----------------
-EXTERNAL DATA: {context}
+EXTERNAL DATA: ${resultGlobal}
 ----------------
-MEMORY CHAT: {conversation}
+MEMORY CHAT: ${resultConversations}
 ----------------
-EXAMPLE ACTION: {syntaxAction}
+EXAMPLE ACTION: ${resultActions.replace(/\n/, ';')}
 ----------------
-CHAT HISTORY: {ChatHistory}
-----------------
-QUESTION: {question}
+${ChatHistory.length === 0 ? "" : "CHAT HISTORY: " + JSON.stringify(ChatHistory)}
 ----------------
 
-Réponse: `;
+Réponse: `)
 
         const PROMPT_TEMPLATE = PromptTemplate.fromTemplate(textTemplate);
 
@@ -115,9 +123,10 @@ Réponse: `;
                 })
             }
 
+            const res = JSON.parse(chunks.join('').replace(/\n|\r/g, ''))
+
             if (config.tts) {
                 try {
-                    const res = JSON.parse(chunks.join('').replace(/\n|\r/g, ''))
                     console.log(res)
                     tts(res?.message) //Text to speech
                 } catch (err) {
@@ -125,16 +134,16 @@ Réponse: `;
                 }
             }
 
-
+            return {result: res, resultConversations}
         } else {
-            const finalResult = await chain.invoke({
+            const result = await chain.invoke({
                 context: resultGlobal,
                 conversation: resultConversations,
                 syntaxAction: resultActions,
                 ChatHistory: ChatHistory,
                 question: prompt
             });
-            return finalResult
+            return {result, resultConversations}
         }
     } catch (error) {
         console.error('Error:', error);

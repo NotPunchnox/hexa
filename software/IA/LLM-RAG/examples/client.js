@@ -1,11 +1,15 @@
 import config from "../config.json" assert { type: "json" }
 import {ChatHistory} from "../src/router/Question.js"
+import fs from "fs"
+import {getVectorStore} from "../src/controller/embedding.js"
 
 export default config
 
 import readline from "readline";
 import InitLogic from "../src/controller/InitLogic.js";
 import Question from "../src/router/Question.js";
+import { AddDoc } from "../src/controller/initEmbedding.js";
+import path from "path";
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -48,7 +52,7 @@ const chatLoop = async () => {
       }
       if(prompt === "help") return console.log("- config tts (true|false)\n- config model (gemma)\n- config format (null|json)\n- config stream (true|false)\n- chat: get chat History\n- clear|cls: clear console")
       if(prompt === "chat") return console.log('\n', ChatHistory, '\n');
-        if(prompt === "cls" || prompt === "clear") return console.clear();
+      if(prompt === "cls" || prompt === "clear") return console.clear();
 
       if (prompt.includes('-')) {
           const parts = prompt.split('-');
@@ -56,9 +60,23 @@ const chatLoop = async () => {
           modelSelected = parts[1] || null;
       }
 
-      const result = await Question(question, 5, modelSelected);
+      const {result, resultConversations} = await Question(question, 2, modelSelected);
+      if(!config.stream) console.log('\n\x1b[1mRéponse:\x1b[0m\x1b[36m', result, '\x1b[0m\n');
 
-      if(!config.stream) console.log('\n\x1b[1mRéponse:\x1b[0m\x1b[36m', result, '\x1b[0m\n');     
+      const vectorStore = await getVectorStore()
+
+      /** Save In VectorStore */
+      let p = path.resolve('./src/Training Data/conversations/conversation.json');
+      
+      AddDoc([`user: ${question}`, `IA: ${JSON.stringify(result)}`], vectorStore.vectorStoreConversations);
+
+      let data = fs.readFileSync(p, 'utf-8')
+      data = JSON.parse(String(data));
+      data.push(`user: ${question}; IA: ${JSON.stringify(result)}`)
+      
+      fs.writeFileSync(p, JSON.stringify(data), 'utf-8')
+
+      console.log('New Vector saved');
       
     } catch (error) {
       console.error('\x1b[31mErreur lors de la récupération de la réponse:', error, '\x1b[0m');

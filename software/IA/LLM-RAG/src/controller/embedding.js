@@ -9,6 +9,8 @@ const getVectorStore = async() => {
   return vectorStore
 }
 
+export {getVectorStore}
+
 const search = async (prompt, l=3) => {
   try {
     let resultGlobal = []
@@ -29,6 +31,5 @@ const search = async (prompt, l=3) => {
 export default {
     InitEmbedding,
     search,
-    InitVector,
-    getVectorStore
+    InitVector
 };

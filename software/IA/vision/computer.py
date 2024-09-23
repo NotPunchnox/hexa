@@ -67,12 +67,12 @@ def detect_objects(frame):
             "User-Agent": "insomnia/2023.5.8"
         }
 
-        response = requests.post(url, json=payload, headers=headers)
-        print(response.text)
+        # response = requests.post(url, json=payload, headers=headers)
+        # print(response.text)
 
 
 def read_video_stream(url):
-    cap = cv2.VideoCapture(url)
+    cap = cv2.VideoCapture(0)
     if not cap.isOpened():
         print("Error: Could not open video stream")
         return

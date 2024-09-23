@@ -1,5 +1,6 @@
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { JSONLoader } from "langchain/document_loaders/fs/json";
+import { Document } from "langchain/document";
 import fs from "fs";
 import path from "path";
 
@@ -38,6 +39,15 @@ const processFiles = async (dir) => {
   }
   return documents;
 };
+
+const Split = async txt => {
+  return await new RecursiveCharacterTextSplitter({
+    chunkSize: 100,
+    chunkOverlap: 0
+  }).createDocuments(txt)
+} 
+
+export {Split}
 
 export default async () => {
   try {

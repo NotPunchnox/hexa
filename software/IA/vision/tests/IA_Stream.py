@@ -2,7 +2,7 @@ import yolov5
 import cv2
 import numpy as np
 
-model = yolov5.load('../model/yolov5n6.pt')
+model = yolov5.load('../model/yolov5n.pt')
 
 # Paramètres du modèle
 model.conf = 0.25  # niveau de "confiance" NMS

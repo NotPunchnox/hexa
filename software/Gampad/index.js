@@ -1,6 +1,6 @@
 const { SerialPort, ReadlineParser } = require('serialport');
 
-const portRemote = new SerialPort({ path: 'COM5', baudRate: 9600 });
+const portRemote = new SerialPort({ path: 'COM4', baudRate: 9600 });
 const RobotPort = new SerialPort({ path: 'COM3', baudRate: 115200 });
 
 const parserRemote = portRemote.pipe(new ReadlineParser({ delimiter: '\n' }));
