@@ -50,34 +50,29 @@ export default async (prompt, l = 3, modelSelected = config.LLM_MODEL) => {
         resultConversations = formatDocumentsAsString(resultConversations);
         resultGlobal = formatDocumentsAsString(resultGlobal);
         // console.log(resultConversations, resultGlobal, resultActions)
-
         const textTemplate = 
-`Répondez à la question suivante en format JSON. Soyez clair et concis. Si des actions sont requises, utilisez-les, sinon laissez le tableau d'actions vide.
-
-Context: {context};
-history: {conversation};
+        String(`Répondez à la question suivante en format JSON. Soyez clair et concis. Si des actions sont requises, utilisez-les, sinon laissez le tableau d'actions vide.
+ 
+${resultGlobal && resultGlobal.length > 0 ? "context: {context};" : "{context}"}
+${ChatHistory && ChatHistory.length > 0 ? "history: {ChatHistory};" : "{ChatHistory}"}
+${resultConversations && resultConversations.length > 0 ? "memory: {conversation};" : "{conversation}"}
 actions: {syntaxAction};
 QUESTION: {question};
 
-Réponse:`;
+Réponse:`);
+        
+        console.log(`Répondez à la question suivante en format JSON. Soyez clair et concis. Si des actions sont requises, utilisez-les, sinon laissez le tableau d'actions vide.
+ 
+${resultGlobal && resultGlobal.length > 0 ? "context: "+resultGlobal+";" : ""}
+${ChatHistory && ChatHistory.length > 1 ? "history: "+ChatHistory+";" : "{ChatHistory}"}
+${resultConversations && resultConversations.length > 0 ? "memory: "+resultConversations+";" : "{conversation}"}
+actions: ${resultActions};
+QUESTION: ${prompt};
 
-        console.log(`Utilisez les éléments de contexte suivants pour répondre à la question à la fin, avec le format json connue.
-Répondez de manière claire et concise en utilisant seulement le format JSON imposé.
-Utilisez des actions si nécessaire sinon laissez le tableau vide, n'essayez pas d'en inventer.
-
-----------------
-EXTERNAL DATA: ${resultGlobal}
-----------------
-MEMORY CHAT: ${resultConversations}
-----------------
-EXAMPLE ACTION: ${resultActions.replace(/\n/, ';')}
-----------------
-${ChatHistory.length === 0 ? "" : "CHAT HISTORY: " + JSON.stringify(ChatHistory)}
-----------------
-
-Réponse: `)
-
+Réponse:`);
+        
         const PROMPT_TEMPLATE = PromptTemplate.fromTemplate(textTemplate);
+        
 
         const chain = RunnableSequence.from([
             async (input) => ({

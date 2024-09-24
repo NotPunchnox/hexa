@@ -63,13 +63,15 @@ const chatLoop = async () => {
       const {result, resultConversations} = await Question(question, 2, modelSelected);
       if(!config.stream) console.log('\n\x1b[1mRéponse:\x1b[0m\x1b[36m', result, '\x1b[0m\n');
 
-      const vectorStore = await getVectorStore()
+      const vectorStore = await getVectorStore();
 
       /** Save In VectorStore */
-      let p = path.resolve('./src/Training Data/conversations/conversation.json');
+      let now = new Date();
+      let p = path.resolve(`./src/Training Data/conversations/conv-${now.getFullYear()}-${('0' + (now.getMonth() + 1)).slice(-2)}-${('0' + now.getDate()).slice(-2)}-${('0' + now.getHours()).slice(-2)}.json`);
       
       AddDoc([`user: ${question}`, `IA: ${JSON.stringify(result)}`], vectorStore.vectorStoreConversations);
 
+      if(!fs.existsSync(p)) fs.writeFileSync(p, '[]')
       let data = fs.readFileSync(p, 'utf-8')
       data = JSON.parse(String(data));
       data.push(`user: ${question}; IA: ${JSON.stringify(result)}`)

@@ -1,6 +1,5 @@
 node_modules
 package-lock.json
-src/Training Data/conversation.json
+src/Training Data/conversations/*.json
 src/Training Data/actions.json
-src/Training Data/conversations/conversation.json
 models
