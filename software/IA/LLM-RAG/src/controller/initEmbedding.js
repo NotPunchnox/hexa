@@ -23,7 +23,7 @@ const AddDoc = async (texts, vectorStore) => {
             console.log('\x1b[32mNew VectorStore initialized with texts: ', texts, '\x1b[0m');
         } else {
             await vectorStore.addDocuments(await Split(texts));
-            console.log('\x1b[32mNew texts added to VectorStore: ', texts, '\x1b[0m');
+            // console.log('\x1b[32mNew texts added to VectorStore: ', texts, '\x1b[0m');
         }
     } catch (error) {
         console.error('\x1b[31mError adding documents to vector store:', error, '\x1b[0m');

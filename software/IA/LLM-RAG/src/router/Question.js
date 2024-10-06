@@ -7,16 +7,17 @@ import embedding from "../controller/embedding.js";
 import config from "../../examples/client.js";
 import configConst from "../../config.json"assert {    type: "json"};
 import tts from "../controller/tts.js";
-import {SerialPort} from "serialport";
-import {ReadlineParser} from "serialport";
+import {SerialPort, ReadlineParser} from "serialport";
+import PORT from "./serialPort.js";
 
 var ChatHistory = []
 var parser,port,model,model_name;
 
 if (configConst.serial) {
+    console.log(await PORT)
     // Configurez le port série
     port = new SerialPort({
-        path: configConst.COM_SERIAL,
+        path: await PORT,
         baudRate: 115200
     });
 
@@ -61,15 +62,15 @@ QUESTION: {question};
 
 Réponse:`);
         
-        console.log(`Répondez à la question suivante en format JSON. Soyez clair et concis. Si des actions sont requises, utilisez-les, sinon laissez le tableau d'actions vide.
+//         console.log(`Répondez à la question suivante en format JSON. Soyez clair et concis. Si des actions sont requises, utilisez-les, sinon laissez le tableau d'actions vide.
  
-${resultGlobal && resultGlobal.length > 0 ? "context: "+resultGlobal+";" : ""}
-${ChatHistory && ChatHistory.length > 1 ? "history: "+ChatHistory+";" : "{ChatHistory}"}
-${resultConversations && resultConversations.length > 0 ? "memory: "+resultConversations+";" : "{conversation}"}
-actions: ${resultActions};
-QUESTION: ${prompt};
+// ${resultGlobal && resultGlobal.length > 0 ? "context: "+resultGlobal+";" : ""}
+// ${ChatHistory && ChatHistory.length > 1 ? "history: "+ChatHistory+";" : "{ChatHistory}"}
+// ${resultConversations && resultConversations.length > 0 ? "memory: "+resultConversations+";" : "{conversation}"}
+// actions: ${resultActions};
+// QUESTION: ${prompt};
 
-Réponse:`);
+// Réponse:`);
         
         const PROMPT_TEMPLATE = PromptTemplate.fromTemplate(textTemplate);
         
@@ -122,14 +123,14 @@ Réponse:`);
 
             if (config.tts) {
                 try {
-                    console.log(res)
+                    // console.log(res)
                     tts(res?.message) //Text to speech
                 } catch (err) {
                     console.log('impossible de formatter le contenu de la réponse')
                 }
             }
 
-            return {result: res, resultConversations}
+            return {result: res}
         } else {
             const result = await chain.invoke({
                 context: resultGlobal,

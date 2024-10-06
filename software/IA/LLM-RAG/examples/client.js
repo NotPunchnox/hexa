@@ -60,7 +60,7 @@ const chatLoop = async () => {
           modelSelected = parts[1] || null;
       }
 
-      const {result, resultConversations} = await Question(question, 2, modelSelected);
+      const {result} = await Question(question, 2, modelSelected);
       if(!config.stream) console.log('\n\x1b[1mRéponse:\x1b[0m\x1b[36m', result, '\x1b[0m\n');
 
       const vectorStore = await getVectorStore();
@@ -77,8 +77,6 @@ const chatLoop = async () => {
       data.push(`user: ${question}; IA: ${JSON.stringify(result)}`)
       
       fs.writeFileSync(p, JSON.stringify(data), 'utf-8')
-
-      console.log('New Vector saved');
       
     } catch (error) {
       console.error('\x1b[31mErreur lors de la récupération de la réponse:', error, '\x1b[0m');
