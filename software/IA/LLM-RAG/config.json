@@ -1,10 +1,9 @@
 {
-    "OLLAMA_API_URL": "http://127.0.0.1:11434",
+    "OLLAMA_API_URL": "http://192.168.1.91:3005",
     "EMBEDDING_MODEL": "all-minilm",
-    "LLM_MODEL": "Aash:3b",
+    "LLM_MODEL": "Aash:4b",
     "stream": true,
     "format": "json",
     "tts": false,
-    "serial": false,
-    "COM_SERIAL": "COM3"
+    "serial": false
 }

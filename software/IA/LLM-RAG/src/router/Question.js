@@ -47,30 +47,28 @@ export default async (prompt, l = 3, modelSelected = config.LLM_MODEL) => {
             resultConversations,
             resultGlobal
         } = await embedding.search(prompt, l);
-        resultActions = formatDocumentsAsString(resultActions);
-        resultConversations = formatDocumentsAsString(resultConversations);
-        resultGlobal = formatDocumentsAsString(resultGlobal);
+        resultActions = formatDocumentsAsString(resultActions).replace(/\n/g, '');
+        resultConversations = formatDocumentsAsString(resultConversations).replace(/\n/g, '');
+        resultGlobal = formatDocumentsAsString(resultGlobal).replace(/\n/g, '');
         // console.log(resultConversations, resultGlobal, resultActions)
         const textTemplate = 
         String(`Répondez à la question suivante en format JSON. Soyez clair et concis. Si des actions sont requises, utilisez-les, sinon laissez le tableau d'actions vide.
- 
+
 ${resultGlobal && resultGlobal.length > 0 ? "context: {context};" : "{context}"}
 ${ChatHistory && ChatHistory.length > 0 ? "history: {ChatHistory};" : "{ChatHistory}"}
 ${resultConversations && resultConversations.length > 0 ? "memory: {conversation};" : "{conversation}"}
 actions: {syntaxAction};
-QUESTION: {question};
 
-Réponse:`);
+répond à la question: {question}`);
         
         console.log(`Répondez à la question suivante en format JSON. Soyez clair et concis. Si des actions sont requises, utilisez-les, sinon laissez le tableau d'actions vide.
  
 ${resultGlobal && resultGlobal.length > 0 ? "context: "+resultGlobal+";" : ""}
-${ChatHistory && ChatHistory.length > 1 ? "history: "+ChatHistory+";" : "{ChatHistory}"}
+${ChatHistory && ChatHistory.length > 1 ? "history: "+ChatHistory+";" : ""}
 ${resultConversations && resultConversations.length > 0 ? "memory: "+resultConversations+";" : "{conversation}"}
 actions: ${resultActions};
-QUESTION: ${prompt};
 
-Réponse:`);
+répond à la question: ${prompt}:`);
         
         const PROMPT_TEMPLATE = PromptTemplate.fromTemplate(textTemplate);
         
