@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/notpunchnox/Hexa.git"
+    "url": "git+https://github.com/notpunchnox/Aash.git"
   },
   "keywords": [
     "hexapod",
@@ -21,7 +21,7 @@
   "author": "punchnox",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/notpunchnox/Hexa/issues"
+    "url": "https://github.com/notpunchnox/Aash/issues"
   },
-  "homepage": "https://github.com/notpunchnox/Hexa#readme"
+  "homepage": "https://github.com/notpunchnox/Aash#readme"
 }

@@ -1,9 +1,9 @@
-# Speaker - Client PC pour l'API du Robot Hexa
+# Speaker - Client PC pour l'API du Robot Aash
 
 ## Description
 
-Speaker est un client PC conçu pour interagir avec l'API du robot Hexa. Ce client permet d'envoyer des commandes et de recevoir des réponses en utilisant la reconnaissance vocale. Après l'ajustement pour le bruit ambiant, vous pouvez parler dans le micro et obtenir une réponse du robot.
-Le robot est connecté à l'intelligence artificielle Gemini Flash-1.5, vous pouvez créer vôtre propre modèle et l'entrainer pour rendre `Hexa` de plus en plus performant chaque jours.
+Speaker est un client PC conçu pour interagir avec l'API du robot Aash. Ce client permet d'envoyer des commandes et de recevoir des réponses en utilisant la reconnaissance vocale. Après l'ajustement pour le bruit ambiant, vous pouvez parler dans le micro et obtenir une réponse du robot.
+Le robot est connecté à l'intelligence artificielle Gemini Flash-1.5, vous pouvez créer vôtre propre modèle et l'entrainer pour rendre `Aash` de plus en plus performant chaque jours.
 
 ## Installation
 
@@ -41,7 +41,7 @@ Cette commande ouvrira une fenêtre de navigateur pour vous permettre de vous co
 ## Fonctionnalités
 
 - Ajustement automatique pour le bruit ambiant.
-- Reconnaissance vocale pour envoyer des commandes et recevoir des réponses du robot Hexa.
+- Reconnaissance vocale pour envoyer des commandes et recevoir des réponses du robot Aash.
 - Authentification via Google Cloud pour accéder aux services nécessaires.
 
 ## Prérequis

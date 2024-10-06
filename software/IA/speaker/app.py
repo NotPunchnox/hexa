@@ -128,8 +128,8 @@ def main():
                     send_command(command)
             speak_text(final_response)
             
-            print("Hexa: \033[36m"+ final_response+"\033[0m")
-            print("Hexa: \033[36m"+ actions +"\033[0m")
+            print("Aash: \033[36m"+ final_response+"\033[0m")
+            print("Aash: \033[36m"+ actions +"\033[0m")
             
         elif speech_recognition_result["error"]:
             print("ERREUR: {}".format(speech_recognition_result["error"]))

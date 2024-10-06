@@ -1,6 +1,6 @@
 <div class="markdown prose w-full break-words dark:prose-invert dark">
   <h1>Composants</h1>
-  <p>J'ai fais en sorte de minimiser les coûts de fabrication de Hexa pour que n'importe qui de motivé et investi à le reproduire puisse le faire</p>
+  <p>J'ai fais en sorte de minimiser les coûts de fabrication de Aash pour que n'importe qui de motivé et investi à le reproduire puisse le faire</p>
   <p>Ci-dessous, vous trouverez une liste des composants nécessaires pour construire cet Hexapode :</p>
   <h2>Composants électroniques</h2>
   <ul>

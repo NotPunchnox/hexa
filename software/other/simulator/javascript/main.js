@@ -1,7 +1,7 @@
 const {plot} = require('nodeplotlib');
-const Hexa = require('./src/')
+const Aash = require('./src/')
 
-Hexa.router.axes(plot)
+Aash.router.axes(plot)
 
 const config = {
     coxa: 5,
@@ -13,7 +13,7 @@ const coordinated = {
     y: 8,
     z: 0
 }
-Hexa.Algorithmes.inverseKinematic({config, coordinated})
+Aash.Algorithmes.inverseKinematic({config, coordinated})
 
 
 // Définir les paramètres de la patte (exemples)
@@ -23,4 +23,4 @@ const lengths = [5, 6, 14];
 const mode = "lines"
 
 // Dessiner la patte
-Hexa.Controllers.DrawLeg(plot, startPoint, angles, lengths, mode);
+Aash.Controllers.DrawLeg(plot, startPoint, angles, lengths, mode);

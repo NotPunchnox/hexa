@@ -29,8 +29,8 @@ Avant de commencer, assurez-vous que vous avez installé les outils suivants :
 1. **Clonez le dépôt**
 
    ```bash
-   git clone https://github.com/notpunchnox/Hexa
-   cd ./Hexa/software/IA/LLM-RAG
+   git clone https://github.com/notpunchnox/Aash
+   cd ./Aash/software/IA/LLM-RAG
    ```
 
 2. **Installez les dépendances**

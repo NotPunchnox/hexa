@@ -1,13 +1,18 @@
-# Hexa
+# Aash
 
 /!\ pour information ce projet est en constante évolution, quasiment tout les jours le repos change ( [surtout ici](./software/IA/) ) : 25/09/24
 
-*Hexa est un robot open source en phase de développement. Son objectif est d'aider dans l'initiation à la robotique. Il sera équipé d'un système d'intelligence artificielle pour la communication, la gestion des animations ( cinématique inversée ), l'adaptabilité à son environnement.*
+*Aash est un robot open source en phase de développement. Son objectif est d'aider dans l'initiation à la robotique. Il sera équipé d'un système d'intelligence artificielle pour la communication, la gestion des animations ( cinématique inversée ), l'adaptabilité à son environnement.*
 
 ### En cours de développement
-- **Intelligence Artificielle ( `Langage Naturel`, `Gestion d'Algorithmes`: `cinématique inversée`/`matrice` )**: Actuellement je travail sur les animations du robot et l'intégration d'intelligence artificielles, J'utilise une version gratuite de Gemini qui est suffisante pour l'utilisation dont on a besoin, ceci nous permet d'entrainer le robot à comprendre comment fonctionne ses animations et algorithmes.
+- **Intelligence Artificielle ( `Langage Naturel`, `Gestion d'Algorithmes`: `cinématique inversée`/`matrice`, `Gestion des animations en fonction des prompts` )**: Avant le programme permettant de gérer les programmes basés sur l'ia utilisait principalement Gemini et Google tts ( pour le text to speach ).
 
-- **Animations ( `Walk`, `Up`, `Sleep`, `ChangeTop`, `InverseKinematic`: `rouli`... )**: Sur les animations je travail sur les animations de cinématique inversé et de mouvements de bases, le but est que l'IA puisse faire ses propres matrices de mouvements, pour avoir un rendu optimal. J'ai ajouté des matrices permettant de contrôller chaque pattes indépendament des autres, et un mouvement progressif entre chaque positions permettant de fluidifier les séquences animations avec de belles transitions.
+Maintenant le robot fonctionne à l'aide de `Aash:3b` un modèle basé sur `Qwen2.5:3b` un modèle de 3 Milliards de paramètres très bien optimisé et idéal pour les ordinateurs avec peu de performances. Le modèle à été entrainé avec des `Datasets` faites à partir des anciennes intéractions avec Gemini, le programme permettant de lancer le `LLM` met en place une téchnologie nommé [RAG](./software/IA/LLM-RAG/) et permet de rajouter des connaissances au modèle LLM de façon optimisé, vous pouvez modéliser les connaissances de l'IA en lui mettant des fichiers de documentation `Markdown|JSON|TXT` dans ce répèrtoire: [Training Data](./software/IA/LLM-RAG/src/Training%20Data/)
+
+- **Animations ( `Walk`, `Up`, `Sleep`, `ChangeTop`, `InverseKinematic`: `rouli`... )**: Sur les animations je travail sur les animations de cinématique inversé et de mouvements de bases, le but est que l'IA puisse faire ses propres matrices de mouvements, pour avoir un rendu optimal.
+J'ai ajouté des matrices permettant de contrôller chaque pattes indépendament des autres, et un mouvement progressif entre chaque positions permettant de fluidifier les séquences animations avec de belles transitions.
+/[6 octobre 2024]/ Des animations en boucles ont été mises en place avec une amélioration de la marche et des rotations.
+Exemple: Custom; Attack; StartWalk_2_avant_arrière_gauche_droite; StopWalk, StartTurn_speed_sens_extansion-de-la-patte; StopTurn
 
 **Exemple de conversation avec l'IA:**
 ![Image](./medias/IA_Chat.PNG)
@@ -26,7 +31,8 @@
 
 
 - Composition du robot: [Composants du robot](https://github.com/NotPunchnox/hexa/blob/main/hardware/Composants.md)
-- Images du robot en 3D (autodesk Fusion360): [Images en 3D](https://github.com/NotPunchnox/hexa/blob/main/hardware/Hexa%203d.md)
+- Images du robot en 3D (autodesk Fusion360): [Images en 3D](https://github.com/NotPunchnox/hexa/blob/main/hardware/Aash%203d.md)
+- Guide pour mettre en place le `Raspberrypi zero w` et la `camera` [Guide Camera](./learn/Setup%20Camera/README.md)
 
 ## Fonctionnalités
 
@@ -40,9 +46,12 @@
 - **Cours**: Explications sur les mathématiques utilisés dans le robot, tel que la cinématique inversée, programmation etc => [Cinématique inverse](./learn/README.md)
 - **Hardware** : Contient l'assemblage, les composants, le câblage, etc. => [Documentation matérielle](./hardware/Composants.md)
 - **Software** : 
-    - **Arduino**: Contient Le code open source du Robot Hexa [Arduino](./software/Arduino/)
-    - **IA**: Comprend le code source du fonctionnement d'apprentissage de Hexa ( IA de reproduction de langage naturel + contrôle de cinématique inversé à partir de Gemini-Flash-1.5).[Version Communication orale: Python](./software/IA/speaker/readme.md), [API de traitement d'instruction: NodeJs](./software/IA/API/)
-    - **Simulateur**: Contient un simulateur pour le robot Hexa. [Simulateur](./software/simulator/README.md)
+    - **Frimware**: Contient Le code source du frimware à flasher [Frimware esp8266](./software/Arduino/)
+    - **IA**: Comprend le code source des programmes basés sur l'IA ( LLM, RAG, Embedding, TTS/STT, Vision, Serial-controller ).
+        - [Version Communication orale: Python](./software/IA/speaker/readme.md) */!\ Archived*
+        - [LLM RAG](./software/IA/LLM-RAG/)
+        - [Vision](./software/IA/vision/)
+    - **Simulateur**: Contient un simulateur pour le robot Aash. [Simulateur](./software/simulator/README.md)
 - Issues : Section pour signaler des bugs ou suggérer des améliorations.
 
 ## Licence

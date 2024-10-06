@@ -12,7 +12,7 @@ func AlKashi(a, b, c float64) float64 {
 	return math.Acos((a*a + b*b - c*c) / (2 * a * b))
 }
 
-// Algo de cinématique inversée du robot Hexa
+// Algo de cinématique inversée du robot Aash
 func reverseKinematics(z, coxa, femur, rouli, body, tibia, extension, y float64, gauche bool) (float64, float64, float64, error) {
 
 	var zLeg float64 // float64 = nombre à virgule

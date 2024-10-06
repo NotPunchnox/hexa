@@ -23,7 +23,7 @@ void StartRouter() {
     String html = R"rawliteral(
         <html>
         <head>
-            <title>Hexa controller</title>
+            <title>Aash controller</title>
             <style>
             body { font-family: Arial, sans-serif; text-align: center; padding-top: 50px; }
             button { padding: 15px 25px; margin: 5px; font-size: 16px; }

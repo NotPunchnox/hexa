@@ -30,7 +30,7 @@ func Racine(a, b float64) float64 {
 	return math.Sqrt(a*a + b*b)
 }
 
-// Algo de cinématique inversée du robot Hexa
+// Algo de cinématique inversée du robot Aash
 func reverseKinematics(z, coxa, femur, rouli, body, tibia, x, y float64, gauche bool) (float64, float64, float64, float64, error) {
 
 	var zLeg float64 // float64 = nombre à virgule
