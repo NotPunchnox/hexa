@@ -1,4 +1,4 @@
-import {ChatOllama} from "@langchain/community/chat_models/ollama";
+import {ChatOllama} from "@langchain/ollama";
 import {StringOutputParser} from "@langchain/core/output_parsers";
 import {PromptTemplate} from "@langchain/core/prompts";
 import {RunnableSequence} from "@langchain/core/runnables";
@@ -62,15 +62,15 @@ QUESTION: {question};
 
 Réponse:`);
         
-//         console.log(`Répondez à la question suivante en format JSON. Soyez clair et concis. Si des actions sont requises, utilisez-les, sinon laissez le tableau d'actions vide.
+        console.log(`Répondez à la question suivante en format JSON. Soyez clair et concis. Si des actions sont requises, utilisez-les, sinon laissez le tableau d'actions vide.
  
-// ${resultGlobal && resultGlobal.length > 0 ? "context: "+resultGlobal+";" : ""}
-// ${ChatHistory && ChatHistory.length > 1 ? "history: "+ChatHistory+";" : "{ChatHistory}"}
-// ${resultConversations && resultConversations.length > 0 ? "memory: "+resultConversations+";" : "{conversation}"}
-// actions: ${resultActions};
-// QUESTION: ${prompt};
+${resultGlobal && resultGlobal.length > 0 ? "context: "+resultGlobal+";" : ""}
+${ChatHistory && ChatHistory.length > 1 ? "history: "+ChatHistory+";" : "{ChatHistory}"}
+${resultConversations && resultConversations.length > 0 ? "memory: "+resultConversations+";" : "{conversation}"}
+actions: ${resultActions};
+QUESTION: ${prompt};
 
-// Réponse:`);
+Réponse:`);
         
         const PROMPT_TEMPLATE = PromptTemplate.fromTemplate(textTemplate);
         
@@ -145,5 +145,8 @@ Réponse:`);
         console.error('Error:', error);
     }
 }
+
+
+
 
 export { ChatHistory }

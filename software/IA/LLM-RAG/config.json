@@ -5,6 +5,6 @@
     "stream": true,
     "format": "json",
     "tts": false,
-    "serial": true,
+    "serial": false,
     "COM_SERIAL": "COM3"
 }

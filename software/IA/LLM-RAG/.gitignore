@@ -3,3 +3,4 @@ package-lock.json
 src/Training Data/conversations/*.json
 src/Training Data/actions.json
 models
+config-backup.json

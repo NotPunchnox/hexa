@@ -54,11 +54,11 @@ const chatLoop = async () => {
       if(prompt === "chat") return console.log('\n', ChatHistory, '\n');
       if(prompt === "cls" || prompt === "clear") return console.clear();
 
-      if (prompt.includes('-')) {
-          const parts = prompt.split('-');
-          question = parts[0];
-          modelSelected = parts[1] || null;
-      }
+      // if (prompt.includes('-')) {
+      //     const parts = prompt.split('-');
+      //     question = parts[0];
+      //     modelSelected = parts[1] || null;
+      // }
 
       const {result} = await Question(question, 2, modelSelected);
       if(!config.stream) console.log('\n\x1b[1mRéponse:\x1b[0m\x1b[36m', result, '\x1b[0m\n');
