@@ -1,16 +1,16 @@
 # Aash
 
-**/!\ pour information ce projet est en constante évolution, quasiment tout les jours le repos change ( [surtout ici](./software/IA/) )** : *25/09/24*
+**/!\ pour information ce projet est en constante évolution, quasiment tout les jours le repos change ( [surtout ici](./software/IA/) )** : *13/10/24*
 
 *Aash est un robot open source en phase de développement. Son objectif est d'aider dans l'initiation à la robotique. Il sera équipé d'un système d'intelligence artificielle pour la communication, la gestion des animations par cinématique inversée, la vision par ordinateur, et la navigation autonome.*
 
 ### En cours de développement
-- **Intelligence Artificielle:
+- **Intelligence Artificielle**:
     - `Langage Naturel`: bientôt fini à 100%,
     - `Gestion de l'algorithme de cinématique inversée`: *animations en fonction des prompts*; bientôt fini à 100%
     - `Computer Vision`: Segmentation, Image Classification, Image extraction: phrase. ( rendu actuel pour `Image Extraction` avec de très faibles performances : 9 secondes )**[13 octobre 2024]**
 
-Avant le programme NPL utilisait l'API `Gemini` et `Google TTS`.
+Avant le programme NLP utilisait l'API `Gemini` et `Google TTS`.
 
 Maintenant le robot fonctionne à l'aide de `Aash:3b` un modèle basé sur `Qwen2.5:3b`, il contient 3 Milliards de paramètres, il est très bien optimisé et idéal pour les ordinateurs avec peu de performances.
 
