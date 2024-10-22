@@ -1,18 +1,26 @@
 # Aash
 
-/!\ pour information ce projet est en constante évolution, quasiment tout les jours le repos change ( [surtout ici](./software/IA/) ) : 25/09/24
+**/!\ pour information ce projet est en constante évolution, quasiment tout les jours le repos change ( [surtout ici](./software/IA/) )** : *13/10/24*
 
-*Aash est un robot open source en phase de développement. Son objectif est d'aider dans l'initiation à la robotique. Il sera équipé d'un système d'intelligence artificielle pour la communication, la gestion des animations ( cinématique inversée ), l'adaptabilité à son environnement.*
+*Aash est un robot open source en phase de développement. Son objectif est d'aider dans l'initiation à la robotique. Il sera équipé d'un système d'intelligence artificielle pour la communication, la gestion des animations par cinématique inversée, la vision par ordinateur, et la navigation autonome.*
 
 ### En cours de développement
-- **Intelligence Artificielle ( `Langage Naturel`, `Gestion d'Algorithmes`: `cinématique inversée`/`matrice`, `Gestion des animations en fonction des prompts` )**: Avant le programme permettant de gérer les programmes basés sur l'ia utilisait principalement Gemini et Google tts ( pour le text to speach ).
+- **Intelligence Artificielle**:
+    - `Langage Naturel`: bientôt fini à 100%,
+    - `Gestion de l'algorithme de cinématique inversée`: *animations en fonction des prompts*; bientôt fini à 100%
+    - `Computer Vision`: Segmentation, Image Classification, Image extraction: phrase. ( rendu actuel pour `Image Extraction` avec de très faibles performances : 9 secondes )**[13 octobre 2024]**
 
-Maintenant le robot fonctionne à l'aide de `Aash:3b` un modèle basé sur `Qwen2.5:3b` un modèle de 3 Milliards de paramètres très bien optimisé et idéal pour les ordinateurs avec peu de performances. Le modèle à été entrainé avec des `Datasets` faites à partir des anciennes intéractions avec Gemini, le programme permettant de lancer le `LLM` met en place une téchnologie nommé [RAG](./software/IA/LLM-RAG/) et permet de rajouter des connaissances au modèle LLM de façon optimisé, vous pouvez modéliser les connaissances de l'IA en lui mettant des fichiers de documentation `Markdown|JSON|TXT` dans ce répèrtoire: [Training Data](./software/IA/LLM-RAG/src/Training%20Data/)
+Avant le programme NLP utilisait l'API `Gemini` et `Google TTS`.
 
-- **Animations ( `Walk`, `Up`, `Sleep`, `ChangeTop`, `InverseKinematic`: `rouli`... )**: Sur les animations je travail sur les animations de cinématique inversé et de mouvements de bases, le but est que l'IA puisse faire ses propres matrices de mouvements, pour avoir un rendu optimal.
-J'ai ajouté des matrices permettant de contrôller chaque pattes indépendament des autres, et un mouvement progressif entre chaque positions permettant de fluidifier les séquences animations avec de belles transitions.
-/[6 octobre 2024]/ Des animations en boucles ont été mises en place avec une amélioration de la marche et des rotations.
-Exemple: Custom; Attack; StartWalk_2_avant_arrière_gauche_droite; StopWalk, StartTurn_speed_sens_extansion-de-la-patte; StopTurn
+Maintenant le robot fonctionne à l'aide de `Aash:3b` un modèle basé sur `Qwen2.5:3b`, il contient 3 Milliards de paramètres, il est très bien optimisé et idéal pour les ordinateurs avec peu de performances.
+
+Le modèle à été entrainé avec des `Datasets` faites à partir des anciennes intéractions avec Gemini, le programme permettant de lancer le `LLM` met en place une technologie nommé [RAG](./software/IA/LLM-RAG/) et permet de rajouter des connaissances au modèle LLM de façon optimisé en créant `une base de donnée vectorielle`, vous pouvez modéliser les connaissances de l'IA en lui mettant des fichiers de documentation `Markdown|JSON|TXT` dans ce répèrtoire: [Training Data](./software/IA/LLM-RAG/src/Training%20Data/)
+
+- **Animations ( `Walk`, `Up`, `Sleep`, `ChangeTop`, `InverseKinematic`: `rouli`... )**: J'ai ajouté des matrices permettant de contrôller chaque pattes indépendament des autres, et un mouvement progressif entre chaque positions permettant de fluidifier les séquences d'animations avec de belles transitions.
+**[6 octobre 2024]** Des animations en boucles ont été mises en place avec une amélioration de la marche et des rotations.
+
+**Exemple**: Custom; Attack; StartWalk_2_avant_arrière_gauche_droite; StopWalk, StartTurn_speed_sens_extansion-de-la-patte; StopTurn.
+
 
 **Exemple de conversation avec l'IA:**
 ![Image](./medias/IA_Chat.PNG)
@@ -29,6 +37,7 @@ Exemple: Custom; Attack; StartWalk_2_avant_arrière_gauche_droite; StopWalk, Sta
     <img src="medias/robot_vu_de_face.jpg" width="50%" height="50%"/>
 </div>
 
+**ATTENTION: LA COMPOSITION DU ROBOT SERA MISE À JOUR ENTRE LE 13/10/2024-15/10/2024**, la composition du robot n'est plus à jours.
 
 - Composition du robot: [Composants du robot](https://github.com/NotPunchnox/hexa/blob/main/hardware/Composants.md)
 - Images du robot en 3D (autodesk Fusion360): [Images en 3D](https://github.com/NotPunchnox/hexa/blob/main/hardware/Aash%203d.md)
@@ -37,7 +46,7 @@ Exemple: Custom; Attack; StartWalk_2_avant_arrière_gauche_droite; StopWalk, Sta
 ## Fonctionnalités
 
 - Conception économique et polyvalente
-- Système d'intelligence artificielle pour la communication et l'adaptabilité
+- Système d'intelligence artificielle pour la communication, l'adaptabilité, la vision et la navigation autonome.
 - Intégration d'une IA [Go to IA](https://github.com/NotPunchnox/hexa/blob/main/software/IA/)
 
 ## Contenu du dépôt
