@@ -52,16 +52,16 @@ def main():
     os.system('cls')
     time.sleep(3)
 
-    # while True:
+    while True:
 
-    #     text = input("Vous: ")
-    #     send_command(text)
+        text = input("Vous: ")
+        send_command(text)
 
-    for command in ActionsXY:
-        send_command(command)
-        print(command, " sent!")
+    #for command in ActionsXY:
+    #    send_command(command)
+    #    print(command, " sent!")
     
-    time.sleep(10)
+    #time.sleep(10)
 
 if __name__ == "__main__":
     main()

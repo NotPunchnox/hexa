@@ -14,3 +14,4 @@ const result = await Question(prompt, 5, "gemma:2b")
 
 /* Afficher la réponse */
 console.log('\n\x1b[1mRéponse:\x1b[0m\x1b[36m', result, '\x1b[0m');
+
