@@ -3,7 +3,8 @@ import cv2
 from sklearn.cluster import KMeans
 import numpy as np
 
-model = YOLO("model/yolov8n.pt")
+model = YOLO("./model/yolov5nu_saved_model/yolov5nu_float16.tflite")
+#model = YOLO("model/yolov8n.pt")
 
 
 color_names = {
@@ -58,9 +59,9 @@ def Object_detection(cv2, frame):
             label = model.names[cls]
             segmented_image = frame[y1:y2, x1:x2]
 
-            if conf > 0.35:
-                size = estimate_size(box.xyxy[0].cpu().numpy(), frame.shape)
+            if conf > 0.50:
+                #size = estimate_size(box.xyxy[0].cpu().numpy(), frame.shape)
                 cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
-                cv2.putText(frame, f"{label} {conf:.2f} {size}", (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+                cv2.putText(frame, f"{label} {conf:.2f}", (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
     
-    return frame, label, conf, size
+    return frame

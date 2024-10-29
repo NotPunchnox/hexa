@@ -1,16 +1,22 @@
 import cv2, time
 from controllers.extract_text.find_text import find_text
 from controllers.segmentation.Object_detection import Object_detection
+from controllers.Face.face_detector import FaceRecognition
+
+Face = FaceRecognition()
 
 # Ouverture de la caméra
 webcam = cv2.VideoCapture(0)
+#webcam = cv2.VideoCapture("http://192.168.1.23:8000/stream.mjpg")
+
 width = int(webcam.get(cv2.CAP_PROP_FRAME_WIDTH))
 height = int(webcam.get(cv2.CAP_PROP_FRAME_HEIGHT))
 print(f"Dimensions de la caméra : largeur = {width}, hauteur = {height}")
 
 frame_counter = 0
+#webcam.set(cv2.CAP_PROP_FPS, 15)
 
-while True:
+while ( webcam.isOpened() ):
     # Lire la caméra
     ret, frame = webcam.read()
     if not ret:
@@ -23,7 +29,9 @@ while True:
     # frame_counter += 1
     # if frame_counter % 5 == 0:
 
-    frame, label, conf, size = Object_detection(cv2, frame)
+    frame = Object_detection(cv2, frame)
+    frame = Face.face_recognization(frame)
+
     
     # Afficher le résultat en temps réel dans la fenêtre
     end_time = time.time()
@@ -39,5 +47,4 @@ while True:
 webcam.release()
 cv2.destroyAllWindows()
 
-
-# Crédit : github.com/notpunchnox/hexa
+#Crédit : github.com/notpunchnox/hexa

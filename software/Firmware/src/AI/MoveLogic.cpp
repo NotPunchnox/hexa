@@ -1,3 +1,5 @@
+#include <Arduino.h>
+#include <QueueArray.h>
 #include "../animations/InverseKinematic/poses/Top.h"
 #include "../animations/InverseKinematic/rouli/rouli.h"
 #include "../animations/InverseKinematic/rouli/turnZ.h"
@@ -48,7 +50,9 @@ void IA_Movements(String response) {
         int speed = parts[1].toFloat();
         int cm = parts[2].toFloat();
 
+        isAnimated = true;
         ChangeTop(speed, cm);
+        isAnimated = false;
     } else if (response.indexOf("TurnZ_") != -1) {
         String parts[3];
         splitString(response, '_', parts, 3);
@@ -57,16 +61,18 @@ void IA_Movements(String response) {
         String side = parts[2];
 
         if (side == "horaire" || side == "anti-horaire") {
+            isAnimated = true;
             TurnZ(side, speed, 1);
+            isAnimated = false;
         }
     } else if (response.indexOf("Sleep_") != -1) {
         String parts[3];
         splitString(response, '_', parts, 3);
 
         float speed = parts[1].toFloat();
-
+        isAnimated = true;
         Sleep(speed);
-        
+        isAnimated = false;
     } else if (response.indexOf("StartWalk_") != -1) {//StartWalk_speed_X_Y
         String parts[4];
         splitString(response, '_', parts, 4);
@@ -74,8 +80,9 @@ void IA_Movements(String response) {
         float speed = parts[1].toFloat();
         int X = parts[2].toFloat();
         int Y = parts[3].toFloat();
-        
+        isAnimated = true;
         startWalking(X, Y, speed);
+        isAnimated = false;
     }  else if (response.indexOf("StopWalk") != -1) {//StopWalk
         Walk(4, 0, 0);
         isWalking = false;
@@ -105,7 +112,9 @@ void IA_Movements(String response) {
 
         for (int i = 0; i < cycles; ++i) {
             Serial.println("Exécution de la boucle: " + String(i + 1));
+            isAnimated = true;
             Walk(speed, X, Y);
+            isAnimated = false;
         }
 
         Serial.println("Commande Walk terminée");
@@ -117,7 +126,9 @@ void IA_Movements(String response) {
         String side = parts[2];
         float rayon = parts[3].toFloat();
         
+        isAnimated = true;
         startTurning(side, speed, rayon);
+        isAnimated = false;
     }  else if (response.indexOf("StopTurn") != -1) {//StopWalk
         Turn("left", 2, 1, 0);
         isTurning = false;
@@ -134,7 +145,9 @@ void IA_Movements(String response) {
                 r = parts[4].toFloat();
             }
 
+            isAnimated = true;
             Turn(side, speed, cycles, r);
+            isAnimated = false;
         } else {
             Serial.println("Erreur : Format de commande incorrect.");
         }
@@ -148,7 +161,9 @@ void IA_Movements(String response) {
         float left = parts[4].toFloat();
         float right = parts[5].toFloat();
 
+        isAnimated = true;
         Rouli(speed, top, bottom, left, right);
+        isAnimated = false;
     }else if (response.indexOf("ChangeY_") != -1) {
         String parts[3];
         splitString(response, '_', parts, 3);
@@ -156,7 +171,9 @@ void IA_Movements(String response) {
         int speed = parts[1].toFloat();
         int cm = parts[2].toFloat();
 
+        isAnimated = true;
         ChangeY(speed, cm);
+        isAnimated = false;
     }else if (response.indexOf("ChangeX_") != -1) {
         String parts[3];
         splitString(response, '_', parts, 3);
@@ -164,7 +181,9 @@ void IA_Movements(String response) {
         int speed = parts[1].toFloat();
         int cm = parts[2].toFloat();
 
+        isAnimated = true;
         ChangeX(speed, cm);
+        isAnimated = false;
     } else if (response.indexOf("ChangeXY_") != -1) {
         String parts[4];
         splitString(response, '_', parts, 4);
@@ -174,7 +193,9 @@ void IA_Movements(String response) {
             float X = parts[2].toFloat();
             int Y = parts[3].toInt();
 
+            isAnimated = true;
             ChangeXY(speed, X, Y);
+            isAnimated = false;
         } else {
             Serial.println("Erreur : Format de commande incorrect.");
         }
@@ -195,7 +216,9 @@ void IA_Movements(String response) {
             float animationMatrix[6][1][3];
             parseCustomMatrix(matrixString, animationMatrix);
 
+            isAnimated = true;
             Custom(animationMatrix, speed);
+            isAnimated = false;
         } else {
             Serial.println("Erreur : Format de commande incorrect.");
         }
@@ -205,15 +228,56 @@ void IA_Movements(String response) {
 
         int speed = parts[1].toFloat();
 
+        isAnimated = true;
         AttackMove(speed);
+        isAnimated = false;
     } else if (response.indexOf("Jump_") != -1) {
         String parts[3];
         splitString(response, '_', parts, 2);
 
         int speed = parts[1].toFloat();
 
+        isAnimated = true;
         Jump(speed);
+        isAnimated = false;
     } 
 
 }
 
+
+QueueArray<String> commandQueue;
+
+void enqueueCommand(const String& command) {
+    commandQueue.enqueue(command);
+}
+
+// Fonction pour diviser et ajouter plusieurs commandes dans la file
+void parseAndEnqueueCommands(const String& commands) {
+    String command;
+    for (int i = 0; i < commands.length(); i++) {
+        char currentChar = commands.charAt(i);
+        if (currentChar == ';') {
+            if (command.length() > 0) {
+                command.trim(); // Applique trim pour enlever les espaces
+                enqueueCommand(command); // Ajoute la commande sans trim()
+                command = "";
+            }
+        } else {
+            command += currentChar;
+        }
+    }
+
+    if (command.length() > 0) {
+        command.trim(); // Applique trim pour la dernière commande
+        enqueueCommand(command);
+    }
+}
+
+// Fonction pour traiter la prochaine commande
+void processNextCommand() {
+    if (!isAnimated && !commandQueue.isEmpty()) {
+        String command = commandQueue.dequeue();
+        IA_Movements(command);  // Appelle IA_Movements
+        isAnimated = true;
+    }
+}

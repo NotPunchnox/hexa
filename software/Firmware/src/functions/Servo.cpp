@@ -26,7 +26,7 @@ void Init() {
   pwm2.setOscillatorFrequency(27000000);
   pwm2.setPWMFreq(SERVO_FREQ);
 
-  StartRouter();
+  //StartRouter();
 }
 
 int pulseWidth(float angle) {

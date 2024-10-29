@@ -1,0 +1,5 @@
+db/faces/*
+*/__pycache__
+*/*/__pycache__
+
+controllers/__pycache__
