@@ -21,7 +21,7 @@ void setup() {
 }
 
 void loop() {
-  /*
+
   if (Serial.available() > 0) {
     String command = Serial.readStringUntil('\n');
 
@@ -31,15 +31,6 @@ void loop() {
     IA_Movements(response);
     
   }
-  */
-
-  if (Serial.available() > 0) {
-    String commands = Serial.readStringUntil('\n');
-    parseAndEnqueueCommands(commands);
-  }
-
-  processNextCommand();
-
 
   if (isWalking) {
     unsigned long currentMillis = millis();

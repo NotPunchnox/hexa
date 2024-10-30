@@ -61,5 +61,37 @@ void StartRouter() {
         request->send(200, "text/html", html);
     });
 
+
+    //Routes api rest
+    // server.on("/walk", HTTP_GET, [](AsyncWebServerRequest *request){
+    //     request->send(200, "text/plain", "Le robot marche!");
+    //     startWalking();
+    // });
+
+    server.on("/up", HTTP_GET, [](AsyncWebServerRequest *request){
+        Up(speed);
+        request->send(200, "text/plain", "Le robot se lève!");
+    });
+
+    server.on("/sleep", HTTP_GET, [](AsyncWebServerRequest *request){
+        Sleep(speed);
+        request->send(200, "text/plain", "Le robot dort!");
+    });
+
+    server.on("/default", HTTP_GET, [](AsyncWebServerRequest *request){
+        Default();
+        request->send(200, "text/plain", "Le robot est en position par défaut!");
+    });
+
+    server.on("/speed", HTTP_GET, [](AsyncWebServerRequest *request){
+        if (request->hasParam("value")) {
+        String value = request->getParam("value")->value();
+        speed = value.toFloat();
+        request->send(200, "text/plain", "Vitesse mise à jour à: " + value);
+        } else {
+        request->send(400, "text/plain", "Paramètre de vitesse manquant");
+        }
+    });
+
     server.begin();
 }

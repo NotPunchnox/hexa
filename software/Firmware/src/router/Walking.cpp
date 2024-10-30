@@ -2,11 +2,8 @@
 
 float speed = 2.5;
 float rayon = 0;
-
-bool isAnimated = false;
 bool isWalking = false;
 bool isTurning = false;
-
 unsigned long previousMillis = 0;
 String Side = "";
 
