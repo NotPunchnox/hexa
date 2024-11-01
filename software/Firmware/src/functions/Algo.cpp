@@ -19,9 +19,6 @@ LegAngles Algo(float x, float z, float y, int duree) {
     angles.AngleFemur = A1 + A2;
 
     float A3 = AlKashi(tibia, femur, hyp);
-   
-    // Serial.println("\nTibia: ");
-    // Serial.println(A3);
 
     angles.AngleCoxa = radiansToDegrees(atan(y / x)) + 90;
     angles.AngleTibia = A3;

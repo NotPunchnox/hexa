@@ -30,4 +30,5 @@ void ChangeTop(float speed, float Top) {
     }
 
     moveLegsMatrices(legIndices, targetX, targetZ, targetY, numLegs, SPEED);
+    Serial.println("Animation:ChangeTop:terminé");
 }

@@ -83,13 +83,13 @@ void setLeg(float x, float z, float y, int duree, int LEG[3], int address) {
     } else if (angles[1] < 0) {
       angles[2] = 1;
     }
-    Serial.println(" ");
-    Serial.println("\nAngle coxa: ");
-    Serial.print(angles[2]);
-    Serial.println("\nAngle femur: ");
-    Serial.print(angles[1]);
-    Serial.println("\nAngle tibia: ");
-    Serial.print(angles[0]);
+    // Serial.println(" ");
+    // Serial.println("\nAngle coxa: ");
+    // Serial.print(angles[2]);
+    // Serial.println("\nAngle femur: ");
+    // Serial.print(angles[1]);
+    // Serial.println("\nAngle tibia: ");
+    // Serial.print(angles[0]);
 
     setServo(LEG, 3, angles, address, duree);
 }

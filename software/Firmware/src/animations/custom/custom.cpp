@@ -17,5 +17,6 @@ void Custom(float animationMatrix[6][1][3], float speed) {
 
     int legIndices[] = {0, 1, 2, 3, 4, 5};
     moveLegsMatrices(legIndices, targetX, targetZ, targetY, numLegs, SPEED);
-    delay(100);
+    delay(10);
+    Serial.println("Animation:Custom:terminé");
 }

@@ -20,4 +20,5 @@ void Jump(float speed) {
 
     delay(matrice_up[i][4]);
   }
+  Serial.println("Animation:Jump:terminé");
 }

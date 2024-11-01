@@ -21,6 +21,7 @@ void startWalking(float x, float y, float newspeed) {
   if(previousMillis == 0) {
     previousMillis = millis();
   }
+  Serial.println("Animation:startWalking:commencé");
 }
 
 void startTurning(String s, float newspeed, float r) {
@@ -33,4 +34,5 @@ void startTurning(String s, float newspeed, float r) {
   if(previousMillis == 0) {
     previousMillis = millis();
   }
+  Serial.println("Animation:startTurning:commencé");
 }

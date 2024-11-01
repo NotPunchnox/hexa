@@ -77,38 +77,30 @@ void IA_Movements(String response) {
         
         startWalking(X, Y, speed);
     }  else if (response.indexOf("StopWalk") != -1) {//StopWalk
-        Walk(4, 0, 0);
+        Walk(3, 0, 0);
         isWalking = false;
+        Serial.println("Animation:startWalk:terminé");
     } else if (response.indexOf("Walk_") != -1) {
-        // Log de la réponse initiale
-        Serial.println("Commande reçue: " + response);
 
         String parts[5];
         splitString(response, '_', parts, 5);
-
-        // Log des parties après le split
-        Serial.println("Parts après le split:");
-        for (int i = 0; i < 5; ++i) {
-            Serial.println("Part " + String(i) + ": " + parts[i]);
-        }
 
         float speed = parts[1].toFloat();
         int X = parts[2].toInt();
         int Y = parts[3].toInt();
         int cycles = parts[4].toInt();
 
-        // Log des valeurs converties
-        Serial.println("Vitesse: " + String(speed));
-        Serial.println("X: " + String(X));
-        Serial.println("Y: " + String(Y));
-        Serial.println("Cycles: " + String(cycles));
+        // // Log des valeurs converties
+        // Serial.println("Vitesse: " + String(speed));
+        // Serial.println("X: " + String(X));
+        // Serial.println("Y: " + String(Y));
+        // Serial.println("Cycles: " + String(cycles));
 
         for (int i = 0; i < cycles; ++i) {
-            Serial.println("Exécution de la boucle: " + String(i + 1));
+            Serial.println("Walk:" + String(i) + ":" + String(cycles));
             Walk(speed, X, Y);
         }
-
-        Serial.println("Commande Walk terminée");
+        Serial.println("Animation:Walk:terminé");
     } else if (response.indexOf("StartTurn_") != -1) {//StartTurn_speed_side_rayon
         String parts[4];
         splitString(response, '_', parts, 4);
@@ -182,7 +174,6 @@ void IA_Movements(String response) {
         String parts[4]; 
         splitString(response, '_', parts, 4);
 
-        Serial.println("Split Parts:");
         for(int i = 0; i < 4; i++) {
             Serial.print("Part["); Serial.print(i); Serial.print("]: ");
             Serial.println(parts[i]);

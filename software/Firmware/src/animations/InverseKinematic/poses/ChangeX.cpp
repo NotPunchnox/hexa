@@ -39,4 +39,5 @@ void ChangeX(float speed, float X) {
 
     // Déplacement des pattes de manière fluide
     moveLegsMatrices(legIndices, targetX, targetZ, targetY, numLegs, SPEED);
+    Serial.println("Animation:ChangeX:terminé");
 }

@@ -37,4 +37,5 @@ void ChangeXY(float speed, float X, float Y) {
     }
 
     moveLegsMatrices(legIndices, targetX, targetZ, targetY, numLegs, SPEED);
+    Serial.println("Animation:ChangeXY:terminé");
 }

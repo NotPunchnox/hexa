@@ -23,20 +23,21 @@ void Sleep(float speed) {
   };
 
   for (int i = 0; i < sizeof(matrice_sleep) / sizeof(matrice_sleep[0]); ++i) {
-         /*
-        {
-          0: LFL -> leg front left;
-          1: LBL -> leg back left;
-          2: LML -> leg middle left;
-          3: LFR -> leg front right;
-          4: LMR -> leg middle right;
-          5: LBR -> leg back right;
-        }
-        */
-        int legIndices[] = {0, 1, 2, 3, 4, 5}; // Indices des pattes à déplacer en même temps
+      /*
+    {
+      0: LFL -> leg front left;
+      1: LBL -> leg back left;
+      2: LML -> leg middle left;
+      3: LFR -> leg front right;
+      4: LMR -> leg middle right;
+      5: LBR -> leg back right;
+    }
+    */
+    int legIndices[] = {0, 1, 2, 3, 4, 5}; // Indices des pattes à déplacer en même temps
 
-        moveLegsSmoothly(legIndices, 6, matrice_sleep[i][0], matrice_sleep[i][1], matrice_sleep[i][2], matrice_sleep[i][3]);
+    moveLegsSmoothly(legIndices, 6, matrice_sleep[i][0], matrice_sleep[i][1], matrice_sleep[i][2], matrice_sleep[i][3]);
 
     delay(matrice_sleep[i][4]);
   }
+  Serial.println("Animation:Rouli:terminé");
 }

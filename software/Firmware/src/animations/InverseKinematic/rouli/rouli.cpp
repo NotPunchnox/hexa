@@ -54,4 +54,5 @@ void Rouli(float speed, float Top, float Bottom, float Left, float Right) {
     }
 
     moveLegsMatrices(legIndices, targetX, targetZ, targetY, numLegs, SPEED);
+    Serial.println("Animation:Rouli:terminé");
 }

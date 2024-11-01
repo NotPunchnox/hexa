@@ -42,5 +42,7 @@ void Turn(String sens, float speed, int cycles, float r) {
             moveLegsMatrices(legIndices, targetX, targetZ, targetY, numLegs, SPEED);
             delay(10);
         }
+        Serial.println("Turn:" + String(cycle) + ":" + String(cycles));
     }
+    Serial.println("Animation:Turn:terminé");
 }

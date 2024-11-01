@@ -29,4 +29,5 @@ void AttackMove(float speed) {
 
         moveLegsMatrices(legIndices, targetX, targetZ, targetY, numLegs, SPEED);
     }
+    Serial.println("Animation:Attack:terminé");
 }
