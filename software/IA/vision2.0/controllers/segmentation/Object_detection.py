@@ -3,7 +3,7 @@ import cv2
 from sklearn.cluster import KMeans
 import numpy as np
 
-model = YOLO("./model/yolov5nu_saved_model/yolov5nu_float16.tflite")
+model = YOLO("./model/yolov5nu_float16.tflite")
 #model = YOLO("model/yolov8n.pt")
 
 
