@@ -41,8 +41,15 @@ void parseCustomMatrix(String matrixString, float animationMatrix[6][1][3]) {
 }
 
 void IA_Movements(String response) {
-    if (response.indexOf("ChangeTop_") != -1) {
-        String parts[3]; // Tableau pour stocker les morceaux de la chaîne de caractères
+    if (response.indexOf("Default_") != -1) {
+        String parts[2]; // Tableau pour stocker les morceaux de la chaîne de caractères
+        splitString(response, '_', parts, 2);
+
+        int speed = parts[1].toFloat();
+
+        Default(speed);
+    } else if (response.indexOf("ChangeTop_") != -1) {
+        String parts[3];
         splitString(response, '_', parts, 3);
 
         int speed = parts[1].toFloat();

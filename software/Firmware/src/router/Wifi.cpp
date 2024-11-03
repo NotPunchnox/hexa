@@ -78,11 +78,6 @@ void StartRouter() {
         request->send(200, "text/plain", "Le robot dort!");
     });
 
-    server.on("/default", HTTP_GET, [](AsyncWebServerRequest *request){
-        Default();
-        request->send(200, "text/plain", "Le robot est en position par défaut!");
-    });
-
     server.on("/speed", HTTP_GET, [](AsyncWebServerRequest *request){
         if (request->hasParam("value")) {
         String value = request->getParam("value")->value();

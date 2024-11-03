@@ -3,7 +3,9 @@ const rl = require('readline-sync');
 var ws = null;
 
 const promptUser = websocket => {
-    ws = websocket;
+    
+    if(!ws) ws = websocket;
+
     let animations = [];
     let prompt = rl.question('Commande: ');
 
@@ -23,6 +25,7 @@ const promptUser = websocket => {
     }
 
     // Envoi de la commande au serveur WebSocket
+    console.log(JSON.stringify({ animations }));
     ws.send(JSON.stringify({ animations }));
     console.log("Commande envoyée !");
 

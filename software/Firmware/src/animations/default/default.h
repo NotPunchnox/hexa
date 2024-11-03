@@ -4,6 +4,6 @@
 #include <Arduino.h>
 #include "../../functions/Algo.h"
 
-void Default();
+void Default(float speed);
 
 #endif

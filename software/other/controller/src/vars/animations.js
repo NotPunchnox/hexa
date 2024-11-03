@@ -8,10 +8,18 @@ module.exports = {
         syntax: "TurnZ_speed_side"
     },
 
-    Walking: "StartWalk_speed_X_Y",
-    StopWalking: "StopWalk",
+    Walking: {
+        syntax: "StartWalk_speed_X_Y"
+    },
+    StopWalking:{
+        syntax: "StopWalk"
+    },
     
-    Turning: "StartTurn_speed_side_rayon",
-    StopTurn: "StopTurn"
+    Turning: {
+        syntax: "StartTurn_speed_side_rayon"
+    },
+    StopTurn: {
+        syntax: "StopTurn"
+    },
 
 }

@@ -47,12 +47,12 @@ void setLeg(float x, float z, float y, int duree, int LEG[3], int address) {
       x = x +2;
       y = -y;
     }
-    Serial.print("\nx: ");
-    Serial.print(x);
-    Serial.print(" | y: ");
-    Serial.print(y);
-    Serial.print(" | z: ");
-    Serial.print(z);
+    // Serial.print("\nx: ");
+    // Serial.print(x);
+    // Serial.print(" | y: ");
+    // Serial.print(y);
+    // Serial.print(" | z: ");
+    // Serial.print(z);
 
     LegAngles res = Algo(x, z, y, duree);
 

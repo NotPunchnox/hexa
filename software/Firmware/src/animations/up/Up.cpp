@@ -10,6 +10,7 @@ void Up(float speed) {
     {PX, PZ/2, PY, 150  * speed, 0},
     {PX, PZ, PY, 250  * speed, 0},
     {PX, PZ+3, PY, 250  * speed, 0},
+    {PX, PZ, PY, 100 * speed, 0},
   };
 
   for (int i = 0; i < sizeof(matrice_up) / sizeof(matrice_up[0]); ++i) {

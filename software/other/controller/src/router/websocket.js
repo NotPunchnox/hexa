@@ -4,6 +4,7 @@ const promptUser = require('../controller/promptUser.js')
 const mode = process.argv[2];
 
 function websocket() {
+    console.log("Serveur websocket:", "ws://" + (!mode ? (process.env.RASPBERRY_PI_ZERO_IP + ':' + process.env.PORT_WEBSOCKET) : (process.env.DEV_RASPBERRY_PI_ZERO_IP + ':' + process.env.DEV_PORT_WEBSOCKET)));
     const ws = new WebSocket("ws://" + (!mode ? (process.env.RASPBERRY_PI_ZERO_IP + ':' + process.env.PORT_WEBSOCKET) : (process.env.DEV_RASPBERRY_PI_ZERO_IP + ':' + process.env.DEV_PORT_WEBSOCKET))); // ws://<raspberry_ip>:<port_attribué>/
     ws.on('error', console.error);
     
