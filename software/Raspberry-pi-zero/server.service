@@ -1,0 +1,13 @@
+[Unit]
+Description=Aash Command Websocket
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /home/admin/Programs/com/main.py
+WorkingDirectory=/home/admin/Programs/com
+User=admin
+Environment="PATH=/home/admin/.local/bin:/usr/bin:/bin"
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

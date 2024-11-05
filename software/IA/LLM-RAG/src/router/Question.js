@@ -4,7 +4,7 @@ import {PromptTemplate} from "@langchain/core/prompts";
 import {RunnableSequence} from "@langchain/core/runnables";
 import {formatDocumentsAsString} from "langchain/util/document";
 import embedding from "../controller/embedding.js";
-import config from "../../examples/client.js";
+// import config from "../../examples/client.js";
 import configConst from "../../config.json"assert {    type: "json"};
 import tts from "../controller/tts.js";
 import {SerialPort, ReadlineParser} from "serialport";
@@ -27,7 +27,7 @@ if (configConst.serial) {
     }));
 }
 
-export default async (prompt, l = 3, modelSelected = config.LLM_MODEL) => {
+export default async (prompt, l = 3, modelSelected = configConst.LLM_MODEL) => {
     let Timer = Date.now()
 
     if (ChatHistory.length > 5) ChatHistory = ChatHistory.slice(2, ChatHistory.length)
@@ -35,9 +35,9 @@ export default async (prompt, l = 3, modelSelected = config.LLM_MODEL) => {
 
     if(model_name !== modelSelected) {
         model = new ChatOllama({
-            baseUrl: config.OLLAMA_API_URL,
+            baseUrl: configConst.OLLAMA_API_URL,
             model: modelSelected,
-            format: config.format !== "json" ? null : config.format
+            format: configConst.format !== "json" ? null : configConst.format
         });
         model_name = modelSelected
     }
@@ -55,7 +55,7 @@ export default async (prompt, l = 3, modelSelected = config.LLM_MODEL) => {
         let response_camera;
 
         try {
-            response_camera = await axios.get(config.VISION_API_URL + '/api/results');
+            response_camera = await axios.get(configConst.VISION_API_URL + '/api/results');
             const data = response_camera.data
             console.log(data)
             // const data = JSON.parse(response_camera.data)
@@ -66,7 +66,7 @@ export default async (prompt, l = 3, modelSelected = config.LLM_MODEL) => {
             console.error(err)
             response_camera = "Camera not found"
         }
-
+        // response_camera = "Camera not found"
 
         // console.log(resultConversations, resultGlobal, resultActions)
         const textTemplate = String(`Répondez à la question suivante en format JSON. Soyez clair et concis. Si des actions sont requises, utilisez-les, sinon laissez le tableau d'actions vide.
@@ -106,7 +106,7 @@ répond à la question: ${prompt}:`);
                 new StringOutputParser()
         ]);
 
-        if (config.stream) {
+        if (configConst.stream) {
             const finalResult = await chain.stream({
                 context: resultGlobal,
                 conversation: resultConversations,
@@ -125,7 +125,7 @@ répond à la question: ${prompt}:`);
 
             console.log(`Temps de génération: ${((Date.now()-Timer)/1000)}s`)
 
-            if (config.serial === true && JSON.parse(chunks.join('')) && JSON.parse(chunks.join('')).actions) {
+            if (configConst.serial === true && JSON.parse(chunks.join('')) && JSON.parse(chunks.join('')).actions) {
                     JSON.parse(chunks.join('')).actions.forEach(a => {
                         port.write(a + '\n', (err) => {
                             if (err) return console.error('Serial Error:', err)
@@ -139,7 +139,7 @@ répond à la question: ${prompt}:`);
 
             const res = JSON.parse(chunks.join('').replace(/\n|\r/g, ''))
 
-            if (config.tts) {
+            if (configConst.tts) {
                 try {
                     // console.log(res)
                     tts(res?.message) //Text to speech

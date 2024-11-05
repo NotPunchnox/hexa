@@ -1,9 +1,5 @@
-import {
-    OllamaEmbeddings
-} from "@langchain/community/embeddings/ollama";
-import {
-    MemoryVectorStore
-} from "langchain/vectorstores/memory";
+import {OllamaEmbeddings} from "@langchain/community/embeddings/ollama";
+import {MemoryVectorStore} from "langchain/vectorstores/memory";
 import config from "../../config.json" assert {type: "json"}
 // import config from "../../examples/client.js"
 import textSplitter, {
@@ -36,7 +32,6 @@ export {
 };
 
 export default async () => {
-
     try {
         const {
             documentsActions,

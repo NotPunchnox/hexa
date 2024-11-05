@@ -17,7 +17,7 @@ detected_faces = []
 detected_objects = []
 
 # Open the camera
-webcam = cv2.VideoCapture(0)
+webcam = cv2.VideoCapture("http://192.168.1.23:8000/stream.mjpg")
 
 width = int(webcam.get(cv2.CAP_PROP_FRAME_WIDTH))
 height = int(webcam.get(cv2.CAP_PROP_FRAME_HEIGHT))

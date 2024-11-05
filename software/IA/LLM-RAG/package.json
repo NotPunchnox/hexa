@@ -11,6 +11,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node .",
     "client": "node ./examples/client.js",
+    "server": "node ./examples/server.js",
     "patch": "node ./src/correctif/embeddingOllama.js"
   },
   "keywords": [],
@@ -22,10 +23,13 @@
     "@langchain/ollama": "^0.1.0",
     "audic": "^3.0.2",
     "axios": "^1.7.7",
+    "body-parser": "^1.20.3",
+    "express": "^4.21.1",
     "handlebars": "^4.7.8",
     "langchain": "^0.2.10",
     "readline": "^1.3.0",
-    "serialport": "^12.0.0"
+    "serialport": "^12.0.0",
+    "ws": "^8.18.0"
   },
   "tags": [
     "AI",

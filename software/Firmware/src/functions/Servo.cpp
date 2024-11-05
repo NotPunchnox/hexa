@@ -3,7 +3,6 @@
 #include "../config/Angles.h"
 #include <Adafruit_PWMServoDriver.h>
 #include "../functions/Algo.h"
-#include "../router/Wifi.h"
 
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x40);
 Adafruit_PWMServoDriver pwm2 = Adafruit_PWMServoDriver(0x41);
@@ -26,7 +25,6 @@ void Init() {
   pwm2.setOscillatorFrequency(27000000);
   pwm2.setPWMFreq(SERVO_FREQ);
 
-  StartRouter();
 }
 
 int pulseWidth(float angle) {
