@@ -65,6 +65,7 @@ void IA_Movements(String response) {
 
         if (side == "horaire" || side == "anti-horaire") {
             TurnZ(side, speed, 1);
+            Serial.println("Animation:TurnZ:terminé");
         }
     } else if (response.indexOf("Sleep_") != -1) {
         String parts[3];
@@ -148,6 +149,7 @@ void IA_Movements(String response) {
         float right = parts[5].toFloat();
 
         Rouli(speed, top, bottom, left, right);
+        Serial.println("Animation:Rouli:terminé");
     }else if (response.indexOf("ChangeY_") != -1) {
         String parts[3];
         splitString(response, '_', parts, 3);
@@ -204,6 +206,7 @@ void IA_Movements(String response) {
         int speed = parts[1].toFloat();
 
         AttackMove(speed);
+        Serial.println("Animation:Attack:terminé");
     } else if (response.indexOf("Jump_") != -1) {
         String parts[3];
         splitString(response, '_', parts, 2);
@@ -211,6 +214,7 @@ void IA_Movements(String response) {
         int speed = parts[1].toFloat();
 
         Jump(speed);
+        Serial.println("Animation:Jump:terminé");
     } 
 
 }

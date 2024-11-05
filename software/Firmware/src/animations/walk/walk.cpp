@@ -15,17 +15,17 @@ void Walk(float speed, float X, float Y) {
     //Y > 0 = move to up
 
     float WalkMatrice[numLegs][numSteps][3] = {
-        {{PX + X, PZ, Y*-1}, {PX + X, PZ, Y*-1}, {PX + (X*-1), PZ-Z, Y}, {PX + (X*-1), PZ, Y}},  // LFL
+        {{PX + X, TARGET_Z[0], Y*-1}, {PX + X, TARGET_Z[0], Y*-1}, {PX + (X*-1), TARGET_Z[0]-Z, Y}, {PX + (X*-1), TARGET_Z[0], Y}},  // LFL
 
-        {{PX + (X*-1), PZ-Z, Y*-1}, {PX + (X*-1), PZ, Y*-1}, {PX + X, PZ, Y}, {PX + X, PZ, Y}}, // LML a
+        {{PX + (X*-1), TARGET_Z[1]-Z, Y*-1}, {PX + (X*-1), TARGET_Z[1], Y*-1}, {PX + X, TARGET_Z[1], Y}, {PX + X, TARGET_Z[1], Y}}, // LML a
 
-        {{PX + X, PZ, Y*-1}, {PX + X, PZ, Y*-1}, {PX + (X*-1), PZ-Z, Y}, {PX + (X*-1), PZ, Y}}, // LBL
+        {{PX + X, TARGET_Z[2], Y*-1}, {PX + X, TARGET_Z[2], Y*-1}, {PX + (X*-1), TARGET_Z[2]-Z, Y}, {PX + (X*-1), TARGET_Z[2], Y}}, // LBL
 
-        {{PX + X, PZ-Z, Y*-1}, {PX + X, PZ, Y*-1}, {PX + (X*-1), PZ, Y}, {PX + (X*-1), PZ, Y}}, // LFR a
+        {{PX + X, TARGET_Z[3]-Z, Y*-1}, {PX + X, TARGET_Z[3], Y*-1}, {PX + (X*-1), TARGET_Z[3], Y}, {PX + (X*-1), TARGET_Z[3], Y}}, // LFR a
 
-        {{PX + (X*-1), PZ, Y*-1}, {PX + (X*-1), PZ, Y*-1}, {PX + X, PZ-Z, Y}, {PX + X, PZ, Y}}, // LMR
+        {{PX + (X*-1), TARGET_Z[4], Y*-1}, {PX + (X*-1), TARGET_Z[4], Y*-1}, {PX + X, TARGET_Z[4]-Z, Y}, {PX + X, TARGET_Z[4], Y}}, // LMR
 
-        {{PX + X, PZ-Z, Y*-1}, {PX + X, PZ, Y*-1}, {PX + (X*-1), PZ, Y}, {PX + (X*-1), PZ, Y}} // LBR a
+        {{PX + X, TARGET_Z[5]-Z, Y*-1}, {PX + X, TARGET_Z[5], Y*-1}, {PX + (X*-1), TARGET_Z[5], Y}, {PX + (X*-1), TARGET_Z[5], Y}} // LBR a
     };
 
     for (int stepIndex = 0; stepIndex < numSteps; ++stepIndex) {

@@ -53,3 +53,5 @@ float PZ = default_pose[1];
 float PY = default_pose[2];
 
 int* legs[] = {LFL, LML, LBL, LFR, LMR, LBR};
+
+float TARGET_Z[6] = {9, 9, 9, 9, 9, 9};

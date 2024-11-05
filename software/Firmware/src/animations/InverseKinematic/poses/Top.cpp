@@ -11,12 +11,12 @@ void ChangeTop(float speed, float Top) {
 
     // Matrice de positions de base pour chaque patte
     float RouliMatrix[numLegs][3] = {
-        {PX, PZ, PY}, // LFL
-        {PX, PZ, PY}, // LML
-        {PX, PZ, PY}, // LBL
-        {PX, PZ, PY}, // RFL
-        {PX, PZ, PY}, // RML
-        {PX, PZ, PY}  // RBL
+        {PX, TARGET_Z[0]+Top, PY}, // LFL
+        {PX, TARGET_Z[1]+Top, PY}, // LML
+        {PX, TARGET_Z[2]+Top, PY}, // LBL
+        {PX, TARGET_Z[3]+Top, PY}, // RFL
+        {PX, TARGET_Z[4]+Top, PY}, // RML
+        {PX, TARGET_Z[5]+Top, PY}  // RBL
     };
 
     int legIndices[] = {0, 1, 2, 3, 4, 5};

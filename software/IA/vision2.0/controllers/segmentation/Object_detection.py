@@ -1,11 +1,11 @@
 from ultralytics import YOLO
-import cv2
-from sklearn.cluster import KMeans
-import numpy as np
+from ..Vars import variables
 
-model = YOLO("./model/yolov5nu_float16.tflite")
+# from sklearn.cluster import KMeans
+# import numpy as np
+
+model = YOLO("./model/yolov5nu_float16.tflite", verbose=False)
 #model = YOLO("model/yolov8n.pt")
-
 
 color_names = {
     "red": (255, 0, 0),
@@ -47,6 +47,7 @@ def estimate_size(bbox, image_shape):
         return "grand"
 
 def Object_detection(cv2, frame):
+    variables.objects = []
     results = model(frame, show=False)
     
     for result in results:
@@ -57,11 +58,21 @@ def Object_detection(cv2, frame):
             conf = box.conf[0].item()  # Convertir tensor en float
             cls = int(box.cls[0].item())  # Convertir tensor en int
             label = model.names[cls]
-            segmented_image = frame[y1:y2, x1:x2]
+            croped_img = frame[y1:y2, x1:x2]
 
             if conf > 0.50:
                 #size = estimate_size(box.xyxy[0].cpu().numpy(), frame.shape)
                 cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
-                cv2.putText(frame, f"{label} {conf:.2f}", (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
-    
+                cv2.putText(frame, f"{label} {round(conf*100)}%", (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+                variables.objects.append({
+                    'name': label,
+                    'confiance': f"{round(conf*100)}%",
+                    'position': {
+                        'x1': x1,
+                        'y1': y1,
+                        'x2': x2,
+                        'y2': y2,
+                    }
+                })
+
     return frame

@@ -9,6 +9,7 @@ import configConst from "../../config.json"assert {    type: "json"};
 import tts from "../controller/tts.js";
 import {SerialPort, ReadlineParser} from "serialport";
 import PORT from "./serialPort.js";
+import axios from "axios";
 
 var ChatHistory = []
 var parser,port,model,model_name;
@@ -50,23 +51,40 @@ export default async (prompt, l = 3, modelSelected = config.LLM_MODEL) => {
         resultActions = formatDocumentsAsString(resultActions).replace(/\n/g, '');
         resultConversations = formatDocumentsAsString(resultConversations).replace(/\n/g, '');
         resultGlobal = formatDocumentsAsString(resultGlobal).replace(/\n/g, '');
+
+        let response_camera;
+
+        try {
+            response_camera = await axios.get(config.VISION_API_URL + '/api/results');
+            const data = response_camera.data
+            console.log(data)
+            // const data = JSON.parse(response_camera.data)
+            if(data) {
+                response_camera = `faces: ${data.faces.join(',')}. objects: ${JSON.stringify(data.objects)}`
+            }
+        } catch (err) {
+            console.error(err)
+            response_camera = "Camera not found"
+        }
+
+
         // console.log(resultConversations, resultGlobal, resultActions)
-        const textTemplate = 
-        String(`Répondez à la question suivante en format JSON. Soyez clair et concis. Si des actions sont requises, utilisez-les, sinon laissez le tableau d'actions vide.
+        const textTemplate = String(`Répondez à la question suivante en format JSON. Soyez clair et concis. Si des actions sont requises, utilisez-les, sinon laissez le tableau d'actions vide.
 
 ${resultGlobal && resultGlobal.length > 0 ? "context: {context};" : "{context}"}
 ${ChatHistory && ChatHistory.length > 0 ? "history: {ChatHistory};" : "{ChatHistory}"}
 ${resultConversations && resultConversations.length > 0 ? "memory: {conversation};" : "{conversation}"}
+camera: {camera};
 actions: {syntaxAction};
 
 répond à la question: {question}`);
         
-        console.log(`Répondez à la question suivante en format JSON. Soyez clair et concis. Si des actions sont requises, utilisez-les, sinon laissez le tableau d'actions vide.
- 
+console.log(`Répondez à la question suivante en format JSON. Soyez clair et concis. Si des actions sont requises, utilisez-les, sinon laissez le tableau d'actions vide.
 ${resultGlobal && resultGlobal.length > 0 ? "context: "+resultGlobal+";" : ""}
 ${ChatHistory && ChatHistory.length > 1 ? "history: "+ChatHistory+";" : ""}
 ${resultConversations && resultConversations.length > 0 ? "memory: "+resultConversations+";" : "{conversation}"}
 actions: ${resultActions};
+camera: ${response_camera};
 
 répond à la question: ${prompt}:`);
         
@@ -79,6 +97,7 @@ répond à la question: ${prompt}:`);
                     conversation: resultConversations,
                     ChatHistory: JSON.stringify(ChatHistory),
                     syntaxAction: resultActions,
+                    camera: response_camera,
                     question: input.question
                 }),
                 PROMPT_TEMPLATE,
@@ -93,6 +112,7 @@ répond à la question: ${prompt}:`);
                 conversation: resultConversations,
                 syntaxAction: resultActions,
                 ChatHistory: ChatHistory,
+                camera: response_camera,
                 question: prompt
             });
 

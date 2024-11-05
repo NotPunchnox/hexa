@@ -19,13 +19,13 @@ void Turn(String sens, float speed, int cycles, float r) {
         //Colonne = Une séquence
         //Ligne = patte
 
-        {{PX + R * direction, PZ,   PY - R * direction},  {PX + R * direction, PZ, PY - R * direction}, {PX - R * direction, PZ - Z, PY + R * direction}, {PX - R * direction, PZ, PY + R * direction} }, // LFL
-        {{PX + R * direction, PZ - Z, PY - R * direction},  {PX + R * direction, PZ, PY - R * direction}, {PX - R * direction, PZ,   PY + R * direction}, {PX - R * direction, PZ, PY + R * direction} }, // LML
-        {{PX - R * direction, PZ,   PY - R * direction},  {PX - R * direction, PZ, PY - R * direction}, {PX + R * direction, PZ - Z, PY + R * direction}, {PX + R * direction, PZ, PY + R * direction} }, // LBL
+        {{PX + R * direction, TARGET_Z[0],   PY - R * direction},  {PX + R * direction, TARGET_Z[0], PY - R * direction}, {PX - R * direction, TARGET_Z[0] - Z, PY + R * direction}, {PX - R * direction, TARGET_Z[0], PY + R * direction} }, // LFL
+        {{PX + R * direction, TARGET_Z[1] - Z, PY - R * direction},  {PX + R * direction, TARGET_Z[1], PY - R * direction}, {PX - R * direction, TARGET_Z[1],   PY + R * direction}, {PX - R * direction, TARGET_Z[1], PY + R * direction} }, // LML
+        {{PX - R * direction, TARGET_Z[2],   PY - R * direction},  {PX - R * direction, TARGET_Z[2], PY - R * direction}, {PX + R * direction, TARGET_Z[2] - Z, PY + R * direction}, {PX + R * direction, TARGET_Z[2], PY + R * direction} }, // LBL
 
-        {{PX + R * direction, PZ - Z, PY - R * direction},  {PX + R * direction, PZ, PY - R * direction}, {PX - R * direction, PZ,   PY + R * direction}, {PX - R * direction, PZ, PY + R * direction} }, // LFR
-        {{PX - R * direction, PZ,   PY + R * direction},  {PX - R * direction, PZ, PY + R * direction}, {PX + R * direction, PZ - Z, PY - R * direction}, {PX + R * direction, PZ, PY - R * direction} }, // LMR
-        {{PX - R * direction, PZ - Z, PY - R * direction},  {PX - R * direction, PZ, PY - R * direction}, {PX + R * direction, PZ,   PY + R * direction}, {PX + R * direction, PZ, PY + R * direction} }  // LBR
+        {{PX + R * direction, TARGET_Z[3] - Z, PY - R * direction},  {PX + R * direction, TARGET_Z[3], PY - R * direction}, {PX - R * direction, TARGET_Z[3], PY + R * direction}, {PX - R * direction, TARGET_Z[3], PY + R * direction} }, // LFR
+        {{PX - R * direction, TARGET_Z[4],   PY + R * direction},  {PX - R * direction, TARGET_Z[4], PY + R * direction}, {PX + R * direction, TARGET_Z[4] - Z, PY - R * direction}, {PX + R * direction, TARGET_Z[4], PY - R * direction} }, // LMR
+        {{PX - R * direction, TARGET_Z[5] - Z, PY - R * direction},  {PX - R * direction, TARGET_Z[5], PY - R * direction}, {PX + R * direction, TARGET_Z[5],   PY + R * direction}, {PX + R * direction, TARGET_Z[5], PY + R * direction} }  // LBR
     };
 
     for (int cycle = 0; cycle < cycles; ++cycle) {

@@ -51,8 +51,10 @@ void Rouli(float speed, float Top, float Bottom, float Left, float Right) {
         targetX[leg] = RouliMatrix[leg][0];
         targetZ[leg] = RouliMatrix[leg][1];
         targetY[leg] = RouliMatrix[leg][2];
+
+        TARGET_Z[leg] = RouliMatrix[leg][1];
     }
 
+
     moveLegsMatrices(legIndices, targetX, targetZ, targetY, numLegs, SPEED);
-    Serial.println("Animation:Rouli:terminé");
 }

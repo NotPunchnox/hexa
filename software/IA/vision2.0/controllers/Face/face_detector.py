@@ -3,6 +3,7 @@ import face_recognition as fr
 import os
 import time
 import cv2
+from ..Vars import variables
 
 class FaceRecognition:
     def __init__(self, analysis_interval=3):
@@ -44,11 +45,15 @@ class FaceRecognition:
                     right = int((bboxC.xmin + bboxC.width) * w)
 
                     face_locations.append((top, right, bottom, left))
+            else:
+                variables.names = []
 
             # Effectuer la reconnaissance toutes les `analysis_interval` secondes
             current_time = time.time()
             if current_time - self.last_analysis_time >= self.analysis_interval and face_locations:
                 face_encodings = fr.face_encodings(frame_rgb, face_locations)
+                variables.names = []
+                
 
                 for (top, right, bottom, left), face_encoding in zip(face_locations, face_encodings):
                     matches = fr.compare_faces(self.known_face_encodings, face_encoding)
@@ -58,7 +63,7 @@ class FaceRecognition:
                     if matches[best_match_index]:
                         name = self.known_face_names[best_match_index]
                     
-                    print("Personne détectée :", name)
+                    variables.names.append(name)
                     # Dessiner le rectangle et le nom du visage reconnu
                     # cv2.rectangle(frame, (left, top), (right, bottom), (0, 255, 0), 2)
                     # cv2.putText(frame, name, (left, top - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)

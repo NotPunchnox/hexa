@@ -9,6 +9,12 @@ void Default(float speed) {
   PX = 10;
   PZ = 9;
   PY = 0;
+  TARGET_Z[0] = PZ;
+  TARGET_Z[1] = PZ;
+  TARGET_Z[2] = PZ;
+  TARGET_Z[3] = PZ;
+  TARGET_Z[4] = PZ;
+  TARGET_Z[5] = PZ;
 
   moveLegsSmoothly(legIndices, 6, PX, PZ, PY, 200*speed);
 }

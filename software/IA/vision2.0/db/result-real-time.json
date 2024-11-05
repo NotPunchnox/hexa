@@ -1,0 +1,17 @@
+{
+    "faces": [
+        "my_name"
+    ],
+    "objects": [
+        {
+            "name": "person",
+            "confiance": "83%",
+            "position": {
+                "x1": 60,
+                "y1": 122,
+                "x2": 492,
+                "y2": 475
+            }
+        }
+    ]
+}

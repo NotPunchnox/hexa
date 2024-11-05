@@ -1,4 +1,5 @@
 {
+    "VISION_API_URL": "http://localhost:3006",
     "OLLAMA_API_URL": "http://192.168.1.91:3005",
     "EMBEDDING_MODEL": "all-minilm",
     "LLM_MODEL": "Aash:4b",
