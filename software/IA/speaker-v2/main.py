@@ -66,7 +66,6 @@ def ask_api(question):
     payload = {"question": question}
     headers = {
         "Content-Type": "application/json",
-        "User-Agent": "insomnia/10.1.1"
     }
 
     try:

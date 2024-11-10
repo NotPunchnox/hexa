@@ -4,6 +4,7 @@ import json
 from flask import Flask, jsonify
 from controllers.segmentation.Object_detection import Object_detection
 from controllers.Face.face_detector import FaceRecognition
+from controllers.Face.position_calculator import calculate_face_position_percentage
 from controllers.Vars import variables
 
 # Initialize Flask app
@@ -17,7 +18,8 @@ detected_faces = []
 detected_objects = []
 
 # Open the camera
-webcam = cv2.VideoCapture("http://192.168.1.23:8000/stream.mjpg")
+#webcam = cv2.VideoCapture("http://192.168.1.23:8000/stream.mjpg")
+webcam = cv2.VideoCapture(0)
 
 width = int(webcam.get(cv2.CAP_PROP_FRAME_WIDTH))
 height = int(webcam.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -34,11 +36,14 @@ def process_webcam():
         start_time = time.time()
         
         # Resize the frame
-        frame2 = cv2.resize(frame, (320, 240))
+        # frame2 = cv2.resize(frame, (320, 240))
         
         # Object detection and face recognition
         frame = Object_detection(cv2, frame)
-        frame = Face.face_recognization(frame)
+        frame, faceData = Face.face_recognization(frame)
+        
+        if len(faceData) > 0:
+            print(calculate_face_position_percentage(faceData, width, height))
 
         # Update detected faces and objects
         detected_faces = variables.names

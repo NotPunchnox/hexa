@@ -19,8 +19,8 @@ const processFiles = async (dir) => {
     if (ext === '.txt' || ext === '.md') {
       const text = fs.readFileSync(filePath, 'utf8');
       const splitter = new RecursiveCharacterTextSplitter({
-        chunkSize: 100,
-        chunkOverlap: 0,
+        chunkSize: 90,
+        chunkOverlap: 10,
         separators: ["|", "##", ">", "-"],
       });
       const doc = await splitter.createDocuments([text]);
@@ -29,7 +29,7 @@ const processFiles = async (dir) => {
       let loader;
 
       if(dir.includes('conversation')) {
-        loader = new JSONLoader(filePath); // Ajuster les chemins selon vos besoins
+        loader = new JSONLoader(filePath); 
       } else loader = new JSONLoader(filePath)
       const docs = await loader.load();
       documents = documents.concat(docs);

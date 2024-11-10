@@ -88,7 +88,7 @@ void IA_Movements(String response) {
         Walk(3, 0, 0);
         isWalking = false;
         Serial.println("Animation:startWalk:terminé");
-    } else if (response.indexOf("Walk_") != -1) {
+    } else if (response.indexOf("Walk_") != -1) { //Walk_speed_x(gauche/droite)_y(avant/arrière)_cycles
 
         String parts[5];
         splitString(response, '_', parts, 5);
@@ -121,7 +121,7 @@ void IA_Movements(String response) {
     }  else if (response.indexOf("StopTurn") != -1) {//StopWalk
         Turn("left", 2, 1, 0);
         isTurning = false;
-    } else if (response.indexOf("Turn_") != -1) {
+    } else if (response.indexOf("Turn_") != -1) { //Turn_vitesse_side_cycles_rayon
         String parts[5];
         splitString(response, '_', parts, 5);
         float r = 1.5;
@@ -150,7 +150,7 @@ void IA_Movements(String response) {
 
         Rouli(speed, top, bottom, left, right);
         Serial.println("Animation:Rouli:terminé");
-    }else if (response.indexOf("ChangeY_") != -1) {
+    } else if (response.indexOf("ChangeY_") != -1) {
         String parts[3];
         splitString(response, '_', parts, 3);
 
@@ -158,7 +158,7 @@ void IA_Movements(String response) {
         int cm = parts[2].toFloat();
 
         ChangeY(speed, cm);
-    }else if (response.indexOf("ChangeX_") != -1) {
+    } else if (response.indexOf("ChangeX_") != -1) {
         String parts[3];
         splitString(response, '_', parts, 3);
 

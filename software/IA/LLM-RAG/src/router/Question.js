@@ -54,19 +54,19 @@ export default async (prompt, l = 3, modelSelected = configConst.LLM_MODEL) => {
 
         let response_camera;
 
-        try {
-            response_camera = await axios.get(configConst.VISION_API_URL + '/api/results');
-            const data = response_camera.data
-            console.log(data)
-            // const data = JSON.parse(response_camera.data)
-            if(data) {
-                response_camera = `faces: ${data.faces.join(',')}. objects: ${JSON.stringify(data.objects)}`
-            }
-        } catch (err) {
-            console.error(err)
-            response_camera = "Camera not found"
-        }
-        // response_camera = "Camera not found"
+        // try {
+        //     response_camera = await axios.get(configConst.VISION_API_URL + '/api/results');
+        //     const data = response_camera.data
+        //     console.log(data)
+        //     // const data = JSON.parse(response_camera.data)
+        //     if(data) {
+        //         response_camera = `faces: ${data.faces.join(',')}. objects: ${JSON.stringify(data.objects)}`
+        //     }
+        // } catch (err) {
+        //     console.error(err)
+        //     response_camera = "Camera not found"
+        // }
+        response_camera = "Camera not found"
 
         // console.log(resultConversations, resultGlobal, resultActions)
         const textTemplate = String(`Répondez à la question suivante en format JSON. Soyez clair et concis. Si des actions sont requises, utilisez-les, sinon laissez le tableau d'actions vide.
