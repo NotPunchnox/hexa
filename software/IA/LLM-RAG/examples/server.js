@@ -47,21 +47,32 @@ ws.on('open', function open() {
       }
 
       try {
+        // Sélection du model en fonction de si il a été changé dans la request ou non
         let modelSelected = model ? model : config.LLM_MODEL;
+
+        // Envoyer le prompt à Ollama et récupérer la response
         const { result } = await Question(question, 2, modelSelected);
 
+        // Afficher le résultat
         console.log("actions:", result.actions, "result:", result);
+
+        // Si il y a des actions alor les envoyer au serveur websocket
         if (result.actions.length > 0) ws.send(JSON.stringify({animations: result.actions}));
+
+        // Afficher le résultat de la request
         res.json({ response: result });
 
+        // Récupération de la base de donnée vectorielle
         const vectorStore = await getVectorStore();
 
-        // Enregistrer dans VectorStore
+        // Mise en place des résultats
         let now = new Date();
         let p = path.resolve(`./src/Training Data/conversations/conv-${now.getFullYear()}-${('0' + (now.getMonth() + 1)).slice(-2)}-${('0' + now.getDate()).slice(-2)}-${('0' + now.getHours()).slice(-2)}.json`);
-
+        
+        // Enregistrer le résultat dans la base de donnée: VectorStore
         AddDoc([`user: ${question}`, `IA: ${JSON.stringify(result)}`], vectorStore.vectorStoreConversations);
 
+        // Sauvegarder le résultat dans la base de donnée json
         if (!fs.existsSync(p)) fs.writeFileSync(p, '[]');
         let data = fs.readFileSync(p, 'utf-8');
         data = JSON.parse(String(data));
@@ -70,6 +81,7 @@ ws.on('open', function open() {
         fs.writeFileSync(p, JSON.stringify(data), 'utf-8');
 
       } catch (error) {
+        // Si il y a une erreur de rencontrée l'afficher ici
         console.error('\x1b[31mErreur lors de la récupération de la réponse:', error, '\x1b[0m');
         res.status(500).json({ error: 'Erreur lors de la récupération de la réponse.' });
       }
@@ -77,7 +89,7 @@ ws.on('open', function open() {
 
 });
 
-app.get('/history' , (req, res) => {
+app.get('/history' , (_, res) => {
     return res.status(200).json({ result: ChatHistory })
 })
 

@@ -5,4 +5,5 @@ require('dotenv').config();
 
 console.log('vars', VARS);
 
+router.api();
 router.websocket();

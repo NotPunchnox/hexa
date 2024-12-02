@@ -11,6 +11,7 @@
   "description": "",
   "dependencies": {
     "dotenv": "^16.4.5",
+    "express": "^4.21.1",
     "readline-sync": "^1.4.10",
     "ws": "^8.18.0"
   }

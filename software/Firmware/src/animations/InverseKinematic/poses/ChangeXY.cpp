@@ -21,7 +21,7 @@ void ChangeXY(float speed, float X, float Y) {
         } else {
             RouliMatrix[leg][0] = PX_R;
         }
-        RouliMatrix[leg][1] = PZ;
+        RouliMatrix[leg][1] = TARGET_Z[leg];
         RouliMatrix[leg][2] = PY + (leg % 2 == 0 ? Y : -Y); // Alterner Y positif et négatif pour chaque paire de pattes
     }
 
@@ -34,6 +34,9 @@ void ChangeXY(float speed, float X, float Y) {
         targetX[leg] = RouliMatrix[leg][0];
         targetZ[leg] = RouliMatrix[leg][1];
         targetY[leg] = RouliMatrix[leg][2];
+
+        TARGET_X[leg] = targetX[leg];
+        TARGET_Y[leg] = targetY[leg];
     }
 
     moveLegsMatrices(legIndices, targetX, targetZ, targetY, numLegs, SPEED);

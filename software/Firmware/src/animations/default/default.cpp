@@ -17,4 +17,6 @@ void Default(float speed) {
   TARGET_Z[5] = PZ;
 
   moveLegsSmoothly(legIndices, 6, PX, PZ, PY, 200*speed);
+
+  Serial.println("Animation:Default:terminé");
 }

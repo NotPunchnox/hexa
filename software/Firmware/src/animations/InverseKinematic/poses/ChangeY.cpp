@@ -24,8 +24,11 @@ void ChangeY(float speed, float Y) {
 
     for (int leg = 0; leg < numLegs; ++leg) {
         targetX[leg] = RouliMatrix[leg][0];
-        targetZ[leg] = RouliMatrix[leg][1];
+        targetZ[leg] = TARGET_Z[leg];
         targetY[leg] = RouliMatrix[leg][2];
+
+        TARGET_Y[leg] = targetY[leg];
+        TARGET_X[leg] = targetX[leg];
     }
 
     moveLegsMatrices(legIndices, targetX, targetZ, targetY, numLegs, SPEED);

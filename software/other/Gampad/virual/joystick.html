@@ -1,0 +1,184 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Joy</title>
+		<meta charset="utf-8">
+		<meta name="description" content="Example page of use pure Javascript JoyStick">
+		<meta name="author" content="Roberto D'Amico">
+		<link rel="shortcut icon" type="image/png" href="http://bobboteck.github.io/img/roberto-damico-bobboteck.png">
+		<style>
+            *
+            {
+                user-select: none;
+                box-sizing: border-box;
+            }
+            body
+            {
+                margin: 0px;
+                padding: 0px;
+                font-family: monospace;
+            }
+            .row
+            {
+                display: inline-flex;
+                clear: both;
+            }
+            .columnLateral
+            {
+            float: left;
+            width: 15%;
+            min-width: 300px;
+            }
+            .columnCetral
+            {
+            float: left;
+            width: 70%;
+            min-width: 300px;
+            }
+            #joy2Div
+            {
+                width:200px;
+                height:200px;
+                margin:50px
+            }
+            #joystick
+            {
+                border: 1px solid #FF0000;
+            }
+            #joystick2
+            {
+                border: 1px solid #0000FF;
+            }
+		</style>
+		<script src="joy.js"></script>
+	</head>
+	<body>
+		
+		<div class="row">
+			<div class="columnLateral">
+				<div id="joy1Div" style="width:200px;height:200px;margin:50px"></div>
+				Posizione X:<input id="joy1PosizioneX" type="text" /><br />
+				Posizione Y:<input id="joy1PosizioneY" type="text" /><br />
+				Direzione:<input id="joy1Direzione" type="text" /><br />
+				X :<input id="joy1X" type="text" /></br>
+				Y :<input id="joy1Y" type="text" />
+			</div>
+
+            <div class="columnCentral">
+				<div id="joy2Div" style="width:200px;height:200px;margin:50px"></div>
+				Posizione X:<input id="joy2PosizioneX" type="text" /><br />
+				Posizione Y:<input id="joy2PosizioneY" type="text" /><br />
+				Direzione:<input id="joy2Direzione" type="text" /><br />
+				X :<input id="joy2X" type="text" /></br>
+				Y :<input id="joy2Y" type="text" />
+			</div>
+			
+					
+		</div>
+		<script type="text/javascript">
+
+            const socket = new WebSocket("ws://192.168.1.23:8080");
+
+            socket.onopen = () => {
+                console.log("Connecté au serveur WebSocket");
+            };
+
+            socket.onclose = () => {
+                console.log("Déconnecté du serveur WebSocket");
+            };
+
+            socket.onerror = (error) => {
+                console.error("Erreur WebSocket:", error);
+            };
+
+            function sendCommand(action) {
+                if (socket.readyState === WebSocket.OPEN) {
+                    const message = JSON.stringify({
+                        animations: [action]
+                    });
+                    socket.send(message);
+                    console.log("Commande envoyée:", message);
+                    //await setTimeout(() => {}, 2000);
+                } else {
+                    console.warn("WebSocket n'est pas connecté.");
+                }
+            }
+
+            var joy1IinputPosX = document.getElementById("joy1PosizioneX");
+            var joy1InputPosY = document.getElementById("joy1PosizioneY");
+            var joy1Direzione = document.getElementById("joy1Direzione");
+            var joy1X = document.getElementById("joy1X");
+            var joy1Y = document.getElementById("joy1Y");
+
+            var joy2IinputPosX = document.getElementById("joy2PosizioneX");
+            var joy2InputPosY = document.getElementById("joy2PosizioneY");
+            var joy2Direzione = document.getElementById("joy2Direzione");
+            var joy2X = document.getElementById("joy2X");
+            var joy2Y = document.getElementById("joy2Y");
+
+
+            var Joy1 = new JoyStick('joy1Div', {}, function(stickData) {
+                joy1IinputPosX.value = stickData.xPosition;
+                joy1InputPosY.value = stickData.yPosition;
+                joy1Direzione.value = stickData.cardinalDirection;
+                joy1X.value = stickData.x;
+                joy1Y.value = stickData.y;
+            });
+
+            var Joy2 = new JoyStick('joy2Div', {}, function(stickData) {
+                joy2IinputPosX.value = stickData.xPosition;
+                joy2InputPosY.value = stickData.yPosition;
+                joy2Direzione.value = stickData.cardinalDirection;
+                joy2X.value = stickData.x;
+                joy2Y.value = stickData.y;
+            });
+
+            const tolerance = 0.5;
+            let last_X = 0;
+            let last_Y = 0;
+
+            let last_X2 = 0;
+            let last_Y2 = 0;
+
+
+
+            setInterval(() => {
+                let X = Number(Joy1.GetX()) * -1;
+                let Y = Number(Joy1.GetY()) * -1;
+
+                let X2 = Number(Joy2.GetX()) * -1;
+                let Y2 = Number(Joy2.GetY()) * -1;
+
+                if(last_Y2 !== X2 && last_Y2 !== Y2) {
+                    last_X2 = X2;
+                    last_Y2 = Y2;
+                    console.log("X2:", (X2/2)/10);
+                    console.log("Y2:", (Y2/2)/10);
+        
+                    let x1, x2, y1, y2 = 0;
+                    
+                    x1 = ((X2/2)/10) * -1;
+                    x2 = ((X2/2)/10);
+    
+                    y1 = ((Y2/2)/10) * -1;
+                    y2 = ((Y2/2)/10);
+    
+                    console.log(`Rouli_0.3_${y2}_${y1}_${x1}_${x2}`);
+                    sendCommand(`Rouli_0.3_${y2}_${y1}_${x1}_${x2}`);
+                }
+                
+                if (last_X !== X && last_Y !== Y) {
+                    last_X = X;
+                    last_Y = Y;
+                    
+
+                    console.log(`ChangeXY_0.3_${(X/2)/10}_${(Y/2)/10}`);
+                    sendCommand(`ChangeXY_0.3_${(X/2)/10}_${(Y/2)/10}`);
+                }
+
+            }, 100);
+            
+
+		</script>
+	</body>
+</html>

@@ -1,4 +1,5 @@
 from controllers.Vars import variables
+import requests, json
 
 def calculate_face_position_percentage(face_data, image_width, image_height, tolerance=20):
     
@@ -49,25 +50,35 @@ def calculate_face_position_percentage(face_data, image_width, image_height, tol
         move_directions["horizontal"] = "centré horizontalement"
 
     # Centrage vertical
+
     if top_percentage < 50 - tolerance:
-        move_directions["vertical"] = "monter"
-        guidance_message += "Monter. "
+        variables.rouli_top += 1
+        variables.rouli_bottom += -1
+        move_directions["vertical"] = "Rouli_"+str(variables.rouli_top)+"_"+str(variables.rouli_bottom)+"_0_0"
+        guidance_message += "Rouli_"+str(variables.rouli_top)+"_"+str(variables.rouli_bottom)+"_0_0"
     elif bottom_percentage < 50 - tolerance:
-        move_directions["vertical"] = "descendre"
-        guidance_message += "Descendre. "
+        variables.rouli_top += -1
+        variables.rouli_bottom += 1
+        move_directions["vertical"] = "Rouli_"+str(variables.rouli_top)+"_"+str(variables.rouli_bottom)+"_0_0"
+        guidance_message += "Rouli_"+str(variables.rouli_top)+"_"+str(variables.rouli_bottom)+"_0_0"
     else:
-        move_directions["vertical"] = "centré verticalement"
+        move_directions["vertical"] = ""
+        
+    if move_directions["vertical"] != "":
+        payload = {"animations": [move_directions["vertical"]]}
+        r = requests.post('http://localhost:3001/cmd', json=payload)
+        print(r.text)
 
     # Détection de distance pour savoir si la personne est trop proche ou trop loin
-    face_width_in_frame = x2 - x1
-    if face_width_in_frame < image_width * 0.1:  # Trop loin si la largeur du visage est inférieure à 10% de l'image
-        move_directions["distance"] = "avancer"
-        guidance_message += "Avancer. "
-    elif face_width_in_frame > image_width * 0.4:  # Trop proche si la largeur du visage dépasse 40% de l'image
-        move_directions["distance"] = "reculer"
-        guidance_message += "Reculer. "
-    else:
-        move_directions["distance"] = "distance correcte"
+    # face_width_in_frame = x2 - x1
+    # if face_width_in_frame < image_width * 0.1:  # Trop loin si la largeur du visage est inférieure à 10% de l'image
+    #     move_directions["distance"] = "avancer"
+    #     guidance_message += "Avancer. "
+    # elif face_width_in_frame > image_width * 0.4:  # Trop proche si la largeur du visage dépasse 40% de l'image
+    #     move_directions["distance"] = "reculer"
+    #     guidance_message += "Reculer. "
+    # else:
+    #     move_directions["distance"] = "distance correcte"
     
     # Affichage des directions suggérées
     if guidance_message == "":

@@ -1,5 +1,8 @@
+var ws;
+
 module.exports = {
 
-    animations: require('./animations.js')
+    animations: require('./animations.js'),
+    ws: ws
 
 }

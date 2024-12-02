@@ -1,0 +1,356 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gamepad Virtuel</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        #video-container {
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 20px;
+            border: 2px solid #333;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        #video-stream {
+            width: 100%;
+        }
+
+        #controls {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 600px;
+            margin-top: 20px;
+        }
+
+        .joystick {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: #007bff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .joystick:active {
+            background-color: #0056b3;
+        }
+
+        .stick {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .stick.active {
+            background-color: #0056b3;
+        }
+
+        .stick.left {
+            left: 0;
+        }
+
+        .stick.right {
+            right: 0;
+        }
+
+        /* Responsive styling */
+        @media (max-width: 600px) {
+            .joystick {
+                width: 100px;
+                height: 100px;
+            }
+
+            .stick {
+                width: 30px;
+                height: 30px;
+            }
+        }
+
+        #animation-controls {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px 0;
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #animation-controls h2,
+        #animation-controls h3 {
+            margin: 10px 0;
+            color: #333;
+        }
+
+        #animation-controls button {
+            margin: 5px;
+            padding: 10px 15px;
+            font-size: 14px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        #animation-controls button:hover {
+            background-color: #0056b3;
+        }
+
+        #animation-controls div {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Gamepad Virtuel</h1>
+
+    <div id="video-container">
+        <!--<img id="video-stream" src="http://localhost:8080/stream.mjpg" alt="Stream Vidéo"> -->
+        <img id="video-stream" src="http://192.168.1.23:8000/stream.mjpg" alt="Stream Vidéo">
+    </div>
+
+    <div id="controls">
+        <div class="joystick" id="joystick-left">
+            <div class="stick" id="stick-left"></div>
+        </div>
+        <div class="joystick" id="joystick-right">
+            <div class="stick" id="stick-right"></div>
+        </div>
+    </div>
+
+    <div id="animation-controls">
+        <h2>Animations</h2>
+        <div>
+            <h3>Rotation</h3>
+            <button onclick="sendCommand('TurnZ_4_horaire')">Rotation lente horaire</button>
+            <button onclick="sendCommand('TurnZ_4_anti-horaire')">Rotation lente anti-horaire</button>
+            <button onclick="sendCommand('TurnZ_1_horaire')">Rotation rapide horaire</button>
+            <button onclick="sendCommand('TurnZ_1_anti-horaire')">Rotation rapide anti-horaire</button>
+            <button onclick="sendCommand('TurnZ_2_horaire')">Rotation modérée horaire</button>
+            <button onclick="sendCommand('TurnZ_2_anti-horaire')">Rotation modérée anti-horaire</button>
+        </div>
+        <div>
+            <h3>Inclinaison</h3>
+            <button onclick="sendCommand('Rouli_4_0_0_-3_3')">Inclinaison douce gauche</button>
+            <button onclick="sendCommand('Rouli_4_0_0_3_-3')">Inclinaison douce droite</button>
+            <button onclick="sendCommand('Rouli_1_0_0_-2_2')">Inclinaison rapide gauche</button>
+            <button onclick="sendCommand('Rouli_1_0_0_2_-2')">Inclinaison rapide droite</button>
+            <button onclick="sendCommand('Rouli_2_-3_3_0_0')">Inclinaison avant</button>
+            <button onclick="sendCommand('Rouli_2_3_-3_0_0')">Inclinaison arrière</button>
+            <button onclick="sendCommand('Rouli_4_-3_3_0_0')">Inclinaison lente avant</button>
+            <button onclick="sendCommand('Rouli_4_3_-3_0_0')">Inclinaison lente arrière</button>
+        </div>
+        <div>
+            <h3>Mouvement d'Éveil</h3>
+            <button onclick="sendCommand('Up_4')">Montée lente</button>
+            <button onclick="sendCommand('Up_1')">Montée rapide</button>
+            <button onclick="sendCommand('Up_2')">Montée modérée</button>
+        </div>
+        <div>
+            <h3>Changement de Hauteur</h3>
+            <button onclick="sendCommand('ChangeTop_4_3')">Hauteur haut lente</button>
+            <button onclick="sendCommand('ChangeTop_4_-3')">Hauteur bas lente</button>
+            <button onclick="sendCommand('ChangeTop_1_2')">Hauteur haut rapide</button>
+            <button onclick="sendCommand('ChangeTop_1_-2')">Hauteur bas rapide</button>
+            <button onclick="sendCommand('ChangeTop_2_1')">Hauteur haut modérée</button>
+            <button onclick="sendCommand('ChangeTop_2_-1')">Hauteur bas modérée</button>
+        </div>
+        <div>
+            <h3>Changement de Position</h3>
+            <button onclick="sendCommand('ChangeXY_4_2_3')">Déplacement XY lent</button>
+            <button onclick="sendCommand('ChangeXY_1_1_4')">Déplacement XY rapide</button>
+            <button onclick="sendCommand('ChangeXY_2_1_4')">Déplacement XY modéré</button>
+            <button onclick="sendCommand('ChangeXY_4_-2_-3')">Déplacement XY lent inverse</button>
+            <button onclick="sendCommand('ChangeXY_1_-1_-4')">Déplacement XY rapide inverse</button>
+            <button onclick="sendCommand('ChangeXY_2_-1_-4')">Déplacement XY modéré inverse</button>
+        </div>
+        <div>
+            <h3>Déplacements Verticaux</h3>
+            <button onclick="sendCommand('ChangeY_4_2')">Avant lent</button>
+            <button onclick="sendCommand('ChangeY_4_-2')">Arrière lent</button>
+            <button onclick="sendCommand('ChangeY_1_2')">Avant rapide</button>
+            <button onclick="sendCommand('ChangeY_1_-2')">Arrière rapide</button>
+            <button onclick="sendCommand('ChangeY_2_2')">Avant modéré</button>
+            <button onclick="sendCommand('ChangeY_2_-2')">Arrière modéré</button>
+        </div>
+        <div>
+            <h3>Gestes et Repos</h3>
+            <button
+                onclick="sendCommand('Rouli_2_3_-3_0_0', 'Rouli_2_-3_3_0_0', 'Rouli_2_3_-3_0_0', 'Default_2');">Affirmation
+                (OUI)</button>
+            <button onclick="sendCommand('Sleep_4')">Repos (Sleep)</button>
+            <button onclick="sendCommand('Default_2')">Default</button>
+        </div>
+    </div>
+
+    <script>
+        //const socket = new WebSocket("ws://localhost:8080");
+        const socket = new WebSocket("ws://192.168.1.23:8080");
+
+        socket.onopen = () => {
+            console.log("Connecté au serveur WebSocket");
+        };
+
+        socket.onclose = () => {
+            console.log("Déconnecté du serveur WebSocket");
+        };
+
+        socket.onerror = (error) => {
+            console.error("Erreur WebSocket:", error);
+        };
+
+        let joystickLeft = document.getElementById("joystick-left");
+        let joystickRight = document.getElementById("joystick-right");
+        let stickLeft = document.getElementById("stick-left");
+        let stickRight = document.getElementById("stick-right");
+
+        let stickPositionLeft = {
+            x: 0,
+            y: 0
+        };
+        let stickPositionRight = {
+            x: 0,
+            y: 0
+        };
+
+        async function sendCommand(action, act2, act3, act4) {
+            if (socket.readyState === WebSocket.OPEN) {
+                const message = JSON.stringify({
+                    animations: action && act2 && act3 ? [action, act2, act3, act4] : [action]
+                });
+                socket.send(message);
+                console.log("Commande envoyée:", message);
+                //await setTimeout(() => {}, 2000);
+            } else {
+                console.warn("WebSocket n'est pas connecté.");
+            }
+        }
+
+        function handleJoystickMove(joystick, stick, stickPosition, direction) {
+            const walkRadius = 0.5; // Rayon maximum pour "walk" (50 % du rayon du joystick)
+            const tolerance = 0.1; // Tolérance pour éviter les variations mineures
+            const speedThresholds = [1.5, 3]; // Seuils pour marche lente et rapide
+            const movementGranularity = 0.5; // Granularité pour les valeurs X et Y (ex. arrondi au multiple de 0.5)
+
+            let lastCommand = null; // Dernière commande envoyée
+
+            joystick.addEventListener("mousemove", async (e) => {
+                if (e.buttons === 1 || e.touches) {
+                    const rect = joystick.getBoundingClientRect();
+                    const centerX = rect.left + rect.width / 2;
+                    const centerY = rect.top + rect.height / 2;
+                    const deltaX = e.clientX - centerX;
+                    const deltaY = e.clientY - centerY;
+                    const maxDistance = rect.width / 2;
+
+                    // Calculer la distance et normaliser
+                    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                    const normalizedDistance = Math.min(distance / maxDistance,
+                    1); // Normalisé entre 0 et 1
+
+                    if (normalizedDistance <= 1) {
+                        // Normaliser les positions X et Y entre -1 et 1
+                        const rawX = deltaX / maxDistance;
+                        const rawY = deltaY / maxDistance;
+
+                        // Arrondir à la granularité
+                        const roundedX = Math.round(rawX / movementGranularity) * movementGranularity;
+                        const roundedY = Math.round(rawY / movementGranularity) * movementGranularity;
+
+                        // Calculer la vitesse en fonction de la distance normalisée
+                        const speed = normalizedDistance < walkRadius ? speedThresholds[0] :
+                            speedThresholds[1]; // Marche lente ou rapide
+                        const formattedSpeed = parseFloat(speed.toFixed(1)); // Arrondi de la vitesse
+
+                        // Créer la commande
+                        const command = direction == "left" ? `StartWalk_${formattedSpeed}_${roundedX*-1}_${roundedY*-1}` : `ChangeXY_2_${roundedX*-2}_${roundedY*-2}`;
+
+                        // Envoyer la commande uniquement si elle change
+                        if (command !== lastCommand) {
+                            lastCommand = command;
+                            stickPosition.x = roundedX;
+                            stickPosition.y = roundedY;
+
+                            // Mettre à jour la position visuelle du stick
+                            stick.style.transform =
+                                `translate(${roundedX * maxDistance}px, ${roundedY * maxDistance}px)`;
+
+                            await sendCommand(command);
+                        }
+                    } else {
+                        // Si hors du rayon, recentrer et envoyer StopWalk si nécessaire
+                        stick.style.transform = "translate(0, 0)";
+                        if (lastCommand !== "StopWalk" || lastCommand !== "ChangeXY_2_0_0") {
+                            lastCommand = direction == "left" ? a = "StopWalk" : a = "ChangeXY_2_0_0";
+                            console.log(lastCommand)
+                            sendCommand(lastCommand);
+                        }
+                    }
+                }
+            });
+        }
+
+
+        // Joystick events for left joystick
+        joystickLeft.addEventListener("mousedown", () => {
+            stickLeft.classList.add("active");
+        });
+
+        joystickLeft.addEventListener("mouseup", () => {
+            stickLeft.classList.remove("active");
+            stickPositionLeft = {
+                x: 0,
+                y: 0
+            };
+            stickLeft.style.transform = "translate(0, 0)";
+            sendCommand("StopWalk");
+        });
+
+        handleJoystickMove(joystickLeft, stickLeft, stickPositionLeft, 'left');
+
+        // Joystick events for right joystick
+        joystickRight.addEventListener("mousedown", () => {
+            stickRight.classList.add("active");
+        });
+
+        joystickRight.addEventListener("mouseup", () => {
+            stickRight.classList.remove("active");
+            stickPositionRight = {
+                x: 0,
+                y: 0
+            };
+            stickRight.style.transform = "translate(0, 0)";
+            sendCommand("ChangeXY_2_0_0");
+        });
+
+        handleJoystickMove(joystickRight, stickRight, stickPositionRight, 'right');
+    </script>
+</body>
+
+</html>

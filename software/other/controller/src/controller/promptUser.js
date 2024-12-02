@@ -1,10 +1,6 @@
 const rl = require('readline-sync');
 
-var ws = null;
-
-const promptUser = websocket => {
-    
-    if(!ws) ws = websocket;
+const promptUser = ws => {
 
     let animations = [];
     let prompt = rl.question('Commande: ');

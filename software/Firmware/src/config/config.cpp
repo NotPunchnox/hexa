@@ -54,4 +54,6 @@ float PY = default_pose[2];
 
 int* legs[] = {LFL, LML, LBL, LFR, LMR, LBR};
 
-float TARGET_Z[6] = {9, 9, 9, 9, 9, 9};
+float TARGET_Z[6] = {10, 10, 10, 10, 10, 10};
+float TARGET_X[6] = {9, 9, 9, 9, 9, 9};
+float TARGET_Y[6] = {0, 0, 0, 0, 0, 0};

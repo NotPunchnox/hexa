@@ -20,7 +20,7 @@ void ChangeX(float speed, float X) {
         } else {
             RouliMatrix[leg][0] = PX_R;
         }
-        RouliMatrix[leg][1] = PZ;
+        RouliMatrix[leg][1] = TARGET_Z[leg];
         RouliMatrix[leg][2] = PY;
     }
 
@@ -35,6 +35,9 @@ void ChangeX(float speed, float X) {
         targetX[leg] = RouliMatrix[leg][0];
         targetZ[leg] = RouliMatrix[leg][1];
         targetY[leg] = RouliMatrix[leg][2];
+
+        TARGET_X[leg] = RouliMatrix[leg][0];
+        TARGET_Y[leg] = RouliMatrix[leg][2];
     }
 
     // Déplacement des pattes de manière fluide

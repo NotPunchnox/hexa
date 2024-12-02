@@ -52,5 +52,7 @@ extern int* legs[];
 // Positions rouli
 
 extern float TARGET_Z[6];
+extern float TARGET_X[6];
+extern float TARGET_Y[6];
 
 #endif

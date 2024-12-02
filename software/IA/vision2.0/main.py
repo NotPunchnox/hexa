@@ -1,6 +1,7 @@
 import cv2
 import time
 import json
+import requests
 from flask import Flask, jsonify
 from controllers.segmentation.Object_detection import Object_detection
 from controllers.Face.face_detector import FaceRecognition
@@ -18,8 +19,8 @@ detected_faces = []
 detected_objects = []
 
 # Open the camera
-#webcam = cv2.VideoCapture("http://192.168.1.23:8000/stream.mjpg")
-webcam = cv2.VideoCapture(0)
+webcam = cv2.VideoCapture("http://192.168.1.23:8000/stream.mjpg")
+#webcam = cv2.VideoCapture(0)
 
 width = int(webcam.get(cv2.CAP_PROP_FRAME_WIDTH))
 height = int(webcam.get(cv2.CAP_PROP_FRAME_HEIGHT))

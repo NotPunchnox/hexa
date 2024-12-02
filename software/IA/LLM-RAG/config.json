@@ -5,7 +5,7 @@
     "PORT_WEBSOCKET": 8080,
     
     "EMBEDDING_MODEL": "all-minilm",
-    "LLM_MODEL": "Mistralv2",
+    "LLM_MODEL": "Aash-FineTuned",
     "stream": true,
     "format": "json",
     "tts": false,
