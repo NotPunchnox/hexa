@@ -92,6 +92,8 @@
             };
 
             function sendCommand(action) {
+                console.log(action);
+
                 if (socket.readyState === WebSocket.OPEN) {
                     const message = JSON.stringify({
                         animations: [action]
@@ -140,6 +142,11 @@
             let last_X2 = 0;
             let last_Y2 = 0;
 
+            let x1, x2, y1, y2 = 0;
+            let roundedX = 0;
+            let roundedY = 0;
+
+
 
 
             setInterval(() => {
@@ -153,8 +160,8 @@
                 const roundToStep = (value, step) => Math.round(value / step) * step;
             
                 // Arrondir les valeurs au pas de 0.5
-                let roundedX = roundToStep(X / 20, 0.5); // Divise par 20 pour correspondre au format initial
-                let roundedY = roundToStep(Y / 20, 0.5);
+                roundedX = roundToStep(X / 20, 0.5); // Divise par 20 pour correspondre au format initial
+                roundedY = roundToStep(Y / 20, 0.5);
             
                 let roundedX2 = roundToStep(X2 / 20, 0.5);
                 let roundedY2 = roundToStep(Y2 / 20, 0.5);
@@ -166,25 +173,21 @@
             
                     console.log("X2:", roundedX2);
                     console.log("Y2:", roundedY2);
-            
-                    let x1, x2, y1, y2 = 0;
-            
+                        
                     x1 = roundedX2 * -1;
                     x2 = roundedX2;
             
                     y1 = roundedY2 * -1;
                     y2 = roundedY2;
             
-                    console.log(`Rouli_0.1_${y2}_${y1}_${x1}_${x2}`);
-                    sendCommand(`Rouli_0.5_${y2}_${y1}_${x1}_${x2}`);
+                    sendCommand(`RouliXY_0.5_${roundedX}_${roundedY}_${y2}_${y1}_${x1}_${x2}`);
                 }
             
                 if (last_X !== roundedX || last_Y !== roundedY) {
                     last_X = roundedX;
                     last_Y = roundedY;
             
-                    console.log(`ChangeXY_0.6_${roundedX}_${roundedY}`);
-                    sendCommand(`ChangeXY_0.6_${roundedX}_${roundedY}`);
+                    sendCommand(`RouliXY_0.5_${roundedX}_${roundedY}_${y2}_${y1}_${x1}_${x2}`);
                 }
             }, 100);
             

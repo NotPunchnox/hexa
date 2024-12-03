@@ -24,7 +24,7 @@ void RouliXY(float speed, float X, float Y, float Top, float Bottom, float Left,
         RouliMatrix[leg][2] = PY + (leg % 2 == 0 ? Y : -Y);
 
         // Définir la taille de l'axe Z avant de faire les calculs de rouli
-        RouliMatrix[leg][1] = TARGET_Z[leg];
+        RouliMatrix[leg][1] = PZ;
 
         // Calcul pour l'axe Z de chaque patte
         if (Top > 0) {

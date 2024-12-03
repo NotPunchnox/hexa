@@ -181,8 +181,8 @@ void IA_Movements(String response) {
         }
     } else if(response.indexOf("RouliXY_") != -1) {
 
-        String parts[7];
-        splitString(response, '_', parts, 7);
+        String parts[8];
+        splitString(response, '_', parts, 8);
 
         if(parts[1].length() > 0 && parts[2].length() > 0 && parts[3].length() > 0 && parts[4].length() > 0 && parts[5].length() > 0 && parts[6].length() > 0 && parts[7].length() > 0) {
             
@@ -196,6 +196,7 @@ void IA_Movements(String response) {
             float Left = parts[6].toFloat();
             float Right = parts[7].toFloat();
 
+            // RouliXY_speed_X_Y_Top_Bottom_Left_Right
             RouliXY(speed, X, Y, Top, Bottom, Left, Right);
 
         } else {
