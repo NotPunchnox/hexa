@@ -145,38 +145,49 @@
             setInterval(() => {
                 let X = Number(Joy1.GetX()) * -1;
                 let Y = Number(Joy1.GetY()) * -1;
-
+            
                 let X2 = Number(Joy2.GetX()) * -1;
                 let Y2 = Number(Joy2.GetY()) * -1;
-
-                if(last_Y2 !== X2 && last_Y2 !== Y2) {
-                    last_X2 = X2;
-                    last_Y2 = Y2;
-                    console.log("X2:", (X2/2)/10);
-                    console.log("Y2:", (Y2/2)/10);
-        
+            
+                // Fonction d'arrondi au multiple de 0.5
+                const roundToStep = (value, step) => Math.round(value / step) * step;
+            
+                // Arrondir les valeurs au pas de 0.5
+                let roundedX = roundToStep(X / 20, 0.5); // Divise par 20 pour correspondre au format initial
+                let roundedY = roundToStep(Y / 20, 0.5);
+            
+                let roundedX2 = roundToStep(X2 / 20, 0.5);
+                let roundedY2 = roundToStep(Y2 / 20, 0.5);
+            
+                // Vérifie si les valeurs ont changé avant d'envoyer
+                if (last_X2 !== roundedX2 || last_Y2 !== roundedY2) {
+                    last_X2 = roundedX2;
+                    last_Y2 = roundedY2;
+            
+                    console.log("X2:", roundedX2);
+                    console.log("Y2:", roundedY2);
+            
                     let x1, x2, y1, y2 = 0;
-                    
-                    x1 = ((X2/2)/10) * -1;
-                    x2 = ((X2/2)/10);
-    
-                    y1 = ((Y2/2)/10) * -1;
-                    y2 = ((Y2/2)/10);
-    
-                    console.log(`Rouli_0.3_${y2}_${y1}_${x1}_${x2}`);
-                    sendCommand(`Rouli_0.3_${y2}_${y1}_${x1}_${x2}`);
+            
+                    x1 = roundedX2 * -1;
+                    x2 = roundedX2;
+            
+                    y1 = roundedY2 * -1;
+                    y2 = roundedY2;
+            
+                    console.log(`Rouli_0.1_${y2}_${y1}_${x1}_${x2}`);
+                    sendCommand(`Rouli_0.5_${y2}_${y1}_${x1}_${x2}`);
                 }
-                
-                if (last_X !== X && last_Y !== Y) {
-                    last_X = X;
-                    last_Y = Y;
-                    
-
-                    console.log(`ChangeXY_0.3_${(X/2)/10}_${(Y/2)/10}`);
-                    sendCommand(`ChangeXY_0.3_${(X/2)/10}_${(Y/2)/10}`);
+            
+                if (last_X !== roundedX || last_Y !== roundedY) {
+                    last_X = roundedX;
+                    last_Y = roundedY;
+            
+                    console.log(`ChangeXY_0.6_${roundedX}_${roundedY}`);
+                    sendCommand(`ChangeXY_0.6_${roundedX}_${roundedY}`);
                 }
-
             }, 100);
+            
             
 
 		</script>

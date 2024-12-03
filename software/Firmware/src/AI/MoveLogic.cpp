@@ -179,6 +179,29 @@ void IA_Movements(String response) {
         } else {
             Serial.println("Erreur : Format de commande incorrect.");
         }
+    } else if(response.indexOf("RouliXY_") != -1) {
+
+        String parts[7];
+        splitString(response, '_', parts, 7);
+
+        if(parts[1].length() > 0 && parts[2].length() > 0 && parts[3].length() > 0 && parts[4].length() > 0 && parts[5].length() > 0 && parts[6].length() > 0 && parts[7].length() > 0) {
+            
+            // Déclarations de chaques valeurs
+            float speed = parts[1].toFloat();
+            float X = parts[2].toFloat();
+            float Y = parts[3].toFloat();
+
+            float Top = parts[4].toFloat();
+            float Bottom = parts[5].toFloat();
+            float Left = parts[6].toFloat();
+            float Right = parts[7].toFloat();
+
+            RouliXY(speed, X, Y, Top, Bottom, Left, Right);
+
+        } else {
+            Serial.println("Erreur: Format de commande incorrect.");
+        }
+
     } else if (response.indexOf("Custom_") != -1) {
         String parts[4]; 
         splitString(response, '_', parts, 4);
