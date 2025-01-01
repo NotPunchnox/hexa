@@ -1,6 +1,6 @@
 # Aash
 
-**/!\ pour information ce projet est en constante évolution, quasiment tout les jours le repos change ( [surtout ici](./software/IA/) )** : *13/10/24*
+**/!\ pour information ce projet est en constante évolution, quasiment tout les jours le repos change ( [surtout ici](./software/IA/) )** : *01/01/2025*
 
 *Aash est un robot open source en phase de développement. Son objectif est d'aider dans l'initiation à la robotique. Il sera équipé d'un système d'intelligence artificielle pour la communication, la gestion des animations par cinématique inversée, la vision par ordinateur, et la navigation autonome.*
 
@@ -8,7 +8,8 @@
 - **Intelligence Artificielle**:
     - `Langage Naturel`: bientôt fini à 100%,
     - `Gestion de l'algorithme de cinématique inversée`: *animations en fonction des prompts*; bientôt fini à 100%
-    - `Computer Vision`: Segmentation, Image Classification, Image extraction: phrase. ( rendu actuel pour `Image Extraction` avec de très faibles performances : 9 secondes )**[13 octobre 2024]**
+    - `NPU`: Mise en place d'un NPU rk3588s à l'aide d'un Orange Pi 5 Pro, pour avoir de meilleurs performances niveau IA [RKLLAMA](https://github.com/notpunchnox/rkllama).
+    - `Computer Vision`: Segmentation, Image Classification, Image extraction ( Terminé )**[13 octobre 2024]**
 
 Avant le programme NLP utilisait l'API `Gemini` et `Google TTS`.
 
@@ -36,8 +37,6 @@ Le modèle à été entrainé avec des `Datasets` faites à partir des anciennes
     <img src="medias/robot.jpg" width="30%" height="50%"/>
     <img src="medias/robot_vu_de_face.jpg" width="50%" height="50%"/>
 </div>
-
-**ATTENTION: LA COMPOSITION DU ROBOT SERA MISE À JOUR ENTRE LE 13/10/2024-15/10/2024**, la composition du robot n'est plus à jours.
 
 - Composition du robot: [Composants du robot](https://github.com/NotPunchnox/hexa/blob/main/hardware/Composants.md)
 - Images du robot en 3D (autodesk Fusion360): [Images en 3D](https://github.com/NotPunchnox/hexa/blob/main/hardware/Aash%203d.md)
