@@ -1,5 +1,7 @@
 # Aash
 
+### /!\ Le projet Aash est actuellement en pause car je suis en train d'apprendre le `Machin Learning` et le `Deep Learning` pour intégrer des modèles entièrement customisé et open source spécialisé dans la robotique pour le robot hexapode aash. ( modèle de vision, NLP et audio... )
+
 **/!\ pour information ce projet est en constante évolution, quasiment tout les jours le repos change ( [surtout ici](./software/IA/) )** : *01/01/2025*
 
 *Aash est un robot open source en phase de développement. Son objectif est d'aider dans l'initiation à la robotique. Il sera équipé d'un système d'intelligence artificielle pour la communication, la gestion des animations par cinématique inversée, la vision par ordinateur, et la navigation autonome.*
