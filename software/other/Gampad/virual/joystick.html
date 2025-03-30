@@ -167,7 +167,7 @@
                 let roundedY2 = roundToStep(Y2 / 20, 0.5);
             
                 // Vérifie si les valeurs ont changé avant d'envoyer
-                if (last_X2 !== roundedX2 || last_Y2 !== roundedY2) {
+                if (last_X2 !== roundedX2 || last_Y2 !== roundedY2 || last_X !== roundedX || last_Y !== roundedY) {
                     last_X2 = roundedX2;
                     last_Y2 = roundedY2;
             
@@ -179,17 +179,16 @@
             
                     y1 = roundedY2 * -1;
                     y2 = roundedY2;
-            
-                    sendCommand(`RouliXY_0.5_${roundedX}_${roundedY}_${y2}_${y1}_${x1}_${x2}`);
-                }
-            
-                if (last_X !== roundedX || last_Y !== roundedY) {
+
                     last_X = roundedX;
                     last_Y = roundedY;
-            
-                    sendCommand(`RouliXY_0.5_${roundedX}_${roundedY}_${y2}_${y1}_${x1}_${x2}`);
+
+
+                    sendCommand(`RouliXY_0.4_${roundedX}_${roundedY}_${y2/2}_${y1/2}_${x1/2}_${x2/2}`);
+
                 }
-            }, 100);
+
+            }, 50);
             
             
 
