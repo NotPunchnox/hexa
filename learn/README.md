@@ -6,3 +6,5 @@
 - Les bases mathématiques: [Pythagore, Al Kashi, Trigonométrie](./maths/cinématique_inversée.md)
 - Création de l'algorithme pseudo code: [Algorithme](./maths/algo.md)
 - Création de l'algorithme Golang: [Algorithme Golang](./maths/algo_golang.md)
+
+- Installation de la caméra et du serveur Websocket pour le contrôle du robot: [Documentation](./setup-raspberryZero)
