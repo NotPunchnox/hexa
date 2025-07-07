@@ -23,7 +23,7 @@ async def find_serial_port():
     raise Exception("Veuillez brancher le microcontrôleur du robot : Connexion au CP210x manquante !")
 
 # Fonction pour gérer les messages WebSocket
-async def echo(websocket, path):
+async def echo(websocket):
     global animations, index_animation, animation_en_cours
     robot = None
 
