@@ -62,4 +62,10 @@ Pour exécuter le script `setup.sh` (disponible à [https://raw.githubuserconten
 - **Vérification** : Vérifiez les statuts des services avec `sudo systemctl status aash_vision.service` et `sudo systemctl status aash_server.service` pour vous assurer qu'ils fonctionnent correctement.
 - **Dépannage** : Si les services ne démarrent pas, vérifiez les journaux avec `journalctl -u aash_vision.service` ou `journalctl -u aash_server.service`.
 
+## Création d'un utilisateur Admin ( pas besoin de changer le code ci dessus )
+```
+sudo useradd -m -s /bin/bash admin && sudo passwd admin
+sudo usermod -aG sudo admin
+```
+
 Ce script automatise la configuration d'un système de caméra et de serveur WebSocket sur un Raspberry Pi Zero, facilitant le déploiement d'applications IoT ou de surveillance.
